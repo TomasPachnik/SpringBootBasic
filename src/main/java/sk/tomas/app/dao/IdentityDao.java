@@ -1,16 +1,13 @@
-package sk.tomas.app.service;
+package sk.tomas.app.dao;
 
 import sk.tomas.app.model.Identity;
-import sk.tomas.app.model.Key;
 
 import java.util.List;
 
 /**
- * Created by tomas on 23.12.2016.
+ * Created by tomas on 24.12.2016.
  */
-public interface IdentityService {
-
-    List<Key> getKeys();
+public interface IdentityDao {
 
     int save(Identity identity);
 

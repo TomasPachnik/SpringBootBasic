@@ -3,10 +3,12 @@ package sk.tomas.app.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import sk.tomas.app.bo.Key;
+import sk.tomas.app.model.Identity;
+import sk.tomas.app.model.Key;
 import sk.tomas.app.service.IdentityService;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by tomas on 23.12.2016.
@@ -22,5 +24,35 @@ public class HomeController {
         return identityService.getKeys();
     }
 
+    @RequestMapping("/identities")
+    List<Identity> identities() {
+        return identityService.list();
+    }
+
+    @RequestMapping("/save")
+    int save() {
+        return identityService.save(new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 30));
+    }
+
+    @RequestMapping("/update")
+    int update() {
+        int update = 0;
+        List<Identity> list = identityService.list();
+        if (!list.isEmpty()) {
+            Identity identity = list.get(0);
+            identity.setName(UUID.randomUUID().toString());
+            update = identityService.update(identity);
+        }
+        return update;
+    }
+
+    @RequestMapping("/delete")
+    void delete() {
+        List<Identity> list = identityService.list();
+        if (!list.isEmpty()) {
+            Identity identity = list.get(0);
+            identityService.delete(identity.getId());
+        }
+    }
 
 }

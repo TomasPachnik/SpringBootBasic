@@ -1,4 +1,4 @@
-package sk.tomas.app.bo;
+package sk.tomas.app.model;
 
 /**
  * Created by tomas on 23.12.2016.

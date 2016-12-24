@@ -1,6 +1,6 @@
 package sk.tomas.app.dao;
 
-import sk.tomas.app.bo.Key;
+import sk.tomas.app.model.Key;
 
 import java.util.List;
 
