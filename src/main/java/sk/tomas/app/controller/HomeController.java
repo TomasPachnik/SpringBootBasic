@@ -29,9 +29,9 @@ public class HomeController {
         return identityService.list();
     }
 
-    @RequestMapping("/save")
+    @RequestMapping("/create")
     int save() {
-        return identityService.save(new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 30));
+        return identityService.create(new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 30));
     }
 
     @RequestMapping("/update")

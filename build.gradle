@@ -16,4 +16,13 @@ dependencies {
     compile 'org.slf4j:slf4j-api:1.7.21'
 
     testCompile 'junit:junit:4.12'
+    compile group: 'org.springframework', name: 'spring-test', version: '4.3.3.RELEASE'
+    compile group: 'com.h2database', name: 'h2', version: '1.4.193'
+    compile group: 'hsqldb', name: 'hsqldb', version: '1.8.0.7'
+    compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
+
+
+
+
+
 }

@@ -12,7 +12,9 @@ public interface IdentityService {
 
     List<Key> getKeys();
 
-    int save(Identity identity);
+    int create(Identity identity);
+
+    Identity findBySurname(String surName);
 
     int update(Identity identity);
 

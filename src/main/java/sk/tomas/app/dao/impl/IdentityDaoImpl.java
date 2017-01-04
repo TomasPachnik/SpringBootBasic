@@ -1,7 +1,9 @@
 package sk.tomas.app.dao.impl;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import sk.tomas.app.dao.IdentityDao;
@@ -44,6 +46,12 @@ public class IdentityDaoImpl implements IdentityDao {
     public List<Identity> list() {
         List<Identity> result = (List<Identity>) getCurrentSession().createQuery("from Identity").list();
         return result;
+    }
+
+    @Override
+    public Identity findByValue(String key, String value) {
+        Criteria criteria = getCurrentSession().createCriteria(Identity.class);
+        return (Identity) criteria.add(Restrictions.eq(key, value)).uniqueResult();
     }
 
     private Session getCurrentSession() {

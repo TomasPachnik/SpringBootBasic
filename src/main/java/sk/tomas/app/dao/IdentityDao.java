@@ -17,4 +17,5 @@ public interface IdentityDao {
 
     List<Identity> list();
 
+    Identity findByValue(String key, String value);
 }

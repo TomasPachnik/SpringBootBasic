@@ -1,0 +1,1 @@
+insert into Identity(name, surname, age) values('Fero', 'Taraba', 35);

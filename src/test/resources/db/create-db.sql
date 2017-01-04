@@ -1,0 +1,6 @@
+CREATE TABLE Identity (
+  id   INTEGER PRIMARY KEY AUTO_INCREMENT,
+  name VARCHAR(50),
+  surname  VARCHAR(50),
+  age INTEGER
+);

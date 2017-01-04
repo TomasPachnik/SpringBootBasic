@@ -27,8 +27,13 @@ public class IdentityServiceImpl implements IdentityService {
     }
 
     @Override
-    public int save(Identity identity) {
+    public int create(Identity identity) {
         return identityDao.save(identity);
+    }
+
+    @Override
+    public Identity findBySurname(String surName) {
+        return identityDao.findByValue("surname", surName);
     }
 
     @Override
