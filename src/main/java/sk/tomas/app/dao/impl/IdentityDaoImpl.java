@@ -8,6 +8,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import sk.tomas.app.dao.IdentityDao;
 import sk.tomas.app.model.Identity;
+import sk.tomas.app.model.base.Entity;
 
 import javax.annotation.Resource;
 import java.util.List;
@@ -18,13 +19,13 @@ import java.util.List;
 
 @Transactional
 @Repository
-public class IdentityDaoImpl implements IdentityDao {
+public class IdentityDaoImpl extends BaseDaoImpl<Identity> implements IdentityDao {
 
     @Resource
     private SessionFactory sessionFactory;
 
     @Override
-    public int save(Identity identity) {
+    public int create(Identity identity) {
         getCurrentSession().save(identity);
         return identity.getId();
     }

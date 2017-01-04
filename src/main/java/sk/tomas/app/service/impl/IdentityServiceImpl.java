@@ -28,7 +28,7 @@ public class IdentityServiceImpl implements IdentityService {
 
     @Override
     public int create(Identity identity) {
-        return identityDao.save(identity);
+        return identityDao.create(identity);
     }
 
     @Override

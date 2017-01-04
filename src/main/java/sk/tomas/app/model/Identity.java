@@ -1,24 +1,22 @@
 package sk.tomas.app.model;
 
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 /**
  * Created by tomas on 24.12.2016.
  */
 @Entity
 @Table(name = "Identity")
-public class Identity {
+public class Identity extends sk.tomas.app.model.base.Entity {
 
-    @Id
-    @GeneratedValue
-    private int id;
     private String name;
     private String surname;
     private int age;
 
     public Identity(int id, String name, String surname, int age) {
-        this.id = id;
+        super.setId(id);
         this.name = name;
         this.surname = surname;
         this.age = age;
@@ -34,11 +32,11 @@ public class Identity {
     }
 
     public int getId() {
-        return id;
+        return super.getId();
     }
 
     public void setId(int id) {
-        this.id = id;
+        super.setId(id);
     }
 
     public String getName() {
@@ -69,18 +67,19 @@ public class Identity {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
 
         Identity identity = (Identity) o;
 
-        if (id != identity.id) return false;
         if (age != identity.age) return false;
         if (name != null ? !name.equals(identity.name) : identity.name != null) return false;
         return surname != null ? surname.equals(identity.surname) : identity.surname == null;
+
     }
 
     @Override
     public int hashCode() {
-        int result = id;
+        int result = super.hashCode();
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
         result = 31 * result + age;
@@ -90,8 +89,7 @@ public class Identity {
     @Override
     public String toString() {
         return "Identity{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
+                "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +
                 '}';
