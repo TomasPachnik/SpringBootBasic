@@ -92,6 +92,11 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
         return mapper.map(n, clazz);
     }
 
+    public T findByUuid(UUID uuid) {
+        N n = getCurrentSession().get(nodeClazz, uuid.toString());
+        return mapper.map(n, clazz);
+    }
+
     private Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }

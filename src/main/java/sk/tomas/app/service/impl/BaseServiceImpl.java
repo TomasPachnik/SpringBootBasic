@@ -33,4 +33,8 @@ public abstract class BaseServiceImpl<T extends Entity> implements BaseService<T
         return getDao().list();
     }
 
+    @SuppressWarnings("unchecked")
+    public T findByUuid(UUID uuid) {
+        return (T) getDao().findByUuid(uuid);
+    }
 }

@@ -28,9 +28,8 @@ public class IdentityTest extends BaseTest {
         //vytvorim identitu
         Identity identity = createRandomIdentity();
         UUID uuid = identityService.create(identity);
-        Identity bySurname = identityService.findBySurname(identity.getSurname());
-        Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
-        List<Identity> list = identityService.list();
+        Identity byUuid = identityService.findByUuid(uuid);
+        Assert.assertTrue("Identita nevytvorena", identity.equals(byUuid));
     }
 
     @Test
@@ -54,8 +53,6 @@ public class IdentityTest extends BaseTest {
         Identity identity = createRandomIdentity();
         UUID uuid = identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
-        System.out.println(identity);
-        System.out.println(bySurname);
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
         //zmazem identitu

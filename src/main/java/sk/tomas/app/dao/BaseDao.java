@@ -19,4 +19,6 @@ public interface BaseDao<T extends Entity> {
     List<T> list();
 
     T findByValue(String key, String value);
+
+    T findByUuid(UUID uuid);
 }

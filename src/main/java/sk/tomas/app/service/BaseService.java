@@ -17,4 +17,6 @@ public interface BaseService<T extends Entity> {
     void delete(UUID uuid);
 
     List<T> list();
+
+    T findByUuid(UUID uuid);
 }
