@@ -4,6 +4,7 @@ import ma.glasnost.orika.MapperFacade;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,6 +31,7 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
     private static final Logger logger = LoggerFactory.getLogger(BaseDaoImpl.class);
     private Class<T> clazz;
     private Class<N> nodeClazz;
+
     @Resource
     private SessionFactory sessionFactory;
     @Autowired
@@ -77,8 +79,9 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
     }
 
     public T findByValue(String key, String value) {
-        Criteria criteria = getCurrentSession().createCriteria(nodeClazz);
-        EntityNode n = (N) criteria.add(Restrictions.eq(key, value)).uniqueResult();
+        DetachedCriteria criteria = DetachedCriteria.forClass(nodeClazz);
+        criteria.add(Restrictions.eq(key, value));
+        EntityNode n = (N) criteria.getExecutableCriteria(getCurrentSession()).uniqueResult();
         return mapper.map(n, clazz);
     }
 
