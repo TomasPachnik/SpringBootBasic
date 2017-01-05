@@ -6,7 +6,8 @@ package sk.tomas.app.util;
 public enum ErrorMessages {
 
     MISSING_UUID(1, "Uuid should be set!"),
-    MOREOVER_UUID(2, "Uuid should not be set, the repository sets it automatically!");
+    MOREOVER_UUID(2, "Uuid should not be set, the repository sets it automatically!"),
+    MISSING_MANDATORY(3, "Missing mandatory parameter!");
 
     private int code;
     private String message;

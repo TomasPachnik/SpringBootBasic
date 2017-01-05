@@ -14,10 +14,12 @@ public abstract class BaseServiceImpl<T extends Entity> implements BaseService<T
 
     protected abstract BaseDao getDao();
 
+    @SuppressWarnings("unchecked")
     public UUID create(T t) {
         return getDao().create(t);
     }
 
+    @SuppressWarnings("unchecked")
     public UUID update(T t) {
         return getDao().update(t);
     }
@@ -26,6 +28,7 @@ public abstract class BaseServiceImpl<T extends Entity> implements BaseService<T
         getDao().delete(uuid);
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> list() {
         return getDao().list();
     }

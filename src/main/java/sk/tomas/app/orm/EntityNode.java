@@ -9,7 +9,7 @@ import java.io.Serializable;
  */
 
 @MappedSuperclass
-public class EntityNode implements Serializable{
+public abstract class EntityNode implements Serializable{
 
     @Id
     private String uuid;

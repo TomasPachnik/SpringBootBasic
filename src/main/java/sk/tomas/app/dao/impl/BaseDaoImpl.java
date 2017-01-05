@@ -17,6 +17,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.UUID;
 
+import static sk.tomas.app.util.ErrorMessages.MISSING_MANDATORY;
 import static sk.tomas.app.util.ErrorMessages.MISSING_UUID;
 import static sk.tomas.app.util.ErrorMessages.MOREOVER_UUID;
 
@@ -36,7 +37,7 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
     @Autowired
     private MapperFacade mapper;
 
-    public BaseDaoImpl(Class<T> clazz, Class<N> nodeClazz) {
+    BaseDaoImpl(Class<T> clazz, Class<N> nodeClazz) {
         this.clazz = clazz;
         this.nodeClazz = nodeClazz;
     }
@@ -61,22 +62,29 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
     }
 
     public void delete(UUID uuid) {
-        T t = null;
-        try {
-            t = clazz.newInstance();
-        } catch (InstantiationException | IllegalAccessException e) {
-            logger.error(e.toString());
+        if (uuid == null) {
+            throw new IllegalArgumentException(MISSING_UUID.getMessage());
         }
-        t.setUuid(uuid);
-        EntityNode n = mapper.map(t, nodeClazz);
-        getCurrentSession().delete(n);
+        N n = null;
+        try {
+            n = nodeClazz.newInstance();
+        } catch (InstantiationException | IllegalAccessException e) {
+            logger.error("Entita nezmazana!\n" + e.toString());
+        }
+
+        if (n != null) {
+            n.setUuid(uuid.toString());
+            getCurrentSession().delete(n);
+        }
     }
 
+    @SuppressWarnings("unchecked")
     public List<T> list() {
         List<N> result = (List<N>) getCurrentSession().createQuery("from " + nodeClazz.getSimpleName()).list();
         return mapper.mapAsList(result, clazz);
     }
 
+    @SuppressWarnings("unchecked")
     public T findByValue(String key, String value) {
         DetachedCriteria criteria = DetachedCriteria.forClass(nodeClazz);
         criteria.add(Restrictions.eq(key, value));
@@ -84,7 +92,7 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
         return mapper.map(n, clazz);
     }
 
-    Session getCurrentSession() {
+    private Session getCurrentSession() {
         return sessionFactory.getCurrentSession();
     }
 
