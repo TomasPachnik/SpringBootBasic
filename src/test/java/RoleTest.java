@@ -20,11 +20,48 @@ public class RoleTest extends BaseTest {
 
     @Test
     public void createRoleTest() {
-        //vytvorim identitu
-        Role role = new Role(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
-        UUID uuid = roleService.create(role);
+        //vytvorim rolu
+        Role role = newRole();
+        roleService.create(role);
         Role byName = roleService.findByName(role.getName());
-        Assert.assertTrue("Identita nevytvorena", role.equals(byName));
+        Assert.assertTrue("Rola nevytvorena", role.equals(byName));
+    }
+
+    @Test
+    public void updateRoleTest() {
+        //vytvorim rolu
+        Role role = newRole();
+        roleService.create(role);
+        Role byName = roleService.findByName(role.getName());
+        Assert.assertTrue("Rola nevytvorena", role.equals(byName));
+        //updatujem rolu
+        role.setName(UUID.randomUUID().toString());
+        roleService.update(role);
+        Role byName2 = roleService.findByName(role.getName());
+        Assert.assertTrue("Najdena stara rola", !role.equals(byName));
+        Assert.assertTrue("Rola sa nezhoduje", role.equals(byName2));
+    }
+
+    @Test
+    public void deleteRoleTest() {
+        Role role = newRole();
+        roleService.create(role);
+        Role byName = roleService.findByName(role.getName());
+        Assert.assertTrue("Rola nevytvorena", role.equals(byName));
+        //zmazem rolu
+        roleService.delete(byName.getUuid());
+        Role byName2 = roleService.findByName(role.getName());
+        Assert.assertTrue("Rola sa nevymazala", !role.equals(byName2));
+    }
+
+    @Test
+    public void listRoleTest() {
+        List<Role> list = roleService.list();
+        Assert.assertTrue("Rola nenajdena", (list.size() >= 1));
+    }
+
+    private Role newRole() {
+        return new Role(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
     }
 
 }

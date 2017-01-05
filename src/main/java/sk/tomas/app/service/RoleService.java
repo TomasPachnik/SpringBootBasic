@@ -7,9 +7,7 @@ import java.util.UUID;
 /**
  * Created by Tomas Pachnik on 05-Jan-17.
  */
-public interface RoleService {
-
-    UUID create(Role role);
+public interface RoleService extends BaseService<Role>{
 
     Role findByName(String name);
 }

@@ -1,5 +1,6 @@
 package sk.tomas.app.service;
 
+import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Key;
 
@@ -9,7 +10,7 @@ import java.util.UUID;
 /**
  * Created by tomas on 23.12.2016.
  */
-public interface IdentityService {
+public interface IdentityService extends BaseService<Identity> {
 
     List<Key> getKeys();
 

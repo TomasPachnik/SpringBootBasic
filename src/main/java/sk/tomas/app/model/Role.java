@@ -7,11 +7,14 @@ import java.util.UUID;
 /**
  * Created by Tomas Pachnik on 05-Jan-17.
  */
-public class Role extends Entity{
+public class Role extends Entity {
 
     private String name;
     private String description;
     private int level;
+
+    public Role() {
+    }
 
     public Role(String name, String description, int level) {
         this.name = name;

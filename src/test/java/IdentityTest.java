@@ -58,6 +58,6 @@ public class IdentityTest extends BaseTest {
     @Test
     public void listIdentityTest() {
         List<Identity> list = identityService.list();
-        Assert.assertTrue("Identita nenajdena", (list.size() == 1));
+        Assert.assertTrue("Identita nenajdena", (list.size() >= 1));
     }
 }
