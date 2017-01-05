@@ -2,7 +2,6 @@ package sk.tomas.app.orm;
 
 import javax.persistence.Entity;
 import javax.persistence.Table;
-import java.util.UUID;
 
 /**
  * Created by Tomas Pachnik on 05-Jan-17.

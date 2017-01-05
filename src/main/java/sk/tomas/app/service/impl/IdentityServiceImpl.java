@@ -3,9 +3,9 @@ package sk.tomas.app.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import sk.tomas.app.dao.IdentityDao;
+import sk.tomas.app.dao.KeyDao;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Key;
-import sk.tomas.app.dao.KeyDao;
 import sk.tomas.app.service.IdentityService;
 
 import java.util.List;

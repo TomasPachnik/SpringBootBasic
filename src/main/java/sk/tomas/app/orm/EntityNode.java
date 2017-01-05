@@ -3,7 +3,6 @@ package sk.tomas.app.orm;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
-import java.util.UUID;
 
 /**
  * Created by Tomas Pachnik on 05-Jan-17.

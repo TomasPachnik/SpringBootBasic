@@ -1,7 +1,6 @@
 package sk.tomas.app.dao.impl;
 
 import ma.glasnost.orika.MapperFacade;
-import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;

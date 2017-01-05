@@ -1,4 +1,3 @@
-import org.hibernate.annotations.SourceType;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
