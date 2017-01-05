@@ -19,7 +19,7 @@ public class IdentityTest extends BaseTest {
     @Test
     public void createIdentityTest() {
         //vytvorim identitu
-        Identity identity = new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
+        Identity identity = createIdentity();
         UUID uuid = identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
@@ -29,7 +29,7 @@ public class IdentityTest extends BaseTest {
     @Test
     public void updateIdentityTest() {
         //vytvorim identitu
-        Identity identity = new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
+        Identity identity = createIdentity();
         identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
@@ -44,7 +44,7 @@ public class IdentityTest extends BaseTest {
     @Test
     public void deleteIdentityTest() {
         //vytvorim identitu
-        Identity identity = new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
+        Identity identity = createIdentity();
         identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
@@ -60,4 +60,9 @@ public class IdentityTest extends BaseTest {
         List<Identity> list = identityService.list();
         Assert.assertTrue("Identita nenajdena", (list.size() >= 1));
     }
+
+    private Identity createIdentity(){
+        return new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
+    }
+
 }

@@ -1,9 +1,7 @@
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Role;
-import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.service.RoleService;
 
 import java.util.List;
@@ -21,7 +19,7 @@ public class RoleTest extends BaseTest {
     @Test
     public void createRoleTest() {
         //vytvorim rolu
-        Role role = newRole();
+        Role role = createRole();
         roleService.create(role);
         Role byName = roleService.findByName(role.getName());
         Assert.assertTrue("Rola nevytvorena", role.equals(byName));
@@ -30,7 +28,7 @@ public class RoleTest extends BaseTest {
     @Test
     public void updateRoleTest() {
         //vytvorim rolu
-        Role role = newRole();
+        Role role = createRole();
         roleService.create(role);
         Role byName = roleService.findByName(role.getName());
         Assert.assertTrue("Rola nevytvorena", role.equals(byName));
@@ -44,7 +42,7 @@ public class RoleTest extends BaseTest {
 
     @Test
     public void deleteRoleTest() {
-        Role role = newRole();
+        Role role = createRole();
         roleService.create(role);
         Role byName = roleService.findByName(role.getName());
         Assert.assertTrue("Rola nevytvorena", role.equals(byName));
@@ -60,7 +58,7 @@ public class RoleTest extends BaseTest {
         Assert.assertTrue("Rola nenajdena", (list.size() >= 1));
     }
 
-    private Role newRole() {
+    private Role createRole() {
         return new Role(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
     }
 
