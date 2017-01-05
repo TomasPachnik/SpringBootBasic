@@ -1,5 +1,6 @@
 package sk.tomas.app.dao;
 
+import org.hibernate.Session;
 import sk.tomas.app.model.base.Entity;
 
 import java.util.List;
@@ -18,5 +19,4 @@ public interface BaseDao<T extends Entity> {
     List<T> list();
 
     T findByValue(String key, String value);
-
 }
