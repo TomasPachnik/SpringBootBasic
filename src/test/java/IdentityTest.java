@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.service.IdentityService;
 
+import java.util.List;
 import java.util.Random;
 import java.util.UUID;
 
@@ -23,6 +24,7 @@ public class IdentityTest extends BaseTest {
         UUID uuid = identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
+        List<Identity> list = identityService.list();
     }
 
     @Test
@@ -52,5 +54,11 @@ public class IdentityTest extends BaseTest {
         identityService.delete(identity.getUuid());
         Identity bySurname2 = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Identita sa nevymazala", !identity.equals(bySurname2));
+    }
+
+    @Test
+    public void listIdentityTest() {
+        List<Identity> list = identityService.list();
+        Assert.assertTrue("Identita nenajdena", (list.size() == 1));
     }
 }

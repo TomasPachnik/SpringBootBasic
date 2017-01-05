@@ -74,8 +74,8 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
     }
 
     public List<T> list() {
-        List<T> result = (List<T>) getCurrentSession().createQuery("from " + clazz).list();
-        return result;
+        List<N> result = (List<N>) getCurrentSession().createQuery("from " + nodeClazz.getSimpleName()).list();
+        return mapper.mapAsList(result, clazz);
     }
 
     public T findByValue(String key, String value) {
