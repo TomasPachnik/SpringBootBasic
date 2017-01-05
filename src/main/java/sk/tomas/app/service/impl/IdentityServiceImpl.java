@@ -9,6 +9,7 @@ import sk.tomas.app.dao.KeyDao;
 import sk.tomas.app.service.IdentityService;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by tomas on 23.12.2016.
@@ -27,7 +28,7 @@ public class IdentityServiceImpl implements IdentityService {
     }
 
     @Override
-    public int create(Identity identity) {
+    public UUID create(Identity identity) {
         return identityDao.create(identity);
     }
 
@@ -37,13 +38,13 @@ public class IdentityServiceImpl implements IdentityService {
     }
 
     @Override
-    public int update(Identity identity) {
+    public UUID update(Identity identity) {
         return identityDao.update(identity);
     }
 
     @Override
-    public void delete(int id) {
-        identityDao.delete(id);
+    public void delete(UUID uuid) {
+        identityDao.delete(uuid);
     }
 
     @Override

@@ -1,5 +1,5 @@
 CREATE TABLE Identity (
-  id   INTEGER PRIMARY KEY AUTO_INCREMENT,
+  uuid   VARCHAR(36) PRIMARY KEY ,
   name VARCHAR(50),
   surname  VARCHAR(50),
   age INTEGER

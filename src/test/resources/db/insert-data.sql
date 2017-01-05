@@ -1,1 +1,1 @@
-insert into Identity(name, surname, age) values('Fero', 'Taraba', 35);
+insert into Identity(uuid, name, surname, age) values('e0f899cf-3c3d-490f-991d-6a545feb6de9','Fero', 'Taraba', 35);

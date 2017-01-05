@@ -1,51 +1,50 @@
 package sk.tomas.app.model.base;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import java.util.UUID;
 
 /**
  * Created by Tomas Pachnik on 04-Jan-17.
  */
-@MappedSuperclass
+
 public abstract class Entity {
 
-    @Id
-    @GeneratedValue
-    private int id;
+    private UUID uuid;
 
-    public Entity(int id) {
-        this.id = id;
+    public Entity(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public Entity() {
     }
 
-    public int getId() {
-        return id;
+    public UUID getUuid() {
+        return uuid;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
+
         Entity entity = (Entity) o;
-        return id == entity.id;
+
+        return uuid != null ? uuid.equals(entity.uuid) : entity.uuid == null;
+
     }
 
     @Override
     public int hashCode() {
-        return id;
+        return uuid != null ? uuid.hashCode() : 0;
     }
 
     @Override
     public String toString() {
         return "Entity{" +
-                "id=" + id +
+                "uuid='" + uuid + '\'' +
                 '}';
     }
 }

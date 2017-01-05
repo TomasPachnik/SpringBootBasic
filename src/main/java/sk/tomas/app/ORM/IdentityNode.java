@@ -1,40 +1,29 @@
-package sk.tomas.app.model;
+package sk.tomas.app.orm;
 
-import sk.tomas.app.model.base.Entity;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 import java.util.UUID;
 
 /**
- * Created by tomas on 24.12.2016.
+ * Created by Tomas Pachnik on 05-Jan-17.
  */
 
-public class Identity extends Entity {
+@Entity
+@Table(name = "Identity")
+public class IdentityNode  extends EntityNode{
 
     private String name;
     private String surname;
     private int age;
 
-    public Identity(UUID uuid, String name, String surname, int age) {
-        super.setUuid(uuid);
+    public IdentityNode(String uuid, String name, String surname, int age) {
+        super(uuid);
         this.name = name;
         this.surname = surname;
         this.age = age;
     }
 
-    public Identity(String name, String surname, int age) {
-        this.name = name;
-        this.surname = surname;
-        this.age = age;
-    }
-
-    public Identity() {
-    }
-
-    public UUID getUuid() {
-        return super.getUuid();
-    }
-
-    public void setUuid(int id) {
-        super.setUuid(getUuid());
+    public IdentityNode() {
     }
 
     public String getName() {
@@ -67,11 +56,11 @@ public class Identity extends Entity {
         if (o == null || getClass() != o.getClass()) return false;
         if (!super.equals(o)) return false;
 
-        Identity identity = (Identity) o;
+        IdentityNode that = (IdentityNode) o;
 
-        if (age != identity.age) return false;
-        if (name != null ? !name.equals(identity.name) : identity.name != null) return false;
-        return surname != null ? surname.equals(identity.surname) : identity.surname == null;
+        if (age != that.age) return false;
+        if (name != null ? !name.equals(that.name) : that.name != null) return false;
+        return surname != null ? surname.equals(that.surname) : that.surname == null;
 
     }
 
@@ -86,7 +75,7 @@ public class Identity extends Entity {
 
     @Override
     public String toString() {
-        return "Identity{" +
+        return "IdentityNode{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", age=" + age +

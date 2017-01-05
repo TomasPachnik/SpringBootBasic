@@ -1,3 +1,4 @@
+import org.hibernate.annotations.SourceType;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class IdentityTest extends BaseTest {
     public void createIdentityTest() {
         //vytvorim identitu
         Identity identity = new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
-        identityService.create(identity);
+        UUID uuid = identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
     }
@@ -46,8 +47,9 @@ public class IdentityTest extends BaseTest {
         identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
+        Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
         //zmazem identitu
-        identityService.delete(identity.getId());
+        identityService.delete(identity.getUuid());
         Identity bySurname2 = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Identita sa nevymazala", !identity.equals(bySurname2));
     }

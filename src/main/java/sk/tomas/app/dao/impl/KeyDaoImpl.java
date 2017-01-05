@@ -14,6 +14,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Created by tomas on 23.12.2016.
@@ -36,7 +37,7 @@ public class KeyDaoImpl implements KeyDao {
             ResultSet rs = ps.executeQuery();
             if (rs.next()) {
                 Key key = new Key(
-                        rs.getInt("ID"),
+                        (UUID) rs.getObject("UUID"),
                         rs.getString("NAME"),
                         rs.getString("VALUE")
                 );

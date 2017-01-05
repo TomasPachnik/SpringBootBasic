@@ -30,13 +30,13 @@ public class HomeController {
     }
 
     @RequestMapping("/create")
-    int save() {
+    UUID save() {
         return identityService.create(new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 30));
     }
 
     @RequestMapping("/update")
-    int update() {
-        int update = 0;
+    UUID update() {
+        UUID update = null;
         List<Identity> list = identityService.list();
         if (!list.isEmpty()) {
             Identity identity = list.get(0);
@@ -51,7 +51,7 @@ public class HomeController {
         List<Identity> list = identityService.list();
         if (!list.isEmpty()) {
             Identity identity = list.get(0);
-            identityService.delete(identity.getId());
+            identityService.delete(identity.getUuid());
         }
     }
 

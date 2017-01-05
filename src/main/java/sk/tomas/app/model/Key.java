@@ -2,6 +2,8 @@ package sk.tomas.app.model;
 
 import sk.tomas.app.model.base.Entity;
 
+import java.util.UUID;
+
 /**
  * Created by tomas on 23.12.2016.
  */
@@ -9,18 +11,10 @@ public class Key extends Entity {
     private String name;
     private String value;
 
-    public Key(int id, String name, String value) {
-        super.setId(id);
+    public Key(UUID uuid, String name, String value) {
+        super.setUuid(uuid);
         this.name = name;
         this.value = value;
-    }
-
-    public int getId() {
-        return super.getId();
-    }
-
-    public void setId(int id) {
-        super.setId(id);
     }
 
     public String getName() {

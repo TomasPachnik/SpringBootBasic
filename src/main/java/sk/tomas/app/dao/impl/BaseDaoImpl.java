@@ -1,60 +1,85 @@
 package sk.tomas.app.dao.impl;
 
+import ma.glasnost.orika.MapperFacade;
 import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.model.base.Entity;
+import sk.tomas.app.orm.EntityNode;
 
 import javax.annotation.Resource;
 import java.util.List;
+import java.util.UUID;
+
+import static sk.tomas.app.util.ErrorMessages.MISSING_UUID;
+import static sk.tomas.app.util.ErrorMessages.MOREOVER_UUID;
 
 /**
  * Created by Tomas Pachnik on 04-Jan-17.
  */
 
 @Transactional
-public abstract class BaseDaoImpl<T extends Entity> implements BaseDao<T> {
+public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implements BaseDao<T> {
 
+    private static final Logger logger = LoggerFactory.getLogger(BaseDaoImpl.class);
     private Class<T> clazz;
+    private Class<N> nodeClazz;
     @Resource
     private SessionFactory sessionFactory;
+    @Autowired
+    private MapperFacade mapper;
 
-    public BaseDaoImpl(Class<T> clazz) {
+    public BaseDaoImpl(Class<T> clazz, Class<N> nodeClazz) {
         this.clazz = clazz;
+        this.nodeClazz = nodeClazz;
     }
 
-    public int create(T t) {
-        getCurrentSession().save(t);
-        return t.getId();
+    public UUID create(T t) {
+        if (t.getUuid() != null) {
+            throw new IllegalArgumentException(MOREOVER_UUID.getMessage());
+        }
+        t.setUuid(UUID.randomUUID());
+        EntityNode n = mapper.map(t, nodeClazz);
+        getCurrentSession().save(n);
+        return t.getUuid();
     }
 
-    public int update(T t) {
-        getCurrentSession().update(t);
-        return t.getId();
+    public UUID update(T t) {
+        if (t.getUuid() == null) {
+            throw new IllegalArgumentException(MISSING_UUID.getMessage());
+        }
+        EntityNode n = mapper.map(t, nodeClazz);
+        getCurrentSession().update(n);
+        return t.getUuid();
     }
 
-    public void delete(int id) {
+    public void delete(UUID uuid) {
         T t = null;
         try {
             t = clazz.newInstance();
         } catch (InstantiationException | IllegalAccessException e) {
-            e.printStackTrace();
+            logger.error(e.toString());
         }
-        t.setId(id);
-        getCurrentSession().delete(t);
+        t.setUuid(uuid);
+        EntityNode n = mapper.map(t, nodeClazz);
+        getCurrentSession().delete(n);
     }
 
     public List<T> list() {
-        List<T> result = (List<T>) getCurrentSession().createQuery("from Identity").list();
+        List<T> result = (List<T>) getCurrentSession().createQuery("from " + clazz).list();
         return result;
     }
 
     public T findByValue(String key, String value) {
-        Criteria criteria = getCurrentSession().createCriteria(clazz);
-        return (T) criteria.add(Restrictions.eq(key, value)).uniqueResult();
+        Criteria criteria = getCurrentSession().createCriteria(nodeClazz);
+        EntityNode n = (N) criteria.add(Restrictions.eq(key, value)).uniqueResult();
+        return mapper.map(n, clazz);
     }
 
     Session getCurrentSession() {
