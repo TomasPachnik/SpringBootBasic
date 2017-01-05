@@ -2,11 +2,15 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import sk.tomas.app.model.Identity;
+import sk.tomas.app.model.Role;
 import sk.tomas.app.service.IdentityService;
+import sk.tomas.app.service.RoleService;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
+
+import static sk.tomas.app.util.Utils.createRandomIdentity;
+import static sk.tomas.app.util.Utils.createRandomRole;
 
 /**
  * Created by Tomas Pachnik on 04-Jan-17.
@@ -16,10 +20,13 @@ public class IdentityTest extends BaseTest {
     @Autowired
     IdentityService identityService;
 
+    @Autowired
+    RoleService roleService;
+
     @Test
     public void createIdentityTest() {
         //vytvorim identitu
-        Identity identity = createIdentity();
+        Identity identity = createRandomIdentity();
         UUID uuid = identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
@@ -29,7 +36,7 @@ public class IdentityTest extends BaseTest {
     @Test
     public void updateIdentityTest() {
         //vytvorim identitu
-        Identity identity = createIdentity();
+        Identity identity = createRandomIdentity();
         identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
@@ -44,9 +51,11 @@ public class IdentityTest extends BaseTest {
     @Test
     public void deleteIdentityTest() {
         //vytvorim identitu
-        Identity identity = createIdentity();
-        identityService.create(identity);
+        Identity identity = createRandomIdentity();
+        UUID uuid = identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
+        System.out.println(identity);
+        System.out.println(bySurname);
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
         Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
         //zmazem identitu
@@ -61,8 +70,15 @@ public class IdentityTest extends BaseTest {
         Assert.assertTrue("Identita nenajdena", (list.size() >= 1));
     }
 
-    private Identity createIdentity(){
-        return new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
+    @Test
+    public void IdentityRoleRelationshipTest() {
+        Identity identity = createRandomIdentity();
+        Role role = createRandomRole();
+        identity.addRole(role);
+
+        identityService.create(identity);
+        Identity bySurname = identityService.findBySurname(identity.getSurname());
+        Assert.assertTrue("Priradena rola nenajdena!", bySurname.getRoles().contains(role));
     }
 
 }

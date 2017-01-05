@@ -2,6 +2,9 @@ package sk.tomas.app.model;
 
 import sk.tomas.app.model.base.Entity;
 
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -12,7 +15,21 @@ public class Identity extends Entity {
 
     private String name;
     private String surname;
+    private String login;
+    private String email;
+    private Password password;
     private int age;
+    private Set<Role> roles = new HashSet<>();
+
+    public Identity(UUID uuid, String name, String surname, String login, String email, Password password, int age) {
+        super(uuid);
+        this.name = name;
+        this.surname = surname;
+        this.login = login;
+        this.email = email;
+        this.password = password;
+        this.age = age;
+    }
 
     public Identity(UUID uuid, String name, String surname, int age) {
         super.setUuid(uuid);
@@ -28,6 +45,38 @@ public class Identity extends Entity {
     }
 
     public Identity() {
+    }
+
+    public void addRole(Role role) {
+        if (role.getUuid() == null) {
+            role.setUuid(UUID.randomUUID());
+        }
+        roles.add(role);
+        role.setIdentity(this);
+    }
+
+    public String getLogin() {
+        return login;
+    }
+
+    public void setLogin(String login) {
+        this.login = login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Password getPassword() {
+        return password;
+    }
+
+    public void setPassword(Password password) {
+        this.password = password;
     }
 
     public UUID getUuid() {
@@ -62,6 +111,15 @@ public class Identity extends Entity {
         this.age = age;
     }
 
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -72,8 +130,11 @@ public class Identity extends Entity {
 
         if (age != identity.age) return false;
         if (name != null ? !name.equals(identity.name) : identity.name != null) return false;
-        return surname != null ? surname.equals(identity.surname) : identity.surname == null;
-
+        if (surname != null ? !surname.equals(identity.surname) : identity.surname != null) return false;
+        if (login != null ? !login.equals(identity.login) : identity.login != null) return false;
+        if (email != null ? !email.equals(identity.email) : identity.email != null) return false;
+        if (password != null ? !password.equals(identity.password) : identity.password != null) return false;
+        return roles != null ? roles.equals(identity.roles) : identity.roles == null;
     }
 
     @Override
@@ -81,7 +142,11 @@ public class Identity extends Entity {
         int result = super.hashCode();
         result = 31 * result + (name != null ? name.hashCode() : 0);
         result = 31 * result + (surname != null ? surname.hashCode() : 0);
+        result = 31 * result + (login != null ? login.hashCode() : 0);
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (password != null ? password.hashCode() : 0);
         result = 31 * result + age;
+        result = 31 * result + (roles != null ? roles.hashCode() : 0);
         return result;
     }
 
@@ -90,6 +155,9 @@ public class Identity extends Entity {
         return "Identity{" +
                 "name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
+                ", login='" + login + '\'' +
+                ", email='" + email + '\'' +
+                ", password=" + password +
                 ", age=" + age +
                 '}';
     }

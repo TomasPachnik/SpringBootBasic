@@ -1,5 +1,6 @@
 package sk.tomas.app.orm;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.MappedSuperclass;
 import java.io.Serializable;
@@ -9,16 +10,17 @@ import java.io.Serializable;
  */
 
 @MappedSuperclass
-public abstract class EntityNode implements Serializable{
+public abstract class EntityNode implements Serializable {
 
     @Id
+    @Column(unique = true, nullable = false)
     private String uuid;
 
-    public EntityNode(String uuid) {
+    EntityNode(String uuid) {
         this.uuid = uuid;
     }
 
-    public EntityNode() {
+    EntityNode() {
     }
 
     public String getUuid() {

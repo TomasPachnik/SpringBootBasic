@@ -1,7 +1,6 @@
 package sk.tomas.app.orm;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 /**
  * Created by Tomas Pachnik on 05-Jan-17.
@@ -13,6 +12,9 @@ public class RoleNode extends EntityNode {
     private String name;
     private String description;
     private int level;
+    @ManyToOne()
+    @JoinColumn(name = "identity_uuid")
+    private IdentityNode identity;
 
     public String getName() {
         return name;
@@ -61,12 +63,21 @@ public class RoleNode extends EntityNode {
         return result;
     }
 
+    public IdentityNode getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(IdentityNode identity) {
+        this.identity = identity;
+    }
+
     @Override
     public String toString() {
         return "RoleNode{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", level=" + level +
+                ", identity=" + identity +
                 '}';
     }
 }

@@ -5,8 +5,9 @@ import sk.tomas.app.model.Role;
 import sk.tomas.app.service.RoleService;
 
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
+
+import static sk.tomas.app.util.Utils.*;
 
 /**
  * Created by Tomas Pachnik on 05-Jan-17.
@@ -19,7 +20,7 @@ public class RoleTest extends BaseTest {
     @Test
     public void createRoleTest() {
         //vytvorim rolu
-        Role role = createRole();
+        Role role = createRandomRole();
         roleService.create(role);
         Role byName = roleService.findByName(role.getName());
         Assert.assertTrue("Rola nevytvorena", role.equals(byName));
@@ -28,7 +29,7 @@ public class RoleTest extends BaseTest {
     @Test
     public void updateRoleTest() {
         //vytvorim rolu
-        Role role = createRole();
+        Role role = createRandomRole();
         roleService.create(role);
         Role byName = roleService.findByName(role.getName());
         Assert.assertTrue("Rola nevytvorena", role.equals(byName));
@@ -42,7 +43,7 @@ public class RoleTest extends BaseTest {
 
     @Test
     public void deleteRoleTest() {
-        Role role = createRole();
+        Role role = createRandomRole();
         roleService.create(role);
         Role byName = roleService.findByName(role.getName());
         Assert.assertTrue("Rola nevytvorena", role.equals(byName));
@@ -56,10 +57,6 @@ public class RoleTest extends BaseTest {
     public void listRoleTest() {
         List<Role> list = roleService.list();
         Assert.assertTrue("Rola nenajdena", (list.size() >= 1));
-    }
-
-    private Role createRole() {
-        return new Role(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
     }
 
 }

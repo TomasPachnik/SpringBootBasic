@@ -12,6 +12,7 @@ public class Role extends Entity {
     private String name;
     private String description;
     private int level;
+    private Identity identity;
 
     public Role() {
     }
@@ -73,6 +74,15 @@ public class Role extends Entity {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", level=" + level +
+                ", identity=" + identity +
                 '}';
+    }
+
+    public Identity getIdentity() {
+        return identity;
+    }
+
+    public void setIdentity(Identity identity) {
+        this.identity = identity;
     }
 }
