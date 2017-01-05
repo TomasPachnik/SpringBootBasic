@@ -16,13 +16,5 @@
         <jdbc:script location="classpath:db/create-db.sql" />
         <jdbc:script location="classpath:db/insert-data.sql" />
     </jdbc:embedded-database>
-<!--
-    <bean id="dbcpDataSource" class="org.apache.commons.dbcp2.BasicDataSource"
-          destroy-method="close">
-        <property name="driverClassName" value="org.hsqldb.jdbcDriver" />
-        <property name="url" value="jdbc:hsqldb:mem:springbootbasic" />
-        <property name="username" value="sa" />
-        <property name="password" value="" />
-    </bean>
--->
+
 </beans>
