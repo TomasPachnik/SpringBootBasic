@@ -1,19 +1,15 @@
 package sk.tomas.app.configuration;
 
-import javax.sql.DataSource;
-
-import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import sk.tomas.app.model.AuthIdentity;
-import sk.tomas.app.model.Identity;
-import sk.tomas.app.service.IdentityService;
-
-import java.util.List;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 
 /**
@@ -26,17 +22,16 @@ import java.util.List;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
-    IdentityService identityService;
-    @Autowired
-    private MapperFacade mapper;
+    UserDetailsService userDetailsService;
 
     @Autowired
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 
-        List<Identity> list = identityService.list();
-        List<AuthIdentity> authIdentities = mapper.mapAsList(list, AuthIdentity.class);
-        for (AuthIdentity identity : authIdentities) {
-            auth.inMemoryAuthentication().withUser(identity.getUsername()).password(identity.getEncodedPassword()).roles(identity.getRoles());
-        }
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
+    }
+
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder(11);
     }
 }

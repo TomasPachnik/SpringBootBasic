@@ -41,4 +41,9 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
         return identityDao.findByValue("surname", surName);
     }
 
+    @Override
+    public Identity findByLogin(String login) {
+        return identityDao.findByValue("login", login);
+    }
+
 }

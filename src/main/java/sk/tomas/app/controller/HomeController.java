@@ -2,6 +2,9 @@ package sk.tomas.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sk.tomas.app.model.Identity;
@@ -21,6 +24,7 @@ public class HomeController {
     @Autowired
     private IdentityService identityService;
 
+
     @RequestMapping("/")
     List<Key> home() {
         return identityService.getKeys();
@@ -28,6 +32,10 @@ public class HomeController {
 
     @RequestMapping("/identities")
     List<Identity> identities() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        System.out.println(currentPrincipalName);
+        System.out.println(authentication.getAuthorities());
         List<Identity> list = identityService.list();
         for (Identity identity : list) {
             for (Role role : identity.getRoles()) {
@@ -37,7 +45,7 @@ public class HomeController {
         return list;
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAuthority('ADMIN')")
     @RequestMapping("/create")
     UUID save() {
         return identityService.create(new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 30));
