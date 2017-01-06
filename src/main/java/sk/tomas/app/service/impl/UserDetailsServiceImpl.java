@@ -31,8 +31,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Identity identity = identityService.findByLogin(username);
-        List<GrantedAuthority> grantedAuthorities = buildUserAuthority(identity.getRoles());
-        return new User(identity.getLogin(), identity.getPassword().getPassword(), true, true, true, true, grantedAuthorities);
+        if (identity != null) {
+            List<GrantedAuthority> grantedAuthorities = buildUserAuthority(identity.getRoles());
+            return new User(identity.getLogin(), identity.getPassword().getPassword(), true, true, true, true, grantedAuthorities);
+        }
+        return null;
     }
 
     private List<GrantedAuthority> buildUserAuthority(Set<Role> roles) {
