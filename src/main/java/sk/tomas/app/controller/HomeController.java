@@ -1,6 +1,7 @@
 package sk.tomas.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sk.tomas.app.model.Identity;
@@ -29,6 +30,7 @@ public class HomeController {
         return identityService.list();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @RequestMapping("/create")
     UUID save() {
         return identityService.create(new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 30));
