@@ -1,6 +1,7 @@
 package sk.tomas.app.mapper;
 
 import ma.glasnost.orika.MapperFactory;
+import sk.tomas.app.model.AuthIdentity;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.orm.IdentityNode;
 
@@ -14,6 +15,13 @@ public class ClassMapper {
                 .field("password", "encodedPassword")
                 .byDefault()
                 .register();
+
+        mapperFactory.classMap(Identity.class, AuthIdentity.class)
+                .field("login", "username")
+                .field("password", "encodedPassword")
+                .byDefault()
+                .register();
+
     }
 
 }

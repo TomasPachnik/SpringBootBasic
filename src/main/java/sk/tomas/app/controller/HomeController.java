@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Key;
+import sk.tomas.app.model.Role;
 import sk.tomas.app.service.IdentityService;
 
 import java.util.List;
@@ -27,7 +28,13 @@ public class HomeController {
 
     @RequestMapping("/identities")
     List<Identity> identities() {
-        return identityService.list();
+        List<Identity> list = identityService.list();
+        for (Identity identity : list) {
+            for (Role role : identity.getRoles()) {
+                role.setIdentity(null);
+            }
+        }
+        return list;
     }
 
     @PreAuthorize("hasRole('ADMIN')")

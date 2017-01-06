@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import sk.tomas.app.mapper.ClassMapper;
 import sk.tomas.app.mapper.PasswordStringConverter;
+import sk.tomas.app.mapper.SetArrayConverter;
 import sk.tomas.app.mapper.UuidStringConverter;
 
 /**
@@ -20,6 +21,7 @@ public class Config {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.getConverterFactory().registerConverter(new UuidStringConverter());
         mapperFactory.getConverterFactory().registerConverter(new PasswordStringConverter());
+        mapperFactory.getConverterFactory().registerConverter(new SetArrayConverter());
         ClassMapper.mapClass(mapperFactory);
         return mapperFactory.getMapperFacade();
     }

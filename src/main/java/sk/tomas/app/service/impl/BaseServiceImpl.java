@@ -1,6 +1,5 @@
 package sk.tomas.app.service.impl;
 
-import sk.tomas.app.annotation.Logger;
 import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.model.base.Entity;
 import sk.tomas.app.service.BaseService;
@@ -11,7 +10,7 @@ import java.util.UUID;
 /**
  * Created by Tomas Pachnik on 05-Jan-17.
  */
-@Logger
+
 public abstract class BaseServiceImpl<T extends Entity> implements BaseService<T> {
 
     protected abstract BaseDao getDao();
