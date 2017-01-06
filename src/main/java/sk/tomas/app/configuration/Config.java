@@ -5,6 +5,8 @@ import ma.glasnost.orika.MapperFactory;
 import ma.glasnost.orika.impl.DefaultMapperFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import sk.tomas.app.mapper.ClassMapper;
+import sk.tomas.app.mapper.PasswordStringConverter;
 import sk.tomas.app.mapper.UuidStringConverter;
 
 /**
@@ -17,6 +19,8 @@ public class Config {
     public MapperFacade mapper() {
         MapperFactory mapperFactory = new DefaultMapperFactory.Builder().build();
         mapperFactory.getConverterFactory().registerConverter(new UuidStringConverter());
+        mapperFactory.getConverterFactory().registerConverter(new PasswordStringConverter());
+        ClassMapper.mapClass(mapperFactory);
         return mapperFactory.getMapperFacade();
     }
 
