@@ -1,5 +1,7 @@
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Role;
@@ -16,6 +18,9 @@ import static sk.tomas.app.util.Utils.createRandomRole;
  * Created by Tomas Pachnik on 04-Jan-17.
  */
 public class IdentityTest extends BaseTest {
+
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
 
     @Autowired
     IdentityService identityService;
@@ -68,14 +73,26 @@ public class IdentityTest extends BaseTest {
     }
 
     @Test
-    public void IdentityRoleRelationshipTest() {
+    public void IdentityRoleRelationshipPositiveTest() {
         Identity identity = createRandomIdentity();
         Role role = createRandomRole();
-        identity.addRole(role);
+        UUID uuid = roleService.create(role);
+        Role byUuid = roleService.findByUuid(uuid);
+        identity.addRole(byUuid);
 
         identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
-        Assert.assertTrue("Priradena rola nenajdena!", bySurname.getRoles().contains(role));
+        Assert.assertTrue("Priradena rola nenajdena!", bySurname.getRoles().contains(byUuid));
+    }
+
+    @Test
+    public void IdentityRoleRelationshipNegativeTest() {
+        Identity identity = createRandomIdentity();
+        Role role = createRandomRole();
+        identity.addRole(role);
+        thrown.expect(IllegalArgumentException.class);
+        thrown.expectMessage("Related object is not created before!");
+        identityService.create(identity);
     }
 
 }

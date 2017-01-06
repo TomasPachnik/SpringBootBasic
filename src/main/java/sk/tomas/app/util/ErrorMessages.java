@@ -5,9 +5,9 @@ package sk.tomas.app.util;
  */
 public enum ErrorMessages {
 
-    MISSING_UUID(1, "Uuid should be set!"),
+    MISSING_UUID(1, "Uuid must be set!"),
     MOREOVER_UUID(2, "Uuid should not be set, the repository sets it automatically!"),
-    MISSING_MANDATORY(3, "Missing mandatory parameter!");
+    RELATED_NOT_CREATED(3, "Related object is not created before!");
 
     private int code;
     private String message;

@@ -48,9 +48,6 @@ public class Identity extends Entity {
     }
 
     public void addRole(Role role) {
-        if (role.getUuid() == null) {
-            role.setUuid(UUID.randomUUID());
-        }
         roles.add(role);
         role.setIdentity(this);
     }

@@ -5,6 +5,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
+import org.hibernate.id.IdentifierGenerationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,7 @@ import javax.annotation.Resource;
 import java.util.List;
 import java.util.UUID;
 
-import static sk.tomas.app.util.ErrorMessages.MISSING_MANDATORY;
-import static sk.tomas.app.util.ErrorMessages.MISSING_UUID;
-import static sk.tomas.app.util.ErrorMessages.MOREOVER_UUID;
+import static sk.tomas.app.util.ErrorMessages.*;
 
 /**
  * Created by Tomas Pachnik on 04-Jan-17.
@@ -48,7 +47,11 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
         }
         t.setUuid(UUID.randomUUID());
         EntityNode n = mapper.map(t, nodeClazz);
-        getCurrentSession().save(n);
+        try {
+            getCurrentSession().save(n);
+        } catch (IdentifierGenerationException e) {
+            throw new IllegalArgumentException(RELATED_NOT_CREATED.getMessage());
+        }
         return t.getUuid();
     }
 
