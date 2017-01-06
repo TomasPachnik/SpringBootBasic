@@ -1,3 +1,5 @@
+package sk.tomas.app.tests;
+
 import org.junit.Assert;
 import org.junit.Rule;
 import org.junit.Test;
