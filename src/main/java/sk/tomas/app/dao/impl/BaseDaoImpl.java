@@ -23,7 +23,6 @@ import static sk.tomas.app.util.ErrorMessages.*;
 /**
  * Created by Tomas Pachnik on 04-Jan-17.
  */
-@Logger
 @Transactional
 public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implements BaseDao<T> {
 
