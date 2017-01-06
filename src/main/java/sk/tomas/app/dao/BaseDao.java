@@ -8,6 +8,7 @@ import java.util.UUID;
 /**
  * Created by Tomas Pachnik on 04-Jan-17.
  */
+
 public interface BaseDao<T extends Entity> {
 
     UUID create(T t);

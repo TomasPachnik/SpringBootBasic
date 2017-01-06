@@ -6,10 +6,10 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.id.IdentifierGenerationException;
-import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
+import sk.tomas.app.annotation.Logger;
 import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.model.base.Entity;
 import sk.tomas.app.orm.EntityNode;
@@ -23,11 +23,11 @@ import static sk.tomas.app.util.ErrorMessages.*;
 /**
  * Created by Tomas Pachnik on 04-Jan-17.
  */
-
+@Logger
 @Transactional
 public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implements BaseDao<T> {
 
-    private static final Logger logger = LoggerFactory.getLogger(BaseDaoImpl.class);
+    private static final org.slf4j.Logger logger = LoggerFactory.getLogger(BaseDaoImpl.class);
     private Class<T> clazz;
     private Class<N> nodeClazz;
 
