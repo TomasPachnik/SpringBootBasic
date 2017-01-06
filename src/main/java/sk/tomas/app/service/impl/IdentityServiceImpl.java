@@ -2,6 +2,7 @@ package sk.tomas.app.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.dao.IdentityDao;
 import sk.tomas.app.dao.KeyDao;
@@ -17,6 +18,7 @@ import java.util.UUID;
  * Created by tomas on 23.12.2016.
  */
 @Service
+@Transactional
 public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements IdentityService {
 
     @Autowired
