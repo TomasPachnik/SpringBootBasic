@@ -26,8 +26,6 @@ public class MapperTest extends BaseTest {
         identity.setUuid(UUID.randomUUID());
         IdentityNode identityNode = mapper.map(identity, IdentityNode.class);
         Identity mapped = mapper.map(identityNode, Identity.class);
-        System.out.println(identity);
-        System.out.println(mapped);
         Assert.assertTrue("Identity sa nezhoduju", identity.equals(mapped));
     }
 
