@@ -73,4 +73,16 @@ public class HomeController {
             identityService.delete(identity.getUuid());
         }
     }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/authenticate")
+    Login authenticate() {
+        Login login = new Login();
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String currentPrincipalName = authentication.getName();
+        Object credentials = authentication.getCredentials();
+        login.setUsername(currentPrincipalName);
+        login.setPassword("" + credentials);
+        return login;
+    }
+
 }
