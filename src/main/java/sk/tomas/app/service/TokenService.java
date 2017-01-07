@@ -9,7 +9,7 @@ public interface TokenService {
 
     String loginUser(UserDetails userDetails);
 
-    UserDetails getUseByUuid(String token);
+    UserDetails getUserByToken(String token);
 
     void removeUser(String token);
 

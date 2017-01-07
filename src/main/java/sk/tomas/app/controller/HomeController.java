@@ -3,10 +3,7 @@ package sk.tomas.app.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,13 +64,10 @@ public class HomeController {
         return update;
     }
 
+    @PreAuthorize("hasAuthority('NEEXISTUJUCA')")
     @RequestMapping("/delete")
     void delete() {
-        List<Identity> list = identityService.list();
-        if (!list.isEmpty()) {
-            Identity identity = list.get(0);
-            identityService.delete(identity.getUuid());
-        }
+        System.out.println("deleted");
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/authenticate")

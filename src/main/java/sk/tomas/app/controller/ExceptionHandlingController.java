@@ -3,6 +3,7 @@ package sk.tomas.app.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.NoHandlerFoundException;
@@ -30,6 +31,14 @@ public class ExceptionHandlingController {
         UUID uuid = UUID.randomUUID();
         logger.error(uuid.toString(), e);
         return new ServerMessage(uuid, " 401 - bad credentials");
+    }
+
+    @ResponseStatus(value = HttpStatus.FORBIDDEN)
+    @ExceptionHandler(AccessDeniedException.class)
+    public ServerMessage accessDenied(AccessDeniedException e) {
+        UUID uuid = UUID.randomUUID();
+        logger.error(uuid.toString(), e);
+        return new ServerMessage(uuid, " 403 access denied");
     }
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)

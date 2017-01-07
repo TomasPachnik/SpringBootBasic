@@ -25,7 +25,7 @@ public class TokenServiceImpl implements TokenService {
     }
 
     @Override
-    public UserDetails getUseByUuid(String token) {
+    public UserDetails getUserByToken(String token) {
         return getLoggedUsers().get(token);
     }
 

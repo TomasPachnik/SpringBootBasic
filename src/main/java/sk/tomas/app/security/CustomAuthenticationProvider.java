@@ -42,10 +42,10 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-
-        System.out.println("username: " + username);
-        System.out.println("password: " + password);
-
+        //TODO validacia hesla
+        //TODO skusit presunut logiku ktora nepatri do filtra sem
+        //TODO upratat to tu, vytvorit privatne metody atd.
+        //TODO vyriesit jednotne server hlasky
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         if (userDetails != null) {
             String tokenByLogin = tokenService.getTokenByLogin(username);
