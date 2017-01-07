@@ -54,7 +54,7 @@ public class CustomAuthenticationTokenFilter extends GenericFilterBean {
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             }
         } else {
-//TODO validuj token
+            //TODO validuj token
             httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
         }
 

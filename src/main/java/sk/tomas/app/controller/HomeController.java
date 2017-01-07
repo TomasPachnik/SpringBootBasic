@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Key;
 import sk.tomas.app.model.Role;
+import sk.tomas.app.model.Token;
 import sk.tomas.app.service.IdentityService;
 
 import java.util.List;
@@ -75,14 +77,11 @@ public class HomeController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/authenticate")
-    Login authenticate() {
-        Login login = new Login();
+    Token authenticate() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        Object credentials = authentication.getCredentials();
-        login.setUsername(currentPrincipalName);
-        login.setPassword("" + credentials);
-        return login;
+        String token = (String) authentication.getDetails();
+        return new Token(token);
     }
 
 }
