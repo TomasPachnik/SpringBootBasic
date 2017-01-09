@@ -37,7 +37,7 @@ public class ExceptionHandlingController {
     @ExceptionHandler(AccessDeniedException.class)
     public ServerMessage accessDenied(AccessDeniedException e) {
         UUID uuid = UUID.randomUUID();
-        logger.error(uuid.toString(), e);
+        logger.error(uuid.toString(), e.getMessage());
         return new ServerMessage(uuid, " 403 access denied");
     }
 

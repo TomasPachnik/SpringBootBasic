@@ -6,9 +6,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;
@@ -33,7 +34,13 @@ public class CustomAuthenticationTokenFilter extends GenericFilterBean {
     AuthenticationManager authenticationManager;
 
     @Autowired
+    private UserDetailsService userDetailsService;
+
+    @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -42,24 +49,12 @@ public class CustomAuthenticationTokenFilter extends GenericFilterBean {
 
         String path = new UrlPathHelper().getPathWithinApplication(httpRequest);
 
-        if ("/authenticate".equals(path)) {
-            //autentifikujem
-            String authToken = httpRequest.getHeader("authorization");
-            String basic = "Basic ";
-            if (authToken != null && authToken.startsWith(basic) && authToken.length() > basic.length()) {
-                String encodedAuth = authToken.substring(authToken.lastIndexOf(basic) + basic.length());
-                String decodedAuth = StringUtils.newStringUtf8(Base64.decodeBase64(encodedAuth));
-                String[] parts = decodedAuth.split(":");
-                UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(parts[0], parts[1]);
-                Authentication authResult = authenticationManager.authenticate(authRequest);
-                chain.doFilter(request, response);
-            } else {
-                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-            }
-        } else {
-            String authToken = httpRequest.getHeader("authorization");
+        String authToken = httpRequest.getHeader("authorization");
+        //ako prve ide bearer, bude castejsi
+        if (!"/authenticate".equals(path)) {
             String bearer = "Bearer ";
             if (authToken != null && authToken.startsWith(bearer) && authToken.length() > bearer.length()) {
+                //TODO lepsia validacia authorization
                 String token = authToken.substring(authToken.lastIndexOf(bearer) + bearer.length());
                 UserDetails user = tokenService.getUserByToken(token);
                 if (user != null) {
@@ -73,13 +68,47 @@ public class CustomAuthenticationTokenFilter extends GenericFilterBean {
             } else {
                 httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             }
+        } else {
+            //autentifikujem
+            String basic = "Basic ";
+            if (authToken != null && authToken.startsWith(basic) && authToken.length() > basic.length()) {
+                //TODO lepsia validacia authorization
+                UsernamePasswordAuthenticationToken authRequest = basicCheck(authToken);
+                SecurityContextHolder.getContext().setAuthentication(authRequest);
+                authenticationManager.authenticate(authRequest);
+                chain.doFilter(request, response);
+            } else {
+                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+            }
         }
-
-
-        //authRequest.setDetails(ssoTokenAuthenticationDetailsSource.buildDetails(request));
-
-        // Delegate authentication to SsoTokenAuthenticationProvider, he will call the SsoTokenAuthenticationProvider <-- because of the configuration in WebSecurityConfig.java
-        //  httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
-//        chain.doFilter(request, response);
     }
+
+    /**
+     * vrati UsernamePasswordAuthenticationToken vygenerovany z basic auth
+     *
+     * @param authToken
+     * @return
+     */
+    private UsernamePasswordAuthenticationToken basicCheck(String authToken) throws BadCredentialsException {
+        String basic = "Basic ";
+        String encodedAuth = authToken.substring(authToken.lastIndexOf(basic) + basic.length());
+        String decodedAuth = StringUtils.newStringUtf8(Base64.decodeBase64(encodedAuth));
+        String[] parts = decodedAuth.split(":");
+        String username = parts[0];
+        String password = parts[1];
+
+        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
+        if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
+            throw new BadCredentialsException("Bad Credentials");
+        }
+        String tokenByLogin = tokenService.getTokenByLogin(username);
+        if (tokenByLogin != null) {//ak uz je prihlaseny zmazem stary token
+            tokenService.removeUser(tokenByLogin);
+        }
+        String token = tokenService.loginUser(userDetails);
+        UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
+        authRequest.setDetails(token);
+        return authRequest;
+    }
+
 }
