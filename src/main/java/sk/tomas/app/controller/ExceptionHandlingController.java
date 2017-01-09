@@ -24,7 +24,6 @@ public class ExceptionHandlingController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionHandlingController.class);
 
-
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
     public ServerMessage badCredentials(BadCredentialsException e) {
@@ -38,7 +37,7 @@ public class ExceptionHandlingController {
     public ServerMessage accessDenied(AccessDeniedException e) {
         UUID uuid = UUID.randomUUID();
         logger.error(uuid.toString(), e.getMessage());
-        return new ServerMessage(uuid, " 403 access denied");
+        return new ServerMessage(uuid, " 403 Forbidden");
     }
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)

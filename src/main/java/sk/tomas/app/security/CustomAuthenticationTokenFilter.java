@@ -1,7 +1,5 @@
 package sk.tomas.app.security;
 
-import org.apache.commons.codec.binary.Base64;
-import org.apache.commons.codec.binary.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -13,7 +11,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;
+import sk.tomas.app.model.Token;
 import sk.tomas.app.service.TokenService;
+import sk.tomas.app.util.Constrants;
 import sk.tomas.app.util.Util;
 
 import javax.servlet.FilterChain;
@@ -23,6 +23,8 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+
+import static sk.tomas.app.util.Constrants.*;
 
 /**
  * Created by tomas on 07.01.2017.
@@ -52,14 +54,14 @@ public class CustomAuthenticationTokenFilter extends GenericFilterBean {
 
         String authToken = httpRequest.getHeader("authorization");
         //ako prve ide bearer, bude castejsi
-        if (!"/authenticate".equals(path)) {
+        if (!AUTHORIZE_ENDPOINT.equals(path)) {
             String bearer = "Bearer ";
             if (authToken != null && authToken.startsWith(bearer) && authToken.length() > bearer.length()) {
                 //TODO lepsia validacia authorization
                 String token = authToken.substring(authToken.lastIndexOf(bearer) + bearer.length());
-                UserDetails user = tokenService.getUserByToken(token);
+                Token user = tokenService.getUserByToken(token);
                 if (user != null) {
-                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), null, user.getAuthorities());
+                    UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user.getUserDetails().getUsername(), null, user.getUserDetails().getAuthorities());
                     usernamePasswordAuthenticationToken.setDetails(token);
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     chain.doFilter(request, response);

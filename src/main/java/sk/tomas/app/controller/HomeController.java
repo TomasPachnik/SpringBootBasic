@@ -10,11 +10,14 @@ import org.springframework.web.bind.annotation.RestController;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Key;
 import sk.tomas.app.model.Role;
-import sk.tomas.app.model.Token;
+import sk.tomas.app.model.output.Token;
 import sk.tomas.app.service.IdentityService;
+import sk.tomas.app.util.Constrants;
 
 import java.util.List;
 import java.util.UUID;
+
+import static sk.tomas.app.util.Constrants.*;
 
 /**
  * Created by tomas on 23.12.2016.
@@ -70,7 +73,7 @@ public class HomeController {
         System.out.println("deleted");
     }
 
-    @RequestMapping(method = RequestMethod.GET, value = "/authenticate")
+    @RequestMapping(method = RequestMethod.GET, value = AUTHORIZE_ENDPOINT)
     Token authenticate() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();

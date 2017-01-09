@@ -2,12 +2,15 @@ package sk.tomas.app.service.impl;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import sk.tomas.app.model.Token;
 import sk.tomas.app.service.TokenService;
 import sk.tomas.app.util.Util;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static sk.tomas.app.util.Constrants.VALIDITY;
 
 /**
  * Created by tomas on 07.01.2017.
@@ -16,18 +19,19 @@ import java.util.UUID;
 @Service
 public class TokenServiceImpl implements TokenService {
 
-    private Map<String, UserDetails> loggedUsers;
+    private Map<String, Token> loggedUsers;
 
     @Override
     public String loginUser(UserDetails userDetails) {
         UUID uuid = UUID.randomUUID();
         String token = Util.base64encode(uuid.toString());
-        getLoggedUsers().put(token, userDetails);
+        Token tokenObject = new Token(token, System.currentTimeMillis() + VALIDITY, userDetails);
+        getLoggedUsers().put(token, tokenObject);
         return token;
     }
 
     @Override
-    public UserDetails getUserByToken(String token) {
+    public Token getUserByToken(String token) {
         return getLoggedUsers().get(token);
     }
 
@@ -43,15 +47,15 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public String getTokenByLogin(String login) {
-        for (Map.Entry<String, UserDetails> entry : getLoggedUsers().entrySet()) {
-            if (entry.getValue().getUsername().equals(login)) {
+        for (Map.Entry<String, Token> entry : getLoggedUsers().entrySet()) {
+            if (entry.getValue().getUserDetails().getUsername().equals(login)) {
                 return entry.getKey();
             }
         }
         return null;
     }
 
-    private Map<String, UserDetails> getLoggedUsers() {
+    private Map<String, Token> getLoggedUsers() {
         if (loggedUsers == null) {
             loggedUsers = new HashMap<>();
         }
