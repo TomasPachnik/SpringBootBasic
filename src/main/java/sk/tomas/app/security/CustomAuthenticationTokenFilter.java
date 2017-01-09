@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.util.UrlPathHelper;
 import sk.tomas.app.service.TokenService;
+import sk.tomas.app.util.Util;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -92,7 +93,7 @@ public class CustomAuthenticationTokenFilter extends GenericFilterBean {
     private UsernamePasswordAuthenticationToken basicCheck(String authToken) throws BadCredentialsException {
         String basic = "Basic ";
         String encodedAuth = authToken.substring(authToken.lastIndexOf(basic) + basic.length());
-        String decodedAuth = StringUtils.newStringUtf8(Base64.decodeBase64(encodedAuth));
+        String decodedAuth = Util.base64decode(encodedAuth);
         String[] parts = decodedAuth.split(":");
         String username = parts[0];
         String password = parts[1];

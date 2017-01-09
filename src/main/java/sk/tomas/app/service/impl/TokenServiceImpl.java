@@ -3,6 +3,7 @@ package sk.tomas.app.service.impl;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import sk.tomas.app.service.TokenService;
+import sk.tomas.app.util.Util;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -19,9 +20,10 @@ public class TokenServiceImpl implements TokenService {
 
     @Override
     public String loginUser(UserDetails userDetails) {
-        UUID token = UUID.randomUUID();
-        getLoggedUsers().put(token.toString(), userDetails);
-        return token.toString();
+        UUID uuid = UUID.randomUUID();
+        String token = Util.base64encode(uuid.toString());
+        getLoggedUsers().put(token, userDetails);
+        return token;
     }
 
     @Override
