@@ -1,24 +1,22 @@
 package sk.tomas.app.exception;
 
-import java.util.UUID;
-
 /**
  * Created by tomas on 06.01.2017.
  */
 public class ServerMessage {
-    private UUID code;
-    private String text;
+    private String code;
+    private String message;
 
-    public ServerMessage(UUID code, String text) {
+    public ServerMessage(String code, String text) {
         this.code = code;
-        this.text = text;
+        this.message = text;
     }
 
-    public UUID getCode() {
+    public String getCode() {
         return code;
     }
 
-    public String getText() {
-        return text;
+    public String getMessage() {
+        return message;
     }
 }
