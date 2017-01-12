@@ -7,7 +7,7 @@
     <class name="sk.tomas.app.model.Identity" table="Identity" catalog="tomas">
         <id name="id" type="java.lang.Integer">
             <column name="ID" />
-            <generator class="identity" />
+            <generator class="identities" />
         </id>
         <property name="name" type="string">
             <column name="NAME" length="50" not-null="true" unique="false" />

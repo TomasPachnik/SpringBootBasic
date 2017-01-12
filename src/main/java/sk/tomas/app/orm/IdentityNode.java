@@ -17,8 +17,10 @@ public class IdentityNode extends EntityNode {
     private String email;
     private String encodedPassword;
     private int age;
-    @OneToMany(mappedBy = "identity", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @Column(nullable = false)
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "role_identity",
+            joinColumns = {@JoinColumn(name = "identity_uuid", nullable = false, updatable = false)},
+            inverseJoinColumns = {@JoinColumn(name = "role_uuid", nullable = false, updatable = false)})
     private Set<RoleNode> roles;
 
     public IdentityNode(String uuid, String name, String surname, String login, String email, String encodedPassowrd, int age) {

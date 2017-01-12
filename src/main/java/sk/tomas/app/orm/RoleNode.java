@@ -1,9 +1,7 @@
 package sk.tomas.app.orm;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.util.Set;
 
 /**
  * Created by Tomas Pachnik on 05-Jan-17.
@@ -15,9 +13,9 @@ public class RoleNode extends EntityNode {
     private String name;
     private String description;
     private int level;
-    @ManyToOne()
-    @JoinColumn(name = "identity_uuid")
-    private IdentityNode identity;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    private Set<IdentityNode> identities;
 
     public String getName() {
         return name;
@@ -66,12 +64,12 @@ public class RoleNode extends EntityNode {
         return result;
     }
 
-    public IdentityNode getIdentity() {
-        return identity;
+    public Set<IdentityNode> getIdentities() {
+        return identities;
     }
 
-    public void setIdentity(IdentityNode identity) {
-        this.identity = identity;
+    public void setIdentities(Set<IdentityNode> identities) {
+        this.identities = identities;
     }
 
     @Override
@@ -80,7 +78,7 @@ public class RoleNode extends EntityNode {
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", level=" + level +
-                ", identity=" + identity +
+                ", identities=" + identities +
                 '}';
     }
 }

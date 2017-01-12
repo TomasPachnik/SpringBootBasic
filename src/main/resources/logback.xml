@@ -13,7 +13,7 @@
         <appender-ref ref="STDOUT"/>
     </root>
 
-    <logger name="sk.tomas.app.service.impl.TokenServiceImpl" level="DEBUG" additivity="false">
+    <logger name="sk.tomas.app.service.impl" level="DEBUG" additivity="false">
         <appender-ref ref="STDOUT"/>
     </logger>
 
