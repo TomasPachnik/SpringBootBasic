@@ -36,15 +36,11 @@ class StartConfiguration {
         if (sysadmin == null) {
             sysadmin = new Identity("admin", "admin", "sysadmin", "admin@email.sk", new Password("Heslo123"), 99);
             identityService.create(sysadmin);
-        } else {
-            System.out.println("admin uz existuje");
         }
         Role adminRole = roleService.findByName("admin");
         if (adminRole == null) {
             adminRole = new Role("admin", "admin rola", 8, sysadmin);
             roleService.create(adminRole);
-        } else {
-            System.out.println("rola uz existuje");
         }
     }
 
