@@ -21,8 +21,7 @@ public class Identity extends Entity {
     private int age;
     private Set<Role> roles = new HashSet<>();
 
-    public Identity(UUID uuid, String name, String surname, String login, String email, Password password, int age) {
-        super(uuid);
+    public Identity(String name, String surname, String login, String email, Password password, int age) {
         this.name = name;
         this.surname = surname;
         this.login = login;

@@ -23,6 +23,13 @@ public class Role extends Entity {
         this.level = level;
     }
 
+    public Role(String name, String description, int level, Identity identity) {
+        this.name = name;
+        this.description = description;
+        this.level = level;
+        this.identity = identity;
+    }
+
     public String getName() {
         return name;
     }
