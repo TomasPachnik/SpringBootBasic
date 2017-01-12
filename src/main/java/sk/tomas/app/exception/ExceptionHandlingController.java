@@ -2,8 +2,6 @@ package sk.tomas.app.exception;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.web.ErrorAttributes;
 import org.springframework.boot.autoconfigure.web.ErrorController;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
@@ -28,9 +26,6 @@ public class ExceptionHandlingController implements ErrorController {
 
     private static final Logger logger = LoggerFactory.getLogger(ExceptionHandlingController.class);
     private static final String PATH = "/error";
-
-    @Autowired
-    private ErrorAttributes errorAttributes;
 
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
@@ -79,7 +74,6 @@ public class ExceptionHandlingController implements ErrorController {
                 throw new Exception("nepriradeny http status: " + status);
             }
         }
-
     }
 
     @Override

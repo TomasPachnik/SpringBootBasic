@@ -5,49 +5,50 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
-import sk.tomas.app.model.Input.IdentityInput;
-import sk.tomas.app.model.output.IdentityOutput;
-import sk.tomas.app.service.IdentityService;
+import sk.tomas.app.model.Input.RoleInput;
+import sk.tomas.app.model.output.RoleOutput;
+import sk.tomas.app.service.RoleService;
 
 import java.util.List;
 import java.util.UUID;
 
 /**
- * Created by tomas on 23.12.2016.
+ * Created by Tomas Pachnik on 12-Jan-17.
  */
+
 @RestController
-@RequestMapping("/identities")
-public class IdentityController {
+@RequestMapping("/roles")
+public class RoleController {
 
     @Autowired
-    private IdentityService identityService;
+    private RoleService roleService;
 
     @RequestMapping(method = RequestMethod.GET)
-    List<IdentityOutput> identities() throws OutputValidationException {
-        return identityService.getList();
+    List<RoleOutput> identities() throws OutputValidationException {
+        return roleService.getList();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
-    IdentityOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException {
-        return identityService.findIdentityOutputByUuid(uuid);
+    RoleOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException {
+        return roleService.findRoleOutputByUuid(uuid);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/create")
-    UUID create(@RequestBody IdentityInput identity) throws InputValidationException {
-        return identityService.create(identity);
+    UUID create(@RequestBody RoleInput roleInput) throws InputValidationException {
+        return roleService.create(roleInput);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/update/{uuid}")
-    void update(@PathVariable("uuid") UUID uuid, @RequestBody IdentityInput identityInput) throws InputValidationException {
-        identityService.update(identityInput, uuid);
+    void update(@PathVariable("uuid") UUID uuid, @RequestBody RoleInput roleInput) throws InputValidationException {
+        roleService.update(roleInput, uuid);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.GET, value = "/delete/{uuid}")
     void delete(@PathVariable("uuid") UUID uuid) {
-        identityService.delete(uuid);
+        roleService.delete(uuid);
     }
 
 }
