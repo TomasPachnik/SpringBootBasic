@@ -2,6 +2,7 @@ package sk.tomas.app.service.impl;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+import sk.tomas.app.annotation.Logger;
 import sk.tomas.app.model.Token;
 import sk.tomas.app.service.TokenService;
 import sk.tomas.app.util.Util;
@@ -15,7 +16,7 @@ import static sk.tomas.app.util.Constrants.VALIDITY;
 /**
  * Created by tomas on 07.01.2017.
  */
-
+@Logger
 @Service
 public class TokenServiceImpl implements TokenService {
 

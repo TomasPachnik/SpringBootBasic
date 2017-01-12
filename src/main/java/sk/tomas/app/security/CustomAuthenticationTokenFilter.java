@@ -10,6 +10,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
+import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.UrlPathHelper;
 import sk.tomas.app.model.Token;
 import sk.tomas.app.service.TokenService;
@@ -31,7 +32,7 @@ import static sk.tomas.app.util.Constrants.*;
  */
 
 @Component
-public class CustomAuthenticationTokenFilter extends GenericFilterBean {
+public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -46,13 +47,11 @@ public class CustomAuthenticationTokenFilter extends GenericFilterBean {
     private PasswordEncoder passwordEncoder;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest httpRequest = (HttpServletRequest) request;
-        HttpServletResponse httpResponse = (HttpServletResponse) response;
+    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
 
-        String path = new UrlPathHelper().getPathWithinApplication(httpRequest);
+        String path = new UrlPathHelper().getPathWithinApplication(request);
 
-        String authToken = httpRequest.getHeader("authorization");
+        String authToken = request.getHeader("authorization");
         //ako prve ide bearer, bude castejsi
         if (!AUTHORIZE_ENDPOINT.equals(path)) {
             String bearer = "Bearer ";
@@ -64,12 +63,12 @@ public class CustomAuthenticationTokenFilter extends GenericFilterBean {
                     UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(user.getUserDetails().getUsername(), null, user.getUserDetails().getAuthorities());
                     usernamePasswordAuthenticationToken.setDetails(token);
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-                    chain.doFilter(request, response);
+                    filterChain.doFilter(request, response);
                 } else {
                     throw new BadCredentialsException("Bad Credentials");
                 }
             } else {
-                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             }
         } else {
             //autentifikujem
@@ -78,10 +77,9 @@ public class CustomAuthenticationTokenFilter extends GenericFilterBean {
                 //TODO lepsia validacia authorization
                 UsernamePasswordAuthenticationToken authRequest = basicCheck(authToken);
                 SecurityContextHolder.getContext().setAuthentication(authRequest);
-                authenticationManager.authenticate(authRequest);
-                chain.doFilter(request, response);
+                filterChain.doFilter(request, response);
             } else {
-                httpResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+                response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             }
         }
     }
