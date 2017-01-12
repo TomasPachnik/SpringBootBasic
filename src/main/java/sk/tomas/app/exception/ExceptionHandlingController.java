@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import javax.servlet.RequestDispatcher;
@@ -41,6 +42,12 @@ public class ExceptionHandlingController implements ErrorController {
     @ExceptionHandler(AccessDeniedException.class)
     public ServerMessage businessException(AccessDeniedException e) {
         return new ServerMessage("403", "Forbidden");
+    }
+
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ServerMessage noHandlerFound(NoHandlerFoundException e) {
+        return new ServerMessage("NoHandlerFoundException", e.getMessage());
     }
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
