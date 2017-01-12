@@ -1,4 +1,4 @@
-package sk.tomas.app.configuration;
+package sk.tomas.app.security;
 
 import org.springframework.security.web.context.AbstractSecurityWebApplicationInitializer;
 
