@@ -35,13 +35,13 @@ public class ExceptionHandlingController implements ErrorController {
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
     public ServerMessage badCredentials(BadCredentialsException e) {
-        return new ServerMessage("401", e.getMessage());
+        return new ServerMessage("BadCredentialsException", e.getMessage());
     }
 
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
     public ServerMessage businessException(AccessDeniedException e) {
-        return new ServerMessage("403", "Forbidden");
+        return new ServerMessage("AccessDeniedException", "Forbidden");
     }
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
@@ -61,7 +61,7 @@ public class ExceptionHandlingController implements ErrorController {
     public ServerMessage handleAllException(Exception e) {
         UUID uuid = UUID.randomUUID();
         logger.error(uuid.toString(), e);
-        return new ServerMessage(uuid.toString(), "interna chyba servera");
+        return new ServerMessage("InternalServerError", "interna chyba servera, id chyby: " + uuid);
     }
 
     @RequestMapping(value = PATH)
