@@ -31,15 +31,19 @@ class StartConfiguration {
 
     @PostConstruct
     private void defaultIntialization() {
+        Role adminRole = roleService.findByName("admin");
+        if (adminRole == null) {
+            adminRole = new Role("admin", "admin rola", 8);
+            roleService.create(adminRole);
+        }
         Identity sysadmin = identityService.findByLogin("sysadmin");
         if (sysadmin == null) {
             sysadmin = new Identity("admin", "admin", "sysadmin", "admin@email.sk", new Password("Heslo123"), 99);
+            sysadmin.addRole(adminRole);
             identityService.create(sysadmin);
-        }
-        Role adminRole = roleService.findByName("admin");
-        if (adminRole == null) {
-            adminRole = new Role("admin", "admin rola", 8, sysadmin);
-            roleService.create(adminRole);
+        } else {
+            sysadmin.addRole(adminRole);
+            identityService.update(sysadmin);
         }
     }
 
