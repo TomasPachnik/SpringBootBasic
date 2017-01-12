@@ -3,6 +3,10 @@ package sk.tomas.app.tests;
 import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import sk.tomas.app.exception.InputValidationException;
+import sk.tomas.app.model.Identity;
+import sk.tomas.app.model.Input.IdentityInput;
+import sk.tomas.app.model.Input.RoleInput;
 import sk.tomas.app.model.Role;
 import sk.tomas.app.service.RoleService;
 
@@ -26,6 +30,15 @@ public class RoleTest extends BaseTest {
         roleService.create(role);
         Role byName = roleService.findByName(role.getName());
         Assert.assertTrue("Rola nevytvorena", role.equals(byName));
+    }
+
+    @Test
+    public void createRoleInputTest() throws InputValidationException {
+        //vytvorim identitu
+        RoleInput roleInput = new RoleInput("rola", "popis", 8);
+        UUID uuid = roleService.create(roleInput);
+        Role byUuid = roleService.findByUuid(uuid);
+        Assert.assertTrue("Identita nevytvorena", byUuid != null);
     }
 
     @Test
