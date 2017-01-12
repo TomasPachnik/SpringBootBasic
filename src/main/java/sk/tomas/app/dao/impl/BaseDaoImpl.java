@@ -9,7 +9,6 @@ import org.hibernate.id.IdentifierGenerationException;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
-import sk.tomas.app.annotation.Logger;
 import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.model.base.Entity;
 import sk.tomas.app.orm.EntityNode;

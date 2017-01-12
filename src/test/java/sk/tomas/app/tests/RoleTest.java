@@ -9,7 +9,7 @@ import sk.tomas.app.service.RoleService;
 import java.util.List;
 import java.util.UUID;
 
-import static sk.tomas.app.util.Utils.*;
+import static sk.tomas.app.util.Utils.createRandomRole;
 
 /**
  * Created by Tomas Pachnik on 05-Jan-17.

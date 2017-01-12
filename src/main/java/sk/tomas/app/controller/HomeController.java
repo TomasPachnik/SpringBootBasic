@@ -12,12 +12,11 @@ import sk.tomas.app.model.Key;
 import sk.tomas.app.model.Role;
 import sk.tomas.app.model.output.Token;
 import sk.tomas.app.service.IdentityService;
-import sk.tomas.app.util.Constrants;
 
 import java.util.List;
 import java.util.UUID;
 
-import static sk.tomas.app.util.Constrants.*;
+import static sk.tomas.app.util.Constrants.AUTHORIZE_ENDPOINT;
 
 /**
  * Created by tomas on 23.12.2016.

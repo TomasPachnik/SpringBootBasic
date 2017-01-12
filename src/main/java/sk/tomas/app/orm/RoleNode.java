@@ -1,6 +1,9 @@
 package sk.tomas.app.orm;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 /**
  * Created by Tomas Pachnik on 05-Jan-17.

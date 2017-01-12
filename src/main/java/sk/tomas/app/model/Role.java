@@ -2,8 +2,6 @@ package sk.tomas.app.model;
 
 import sk.tomas.app.model.base.Entity;
 
-import java.util.UUID;
-
 /**
  * Created by Tomas Pachnik on 05-Jan-17.
  */

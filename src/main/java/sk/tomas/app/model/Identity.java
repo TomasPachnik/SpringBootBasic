@@ -3,7 +3,6 @@ package sk.tomas.app.model;
 import sk.tomas.app.model.base.Entity;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 

@@ -9,23 +9,19 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
-import org.springframework.web.filter.GenericFilterBean;
 import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.web.util.UrlPathHelper;
 import sk.tomas.app.model.Token;
 import sk.tomas.app.service.TokenService;
-import sk.tomas.app.util.Constrants;
 import sk.tomas.app.util.Util;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-import static sk.tomas.app.util.Constrants.*;
+import static sk.tomas.app.util.Constrants.AUTHORIZE_ENDPOINT;
 
 /**
  * Created by tomas on 07.01.2017.

@@ -1,9 +1,6 @@
 package sk.tomas.app.orm;
 
-import sk.tomas.app.model.Role;
-
 import javax.persistence.*;
-import java.util.HashSet;
 import java.util.Set;
 
 /**

@@ -11,7 +11,6 @@ import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.service.RoleService;
 
 import javax.annotation.PostConstruct;
-import java.util.UUID;
 
 /**
  * Created by Tomas Pachnik on 12-Jan-17.

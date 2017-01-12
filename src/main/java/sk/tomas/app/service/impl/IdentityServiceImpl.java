@@ -10,7 +10,6 @@ import sk.tomas.app.dao.KeyDao;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Key;
 import sk.tomas.app.model.Password;
-import sk.tomas.app.model.Role;
 import sk.tomas.app.service.IdentityService;
 
 import java.util.List;
