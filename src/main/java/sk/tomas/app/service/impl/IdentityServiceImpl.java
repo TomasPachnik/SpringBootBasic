@@ -8,11 +8,13 @@ import org.springframework.transaction.annotation.Transactional;
 import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.dao.IdentityDao;
 import sk.tomas.app.dao.KeyDao;
+import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Key;
 import sk.tomas.app.model.Password;
 import sk.tomas.app.service.IdentityService;
+import sk.tomas.app.validator.IdentityValidator;
 
 import java.util.List;
 import java.util.UUID;
@@ -54,7 +56,8 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     }
 
     @Override
-    public UUID create(IdentityInput identityInput) {
+    public UUID create(IdentityInput identityInput) throws InputValidationException {
+        IdentityValidator.validateInput(identityInput);
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setPassword(new Password(""));
         return super.create(identity);

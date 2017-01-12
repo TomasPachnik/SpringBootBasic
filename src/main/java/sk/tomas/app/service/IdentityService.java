@@ -1,5 +1,6 @@
 package sk.tomas.app.service;
 
+import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Key;
@@ -18,6 +19,6 @@ public interface IdentityService extends BaseService<Identity> {
 
     Identity findByLogin(String login);
 
-    UUID create(IdentityInput identityInput);
+    UUID create(IdentityInput identityInput) throws InputValidationException;
 
 }

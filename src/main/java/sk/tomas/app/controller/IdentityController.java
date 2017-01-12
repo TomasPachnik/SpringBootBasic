@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
+import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Role;
@@ -43,7 +44,7 @@ public class IdentityController {
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/create")
-    UUID create(@RequestBody IdentityInput identity) {
+    UUID create(@RequestBody IdentityInput identity) throws InputValidationException {
         return identityService.create(identity);
     }
 

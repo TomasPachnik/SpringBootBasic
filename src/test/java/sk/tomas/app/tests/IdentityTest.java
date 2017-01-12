@@ -5,6 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Role;
@@ -41,7 +42,7 @@ public class IdentityTest extends BaseTest {
     }
 
     @Test
-    public void createIdentityInputTest() {
+    public void createIdentityInputTest() throws InputValidationException {
         //vytvorim identitu
         IdentityInput identityInput = new IdentityInput("meno", "priezvisko", "login", "email@email.sk", 30);
         UUID uuid = identityService.create(identityInput);
