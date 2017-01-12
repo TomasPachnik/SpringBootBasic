@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sk.tomas.app.model.Identity;
+import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Role;
 import sk.tomas.app.service.IdentityService;
 
@@ -42,7 +43,7 @@ public class IdentityController {
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/create")
-    UUID create(@RequestBody Identity identity) {
+    UUID create(@RequestBody IdentityInput identity) {
         return identityService.create(identity);
     }
 

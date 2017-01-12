@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import sk.tomas.app.model.Identity;
+import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Role;
 import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.service.RoleService;
@@ -37,6 +38,15 @@ public class IdentityTest extends BaseTest {
         UUID uuid = identityService.create(identity);
         Identity byUuid = identityService.findByUuid(uuid);
         Assert.assertTrue("Identita nevytvorena", identity.equals(byUuid));
+    }
+
+    @Test
+    public void createIdentityInputTest() {
+        //vytvorim identitu
+        IdentityInput identityInput = new IdentityInput("meno", "priezvisko", "login", "email@email.sk", 30);
+        UUID uuid = identityService.create(identityInput);
+        Identity byUuid = identityService.findByUuid(uuid);
+        Assert.assertTrue("Identita nevytvorena", byUuid != null);
     }
 
     @Test

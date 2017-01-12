@@ -1,5 +1,6 @@
 package sk.tomas.app.service.impl;
 
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -8,6 +9,7 @@ import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.dao.IdentityDao;
 import sk.tomas.app.dao.KeyDao;
 import sk.tomas.app.model.Identity;
+import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Key;
 import sk.tomas.app.model.Password;
 import sk.tomas.app.service.IdentityService;
@@ -22,6 +24,8 @@ import java.util.UUID;
 @Transactional
 public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements IdentityService {
 
+    @Autowired
+    private MapperFacade mapper;
     @Autowired
     private KeyDao keyDao;
     @Autowired
@@ -50,10 +54,9 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     }
 
     @Override
-    public UUID create(Identity identity) {
-        String rawPassword = identity.getPassword().getPassword();
-        String encodedPassword = passwordEncoder.encode(rawPassword);
-        identity.setPassword(new Password(encodedPassword));
+    public UUID create(IdentityInput identityInput) {
+        Identity identity = mapper.map(identityInput, Identity.class);
+        identity.setPassword(new Password(""));
         return super.create(identity);
     }
 
