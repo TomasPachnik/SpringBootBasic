@@ -11,7 +11,6 @@ import sk.tomas.app.annotation.Logger;
  * Created by tomas on 06.01.2017.
  */
 
-@Logger
 @Component
 public class CustomAuthenticationProvider implements AuthenticationProvider {
 
