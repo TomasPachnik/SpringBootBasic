@@ -35,7 +35,7 @@ public class ExceptionHandlingController implements ErrorController {
     @ResponseStatus(value = HttpStatus.UNAUTHORIZED)
     @ExceptionHandler(BadCredentialsException.class)
     public ServerMessage badCredentials(BadCredentialsException e) {
-        return new ServerMessage("401", "Bad credentials");
+        return new ServerMessage("401", e.getMessage());
     }
 
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
@@ -54,7 +54,20 @@ public class ExceptionHandlingController implements ErrorController {
 
     @RequestMapping(value = PATH)
     public void error(HttpServletRequest request, HttpServletResponse response) throws Throwable {
-        throw (Throwable) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
+        Throwable throwable = (Throwable) request.getAttribute(RequestDispatcher.ERROR_EXCEPTION);
+        if (throwable != null) {
+            throw throwable;
+        }
+
+        int status = response.getStatus();
+        if (status != HttpServletResponse.SC_OK) {
+            if (status == HttpServletResponse.SC_UNAUTHORIZED) {
+                throw new BadCredentialsException("Unauthorized");
+            } else {
+                throw new Exception("nepriradeny http status: " + status);
+            }
+        }
+
     }
 
     @Override
