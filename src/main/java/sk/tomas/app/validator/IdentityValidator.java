@@ -2,6 +2,7 @@ package sk.tomas.app.validator;
 
 import org.apache.commons.validator.routines.EmailValidator;
 import sk.tomas.app.exception.InputValidationException;
+import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.output.IdentityOutput;
 
@@ -31,27 +32,27 @@ public class IdentityValidator {
         }
     }
 
-    public static void validateOutput(IdentityOutput identityOutput) throws InputValidationException {
+    public static void validateOutput(IdentityOutput identityOutput) throws OutputValidationException {
         if (identityOutput == null) {
-            throw new InputValidationException("Identity is null.");
+            throw new OutputValidationException("Identity is null.");
         }
         if (identityOutput.getUuid() == null) {
-            throw new InputValidationException("Identity uuid is null.");
+            throw new OutputValidationException("Identity uuid is null.");
         }
         if (identityOutput.getName() == null || identityOutput.getName().isEmpty()) {
-            throw new InputValidationException("Identity name is empty.");
+            throw new OutputValidationException("Identity name is empty.");
         }
         if (identityOutput.getSurname() == null || identityOutput.getSurname().isEmpty()) {
-            throw new InputValidationException("Identity surname is empty.");
+            throw new OutputValidationException("Identity surname is empty.");
         }
         if (identityOutput.getLogin() == null || identityOutput.getLogin().isEmpty()) {
-            throw new InputValidationException("Identity login is empty.");
+            throw new OutputValidationException("Identity login is empty.");
         }
         if (identityOutput.getEmail() == null || identityOutput.getEmail().isEmpty()) {
-            throw new InputValidationException("Identity email is empty.");
+            throw new OutputValidationException("Identity email is empty.");
         }
         if (!EmailValidator.getInstance().isValid(identityOutput.getEmail())) {
-            throw new InputValidationException("Identity email is not valid.");
+            throw new OutputValidationException("Identity email is not valid.");
         }
     }
 

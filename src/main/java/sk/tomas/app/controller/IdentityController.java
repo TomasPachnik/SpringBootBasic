@@ -6,6 +6,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sk.tomas.app.exception.InputValidationException;
+import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Role;
@@ -26,13 +27,13 @@ public class IdentityController {
     private IdentityService identityService;
 
     @RequestMapping(method = RequestMethod.GET)
-    List<IdentityOutput> identities() throws InputValidationException {
+    List<IdentityOutput> identities() throws OutputValidationException {
         return identityService.getList();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
-    Identity getSingle(@PathVariable("uuid") UUID uuid) {
-        return identityService.findByUuid(uuid);
+    IdentityOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException {
+        return identityService.findIdentityOutputByUuid(uuid);
     }
 
     @PreAuthorize("hasAuthority('admin')")

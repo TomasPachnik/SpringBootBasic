@@ -9,6 +9,7 @@ import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.dao.IdentityDao;
 import sk.tomas.app.dao.KeyDao;
 import sk.tomas.app.exception.InputValidationException;
+import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Key;
@@ -61,17 +62,25 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
         IdentityValidator.validateInput(identityInput);
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setPassword(new Password(""));
-        return super.create(identity);
+        return create(identity);
     }
 
     @Override
-    public List<IdentityOutput> getList() throws InputValidationException {
-        List<Identity> list = super.list();
+    public List<IdentityOutput> getList() throws OutputValidationException {
+        List<Identity> list = list();
         List<IdentityOutput> identityOutputs = mapper.mapAsList(list, IdentityOutput.class);
         for (IdentityOutput output : identityOutputs) {
             IdentityValidator.validateOutput(output);
         }
         return identityOutputs;
+    }
+
+    @Override
+    public IdentityOutput findIdentityOutputByUuid(UUID uuid) throws OutputValidationException {
+        Identity byUuid = findByUuid(uuid);
+        IdentityOutput identityOutput = mapper.map(byUuid, IdentityOutput.class);
+        IdentityValidator.validateOutput(identityOutput);
+        return identityOutput;
     }
 
 }
