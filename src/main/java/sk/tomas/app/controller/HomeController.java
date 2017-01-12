@@ -38,8 +38,6 @@ public class HomeController {
     List<Identity> identities() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String currentPrincipalName = authentication.getName();
-        System.out.println(currentPrincipalName);
-        System.out.println(authentication.getAuthorities());
         List<Identity> list = identityService.list();
         for (Identity identity : list) {
             for (Role role : identity.getRoles()) {
@@ -49,7 +47,7 @@ public class HomeController {
         return list;
     }
 
-    @PreAuthorize("hasAuthority('ADMIN')")
+    @PreAuthorize("hasAuthority('admin')")
     @RequestMapping("/create")
     UUID save() {
         return identityService.create(new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), 30));
