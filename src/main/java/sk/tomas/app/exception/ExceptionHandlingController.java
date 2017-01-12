@@ -39,8 +39,14 @@ public class ExceptionHandlingController implements ErrorController {
 
     @ResponseStatus(value = HttpStatus.FORBIDDEN)
     @ExceptionHandler(AccessDeniedException.class)
-    public ServerMessage accessDenied(AccessDeniedException e) {
+    public ServerMessage businessException(AccessDeniedException e) {
         return new ServerMessage("403", "Forbidden");
+    }
+
+    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(BusinessException.class)
+    public ServerMessage accessDenied(BusinessException e) {
+        return new ServerMessage("BusinessException", e.getMessage());
     }
 
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)

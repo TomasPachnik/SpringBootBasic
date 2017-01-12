@@ -13,6 +13,7 @@ import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Key;
 import sk.tomas.app.model.Password;
+import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.validator.IdentityValidator;
 
@@ -61,6 +62,16 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setPassword(new Password(""));
         return super.create(identity);
+    }
+
+    @Override
+    public List<IdentityOutput> getList() throws InputValidationException {
+        List<Identity> list = super.list();
+        List<IdentityOutput> identityOutputs = mapper.mapAsList(list, IdentityOutput.class);
+        for (IdentityOutput output : identityOutputs) {
+            IdentityValidator.validateOutput(output);
+        }
+        return identityOutputs;
     }
 
 }

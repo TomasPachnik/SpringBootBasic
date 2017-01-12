@@ -9,6 +9,7 @@ import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Role;
+import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.service.IdentityService;
 
 import java.util.List;
@@ -25,16 +26,8 @@ public class IdentityController {
     private IdentityService identityService;
 
     @RequestMapping(method = RequestMethod.GET)
-    List<Identity> identities() {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String currentPrincipalName = authentication.getName();
-        List<Identity> list = identityService.list();
-        for (Identity identity : list) {
-            for (Role role : identity.getRoles()) {
-                role.setIdentity(null);
-            }
-        }
-        return list;
+    List<IdentityOutput> identities() throws InputValidationException {
+        return identityService.getList();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")

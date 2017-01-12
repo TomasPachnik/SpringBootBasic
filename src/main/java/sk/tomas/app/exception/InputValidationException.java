@@ -9,7 +9,4 @@ public class InputValidationException extends BusinessException {
         super(message);
     }
 
-    public InputValidationException(String message, Throwable cause) {
-        super(message, cause);
-    }
 }

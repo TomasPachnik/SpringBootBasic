@@ -1,16 +1,21 @@
-package sk.tomas.app.model.Input;
+package sk.tomas.app.model.output;
+
+import java.util.UUID;
 
 /**
  * Created by Tomas Pachnik on 12-Jan-17.
  */
-public class IdentityInput {
+public class IdentityOutput {
+
+    private UUID uuid;
     private String name;
     private String surname;
     private String login;
     private String email;
     private int age;
 
-    public IdentityInput(String name, String surname, String login, String email, int age) {
+    public IdentityOutput(UUID uuid, String name, String surname, String login, String email, int age) {
+        this.uuid = uuid;
         this.name = name;
         this.surname = surname;
         this.login = login;
@@ -18,7 +23,15 @@ public class IdentityInput {
         this.age = age;
     }
 
-    public IdentityInput() {
+    public IdentityOutput() {
+    }
+
+    public UUID getUuid() {
+        return uuid;
+    }
+
+    public void setUuid(UUID uuid) {
+        this.uuid = uuid;
     }
 
     public String getName() {

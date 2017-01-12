@@ -4,6 +4,7 @@ import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Key;
+import sk.tomas.app.model.output.IdentityOutput;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,5 +21,7 @@ public interface IdentityService extends BaseService<Identity> {
     Identity findByLogin(String login);
 
     UUID create(IdentityInput identityInput) throws InputValidationException;
+
+    List<IdentityOutput> getList() throws InputValidationException;
 
 }
