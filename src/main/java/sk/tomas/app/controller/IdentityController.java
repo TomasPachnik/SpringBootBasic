@@ -2,14 +2,11 @@ package sk.tomas.app.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
-import sk.tomas.app.model.Role;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.service.IdentityService;
 
@@ -43,13 +40,13 @@ public class IdentityController {
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @RequestMapping(method = RequestMethod.POST, value = "/update")
-    void update(@RequestBody Identity identity) {
-        identityService.update(identity);
+    @RequestMapping(method = RequestMethod.POST, value = "/update/{uuid}")
+    void update(@PathVariable("uuid") UUID uuid, @RequestBody IdentityInput identityInput) throws InputValidationException {
+        identityService.update(identityInput, uuid);
     }
 
     @PreAuthorize("hasAuthority('admin')")
-    @RequestMapping(method = RequestMethod.GET, value = "/delete/uuid")
+    @RequestMapping(method = RequestMethod.GET, value = "/delete/{uuid}")
     void delete(@PathVariable("uuid") UUID uuid) {
         identityService.delete(uuid);
     }

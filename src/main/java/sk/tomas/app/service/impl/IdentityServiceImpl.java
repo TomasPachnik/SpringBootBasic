@@ -83,4 +83,12 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
         return identityOutput;
     }
 
+    @Override
+    public void update(IdentityInput identityInput, UUID uuid) throws InputValidationException {
+        IdentityValidator.validateInput(identityInput);
+        Identity identity = mapper.map(identityInput, Identity.class);
+        identity.setUuid(uuid);
+        update(identity);
+    }
+
 }

@@ -78,10 +78,6 @@ public class Identity extends Entity {
         return super.getUuid();
     }
 
-    public void setUuid(int id) {
-        super.setUuid(getUuid());
-    }
-
     public String getName() {
         return name;
     }

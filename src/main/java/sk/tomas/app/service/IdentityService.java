@@ -27,4 +27,6 @@ public interface IdentityService extends BaseService<Identity> {
 
     IdentityOutput findIdentityOutputByUuid(UUID uuid) throws OutputValidationException;
 
+    void update(IdentityInput identityInput, UUID uuid) throws InputValidationException;
+
 }
