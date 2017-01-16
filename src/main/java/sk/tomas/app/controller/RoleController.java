@@ -12,12 +12,14 @@ import sk.tomas.app.service.RoleService;
 import java.util.List;
 import java.util.UUID;
 
+import static sk.tomas.app.util.Constrants.BASE_PATH;
+
 /**
  * Created by Tomas Pachnik on 12-Jan-17.
  */
 
 @RestController
-@RequestMapping("/roles")
+@RequestMapping(BASE_PATH + "/roles")
 public class RoleController {
 
     @Autowired

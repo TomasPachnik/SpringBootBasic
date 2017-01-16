@@ -12,11 +12,13 @@ import sk.tomas.app.service.IdentityService;
 import java.util.List;
 import java.util.UUID;
 
+import static sk.tomas.app.util.Constrants.BASE_PATH;
+
 /**
  * Created by tomas on 23.12.2016.
  */
 @RestController
-@RequestMapping("/identities")
+@RequestMapping(BASE_PATH + "/identities")
 public class IdentityController {
 
     @Autowired
