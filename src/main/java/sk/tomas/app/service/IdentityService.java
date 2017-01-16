@@ -6,6 +6,7 @@ import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Key;
 import sk.tomas.app.model.output.IdentityOutput;
+import sk.tomas.app.model.output.PaginationWithCount;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,7 +28,7 @@ public interface IdentityService extends BaseService<Identity> {
 
     IdentityOutput findIdentityOutputByUuid(UUID uuid) throws OutputValidationException;
 
-    List<IdentityOutput> listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) throws OutputValidationException;
+    PaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) throws OutputValidationException;
 
     void update(IdentityInput identityInput, UUID uuid) throws InputValidationException;
 
