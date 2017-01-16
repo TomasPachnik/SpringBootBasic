@@ -71,7 +71,7 @@ public class RoleTest extends BaseTest {
     @Test
     public void listRoleTest() {
         List<Role> list = roleService.list();
-        Assert.assertTrue("Rola nenajdena", (list.size() >= 1));
+        Assert.assertTrue("Rola nenajdena", (list.size() == 1));
     }
 
 }

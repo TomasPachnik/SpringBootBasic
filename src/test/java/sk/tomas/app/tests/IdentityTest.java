@@ -82,7 +82,7 @@ public class IdentityTest extends BaseTest {
     @Test
     public void listIdentityTest() {
         List<Identity> list = identityService.list();
-        Assert.assertTrue("Identita nenajdena", (list.size() >= 1));
+        Assert.assertTrue("Identita nenajdena", (list.size() == 2));
     }
 
     @Test
@@ -106,6 +106,21 @@ public class IdentityTest extends BaseTest {
         thrown.expect(IllegalArgumentException.class);
         thrown.expectMessage("Related object is not created before!");
         identityService.create(identity);
+    }
+
+    @Test
+    public void identityCountTest() {
+        long count = identityService.count();
+        Assert.assertTrue("Identity nenajdene", (count == 2));
+    }
+
+    @Test
+    public void identityPaginationTest() {
+        List<Identity> list1 = identityService.list(0, 10, "login", false);
+        Assert.assertTrue("posledny login", "sysadmin".equals(list1.get(1).getLogin()));
+        Assert.assertTrue("Identity nenajdene", (list1.size() == 2));
+        List<Identity> list2 = identityService.list(1, 10, "login", false);
+        Assert.assertTrue("Identity nenajdene", (list2.size() == 1));
     }
 
 }

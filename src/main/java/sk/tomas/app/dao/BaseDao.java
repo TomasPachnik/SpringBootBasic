@@ -19,6 +19,10 @@ public interface BaseDao<T extends Entity> {
 
     List<T> list();
 
+    List<T> list(int firstResult, int maxResult, String orderBy, boolean desc);
+
+    long count();
+
     T findByValue(String key, String value);
 
     T findByUuid(UUID uuid);

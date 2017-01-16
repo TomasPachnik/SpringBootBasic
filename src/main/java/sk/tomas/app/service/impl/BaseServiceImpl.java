@@ -35,6 +35,15 @@ public abstract class BaseServiceImpl<T extends Entity> implements BaseService<T
     }
 
     @SuppressWarnings("unchecked")
+    public List<T> list(int firstResult, int maxResult, String orderBy, boolean desc) {
+        return getDao().list(firstResult, maxResult, orderBy, desc);
+    }
+
+    public long count() {
+        return getDao().count();
+    }
+
+    @SuppressWarnings("unchecked")
     public T findByUuid(UUID uuid) {
         return (T) getDao().findByUuid(uuid);
     }

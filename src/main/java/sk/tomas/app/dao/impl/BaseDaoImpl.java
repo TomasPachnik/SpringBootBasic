@@ -6,6 +6,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.Restrictions;
 import org.hibernate.id.IdentifierGenerationException;
+import org.hibernate.query.Query;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
@@ -83,6 +84,30 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
     public List<T> list() {
         List<N> result = (List<N>) getCurrentSession().createQuery("from " + nodeClazz.getSimpleName()).list();
         return mapper.mapAsList(result, clazz);
+    }
+
+    @SuppressWarnings("unchecked")
+    public List<T> list(int firstResult, int maxResult, String orderBy, boolean desc) {
+        String direction;
+        if (desc) {
+            direction = "desc";
+        } else {
+            direction = "asc";
+        }
+        if (orderBy == null || orderBy.isEmpty()) {
+            orderBy = "uuid";
+        }
+        Query query = getCurrentSession().createQuery("from " + nodeClazz.getSimpleName() + " a order by a." + orderBy + " " + direction);
+        query.setFirstResult(firstResult);
+        query.setMaxResults(maxResult);
+        List<N> nList = query.list();
+        return mapper.mapAsList(nList, clazz);
+    }
+
+    public long count() {
+        String countQ = "Select count (a.uuid) from " + nodeClazz.getSimpleName() + " a";
+        Query countQuery = getCurrentSession().createQuery(countQ);
+        return (long) countQuery.uniqueResult();
     }
 
     @SuppressWarnings("unchecked")
