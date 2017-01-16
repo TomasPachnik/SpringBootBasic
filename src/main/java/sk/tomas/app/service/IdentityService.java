@@ -27,6 +27,8 @@ public interface IdentityService extends BaseService<Identity> {
 
     IdentityOutput findIdentityOutputByUuid(UUID uuid) throws OutputValidationException;
 
+    List<IdentityOutput> listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) throws OutputValidationException;
+
     void update(IdentityInput identityInput, UUID uuid) throws InputValidationException;
 
 }

@@ -84,6 +84,16 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     }
 
     @Override
+    public List<IdentityOutput> listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) throws OutputValidationException {
+        List<Identity> list = list(firstResult, maxResult, orderBy, desc);
+        List<IdentityOutput> identityOutputs = mapper.mapAsList(list, IdentityOutput.class);
+        for (IdentityOutput output : identityOutputs) {
+            IdentityValidator.validateOutput(output);
+        }
+        return identityOutputs;
+    }
+
+    @Override
     public void update(IdentityInput identityInput, UUID uuid) throws InputValidationException {
         IdentityValidator.validateInput(identityInput);
         Identity identity = mapper.map(identityInput, Identity.class);
