@@ -1,5 +1,6 @@
 package sk.tomas.app.orm;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -11,8 +12,10 @@ import javax.persistence.Table;
 @Table(name = "Token")
 public class TokenNode extends EntityNode {
 
+    @Column(unique = true, nullable = false, length = 48)
     private String token;
     private Long validity;
+    @Column(unique = true, nullable = false, length = 50)
     private String login;
 
     public TokenNode() {

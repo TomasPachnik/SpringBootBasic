@@ -13,7 +13,7 @@ import java.io.Serializable;
 public abstract class EntityNode implements Serializable {
 
     @Id
-    @Column(unique = true, nullable = false)
+    @Column(unique = true, nullable = false, length = 36)
     private String uuid;
 
     EntityNode(String uuid) {

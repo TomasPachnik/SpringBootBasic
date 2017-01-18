@@ -11,8 +11,11 @@ import java.util.Set;
 @Table(name = "Identity")
 public class IdentityNode extends EntityNode {
 
+    @Column(length = 50)
     private String name;
+    @Column(length = 50)
     private String surname;
+    @Column(unique = true, nullable = false, length = 50)
     private String login;
     private String email;
     private String encodedPassword;
