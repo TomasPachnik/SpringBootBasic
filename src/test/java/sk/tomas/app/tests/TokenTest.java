@@ -16,7 +16,7 @@ public class TokenTest extends BaseTest {
 
     @Test
     public void createTokenTest() {
-        //vytvorim rolu
+        //vytvorim token
         TokenEntity tokenEntity = new TokenEntity("token", 1L, "login");
         tokenDao.create(tokenEntity);
         TokenEntity byValue = tokenDao.findByValue("login", "login");
