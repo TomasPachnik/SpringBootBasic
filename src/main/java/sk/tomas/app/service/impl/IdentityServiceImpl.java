@@ -2,6 +2,8 @@ package sk.tomas.app.service.impl;
 
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -77,6 +79,7 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     }
 
     @Override
+    @Cacheable(value = "findIdentityOutputByUuid", key = "#uuid")
     public IdentityOutput findIdentityOutputByUuid(UUID uuid) throws OutputValidationException {
         Identity byUuid = findByUuid(uuid);
         IdentityOutput identityOutput = mapper.map(byUuid, IdentityOutput.class);
@@ -95,11 +98,18 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     }
 
     @Override
+    @CacheEvict(value = "findIdentityOutputByUuid", key = "#uuid")
     public void update(IdentityInput identityInput, UUID uuid) throws InputValidationException {
         IdentityValidator.validateInput(identityInput);
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setUuid(uuid);
         update(identity);
+    }
+
+    @Override
+    @CacheEvict(value = "findIdentityOutputByUuid", key = "#uuid")
+    public void delete(UUID uuid) {
+        getDao().delete(uuid);
     }
 
 }

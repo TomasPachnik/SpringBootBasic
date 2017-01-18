@@ -21,8 +21,10 @@ dependencies {
     compile group: 'commons-codec', name: 'commons-codec', version: '1.9'
     // validator
     compile group: 'commons-validator', name: 'commons-validator', version: '1.4.0'
-
-
+    // ehcache
+    compile group: 'net.sf.ehcache', name: 'ehcache', version: '2.10.3'
+    compile group: 'org.springframework', name: 'spring-context', version: '4.3.3.RELEASE'
+    compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.3.RELEASE'
 
     testCompile 'junit:junit:4.12'
     compile group: 'org.springframework', name: 'spring-test', version: '4.3.3.RELEASE'

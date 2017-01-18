@@ -1,11 +1,12 @@
 package sk.tomas.app.model.output;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by Tomas Pachnik on 12-Jan-17.
  */
-public class IdentityOutput {
+public class IdentityOutput implements Serializable {
 
     private UUID uuid;
     private String name;
