@@ -2,10 +2,12 @@ package sk.tomas.app.model;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.io.Serializable;
+
 /**
  * Created by tomas on 09.01.2017.
  */
-public class Token {
+public class Token implements Serializable {
 
     private String token;
     private long validity;
