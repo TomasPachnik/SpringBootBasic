@@ -3,6 +3,7 @@ package sk.tomas.app.configuration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Password;
@@ -22,12 +23,11 @@ class StartConfiguration {
     static Logger loger = LoggerFactory.getLogger(StartConfiguration.class);
 
     @Autowired
-    private
-    IdentityService identityService;
-
+    private IdentityService identityService;
     @Autowired
-    private
-    RoleService roleService;
+    private RoleService roleService;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     @PostConstruct
     private void defaultIntialization() {
@@ -38,7 +38,7 @@ class StartConfiguration {
         }
         Identity sysadmin = identityService.findByLogin("sysadmin");
         if (sysadmin == null) {
-            sysadmin = new Identity("admin", "admin", "sysadmin", "admin@email.sk", new Password("Heslo123"), 99);
+            sysadmin = new Identity("admin", "admin", "sysadmin", "admin@email.sk", new Password(passwordEncoder.encode("Heslo123")), 99);
             sysadmin.addRole(adminRole);
             identityService.create(sysadmin);
         } else {
