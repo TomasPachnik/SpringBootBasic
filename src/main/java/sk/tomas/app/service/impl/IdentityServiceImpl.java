@@ -80,7 +80,8 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
 
     @Override
     @Cacheable(value = "findIdentityOutputByUuid", key = "#uuid")
-    public IdentityOutput findIdentityOutputByUuid(UUID uuid) throws OutputValidationException {
+    public IdentityOutput findIdentityOutputByUuid(UUID uuid) throws OutputValidationException, InputValidationException {
+        IdentityValidator.validateInput(uuid);
         Identity byUuid = findByUuid(uuid);
         IdentityOutput identityOutput = mapper.map(byUuid, IdentityOutput.class);
         IdentityValidator.validateOutput(identityOutput);
@@ -88,7 +89,8 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     }
 
     @Override
-    public PaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) throws OutputValidationException {
+    public PaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) throws OutputValidationException, InputValidationException {
+        IdentityValidator.validateInput(firstResult, maxResult, orderBy);
         List<Identity> list = list(firstResult, maxResult, orderBy, desc);
         List<IdentityOutput> identityOutputs = mapper.mapAsList(list, IdentityOutput.class);
         for (IdentityOutput output : identityOutputs) {
@@ -100,7 +102,7 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     @Override
     @CacheEvict(value = "findIdentityOutputByUuid", key = "#uuid")
     public void update(IdentityInput identityInput, UUID uuid) throws InputValidationException {
-        IdentityValidator.validateInput(identityInput);
+        IdentityValidator.validateInput(identityInput, uuid);
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setUuid(uuid);
         update(identity);
@@ -108,7 +110,8 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
 
     @Override
     @CacheEvict(value = "findIdentityOutputByUuid", key = "#uuid")
-    public void delete(UUID uuid) {
+    public void delete(UUID uuid) throws InputValidationException {
+        IdentityValidator.validateInput(uuid);
         getDao().delete(uuid);
     }
 

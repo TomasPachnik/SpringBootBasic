@@ -57,7 +57,7 @@ public class RoleTest extends BaseTest {
     }
 
     @Test
-    public void deleteRoleTest() {
+    public void deleteRoleTest() throws InputValidationException {
         Role role = createRandomRole();
         roleService.create(role);
         Role byName = roleService.findByName(role.getName());

@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import sk.tomas.app.exception.InputValidationException;
+import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Role;
@@ -33,11 +34,12 @@ public class IdentityTest extends BaseTest {
     RoleService roleService;
 
     @Test
-    public void createIdentityTest() {
+    public void createIdentityTest() throws OutputValidationException, InputValidationException {
         //vytvorim identitu
         Identity identity = createRandomIdentity();
         UUID uuid = identityService.create(identity);
         Identity byUuid = identityService.findByUuid(uuid);
+        identityService.listIdentityOutput(0, 0, "name", false);
         Assert.assertTrue("Identita nevytvorena", identity.equals(byUuid));
     }
 
@@ -66,7 +68,7 @@ public class IdentityTest extends BaseTest {
     }
 
     @Test
-    public void deleteIdentityTest() {
+    public void deleteIdentityTest() throws InputValidationException {
         //vytvorim identitu
         Identity identity = createRandomIdentity();
         UUID uuid = identityService.create(identity);

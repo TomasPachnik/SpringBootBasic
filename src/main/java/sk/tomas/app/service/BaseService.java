@@ -1,5 +1,6 @@
 package sk.tomas.app.service;
 
+import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.model.base.Entity;
 
 import java.util.List;
@@ -14,7 +15,7 @@ public interface BaseService<T extends Entity> {
 
     UUID update(T t);
 
-    void delete(UUID uuid);
+    void delete(UUID uuid) throws InputValidationException;
 
     List<T> list();
 

@@ -49,7 +49,7 @@ public class RoleController {
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.GET, value = "/delete/{uuid}")
-    void delete(@PathVariable("uuid") UUID uuid) {
+    void delete(@PathVariable("uuid") UUID uuid) throws InputValidationException {
         roleService.delete(uuid);
     }
 

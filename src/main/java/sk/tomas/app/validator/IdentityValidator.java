@@ -6,6 +6,9 @@ import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.output.IdentityOutput;
 
+import java.util.Objects;
+import java.util.UUID;
+
 /**
  * Created by Tomas Pachnik on 12-Jan-17.
  */
@@ -56,4 +59,26 @@ public class IdentityValidator {
         }
     }
 
+    public static void validateInput(UUID uuid) throws InputValidationException {
+        if (uuid == null) {
+            throw new InputValidationException("UUID is null.");
+        }
+    }
+
+    public static void validateInput(IdentityInput identityInput, UUID uuid) throws InputValidationException {
+        validateInput(identityInput);
+        validateInput(uuid);
+    }
+
+    public static void validateInput(int firstResult, int maxResult, String orderBy) throws InputValidationException {
+        if (firstResult < 0) {
+            throw new InputValidationException("firstResult must not be negative.");
+        }
+        if (maxResult < 0) {
+            throw new InputValidationException("maxResult must not be negative.");
+        }
+        if (orderBy != null && !orderBy.isEmpty() && !Objects.equals(orderBy, "uuid") && !Objects.equals(orderBy, "name") && !Objects.equals(orderBy, "surname") && !Objects.equals(orderBy, "login") && !Objects.equals(orderBy, "email") && !Objects.equals(orderBy, "age")) {
+            throw new InputValidationException("orderBy must be one of following: 'null', '', 'uuid', 'name', 'surname', 'login', 'email', 'age'.");
+        }
+    }
 }

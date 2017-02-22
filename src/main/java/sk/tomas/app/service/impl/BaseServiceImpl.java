@@ -1,6 +1,7 @@
 package sk.tomas.app.service.impl;
 
 import sk.tomas.app.dao.BaseDao;
+import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.model.base.Entity;
 import sk.tomas.app.service.BaseService;
 
@@ -25,7 +26,7 @@ public abstract class BaseServiceImpl<T extends Entity> implements BaseService<T
         return getDao().update(t);
     }
 
-    public void delete(UUID uuid) {
+    public void delete(UUID uuid) throws InputValidationException {
         getDao().delete(uuid);
     }
 

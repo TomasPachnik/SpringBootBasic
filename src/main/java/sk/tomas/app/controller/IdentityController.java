@@ -32,13 +32,13 @@ public class IdentityController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
-    IdentityOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException {
+    IdentityOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException, InputValidationException {
         return identityService.findIdentityOutputByUuid(uuid);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/withParam")
     PaginationWithCount listIdentityWithParam(@RequestParam(defaultValue = "0", value = "firstResult") int firstResult, @RequestParam(defaultValue = "10", value = "maxResult") int maxResult,
-                                              @RequestParam(required = false, defaultValue = "uuid", value = "orderBy") String orderBy, @RequestParam(required = false, defaultValue = "false", value = "desc") boolean desc) throws OutputValidationException {
+                                              @RequestParam(required = false, defaultValue = "uuid", value = "orderBy") String orderBy, @RequestParam(required = false, defaultValue = "false", value = "desc") boolean desc) throws OutputValidationException, InputValidationException {
         return identityService.listIdentityOutput(firstResult, maxResult, orderBy, desc);
     }
 
@@ -61,7 +61,7 @@ public class IdentityController {
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.GET, value = "/delete/{uuid}")
-    void delete(@PathVariable("uuid") UUID uuid) {
+    void delete(@PathVariable("uuid") UUID uuid) throws InputValidationException {
         identityService.delete(uuid);
     }
 

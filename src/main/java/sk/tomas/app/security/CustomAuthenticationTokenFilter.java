@@ -91,6 +91,9 @@ public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
         String encodedAuth = authToken.substring(authToken.lastIndexOf(basic) + basic.length());
         String decodedAuth = Util.base64decode(encodedAuth);
         String[] parts = decodedAuth.split(":");
+        if (parts.length != 2) {
+            throw new BadCredentialsException("Bad Credentials");
+        }
         String username = parts[0];
         String password = parts[1];
 
