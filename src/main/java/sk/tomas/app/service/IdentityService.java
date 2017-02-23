@@ -1,13 +1,10 @@
 package sk.tomas.app.service;
 
-import sk.tomas.app.exception.InputValidationException;
-import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Key;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.model.output.PaginationWithCount;
-
 import java.util.List;
 import java.util.UUID;
 
@@ -22,14 +19,14 @@ public interface IdentityService extends BaseService<Identity> {
 
     Identity findByLogin(String login);
 
-    UUID create(IdentityInput identityInput) throws InputValidationException;
+    UUID create(IdentityInput identityInput);
 
-    List<IdentityOutput> getList() throws OutputValidationException;
+    List<IdentityOutput> getList();
 
-    IdentityOutput findIdentityOutputByUuid(UUID uuid) throws OutputValidationException, InputValidationException;
+    IdentityOutput findIdentityOutputByUuid(UUID uuid);
 
-    PaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) throws OutputValidationException, InputValidationException;
+    PaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc);
 
-    void update(IdentityInput identityInput, UUID uuid) throws InputValidationException;
+    void update(IdentityInput identityInput, UUID uuid);
 
 }

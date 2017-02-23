@@ -6,6 +6,7 @@ import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.output.IdentityOutput;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -56,6 +57,12 @@ public class IdentityValidator {
         }
         if (!EmailValidator.getInstance().isValid(identityOutput.getEmail())) {
             throw new OutputValidationException("Identity email is not valid.");
+        }
+    }
+
+    public static void validateOutput(List<IdentityOutput> list) throws OutputValidationException {
+        for (IdentityOutput item : list) {
+            validateOutput(item);
         }
     }
 

@@ -61,48 +61,35 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     }
 
     @Override
-    public UUID create(IdentityInput identityInput) throws InputValidationException {
-        IdentityValidator.validateInput(identityInput);
+    public UUID create(IdentityInput identityInput) {
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setPassword(new Password(""));
         return create(identity);
     }
 
     @Override
-    public List<IdentityOutput> getList() throws OutputValidationException {
+    public List<IdentityOutput> getList() {
         List<Identity> list = list();
-        List<IdentityOutput> identityOutputs = mapper.mapAsList(list, IdentityOutput.class);
-        for (IdentityOutput output : identityOutputs) {
-            IdentityValidator.validateOutput(output);
-        }
-        return identityOutputs;
+        return mapper.mapAsList(list, IdentityOutput.class);
     }
 
     @Override
     @Cacheable(value = "findIdentityOutputByUuid", key = "#uuid")
-    public IdentityOutput findIdentityOutputByUuid(UUID uuid) throws OutputValidationException, InputValidationException {
-        IdentityValidator.validateInput(uuid);
+    public IdentityOutput findIdentityOutputByUuid(UUID uuid) {
         Identity byUuid = findByUuid(uuid);
-        IdentityOutput identityOutput = mapper.map(byUuid, IdentityOutput.class);
-        IdentityValidator.validateOutput(identityOutput);
-        return identityOutput;
+        return mapper.map(byUuid, IdentityOutput.class);
     }
 
     @Override
-    public PaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) throws OutputValidationException, InputValidationException {
-        IdentityValidator.validateInput(firstResult, maxResult, orderBy);
+    public PaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) {
         List<Identity> list = list(firstResult, maxResult, orderBy, desc);
         List<IdentityOutput> identityOutputs = mapper.mapAsList(list, IdentityOutput.class);
-        for (IdentityOutput output : identityOutputs) {
-            IdentityValidator.validateOutput(output);
-        }
         return new PaginationWithCount(count(), identityOutputs);
     }
 
     @Override
     @CacheEvict(value = "findIdentityOutputByUuid", key = "#uuid")
-    public void update(IdentityInput identityInput, UUID uuid) throws InputValidationException {
-        IdentityValidator.validateInput(identityInput, uuid);
+    public void update(IdentityInput identityInput, UUID uuid) {
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setUuid(uuid);
         update(identity);

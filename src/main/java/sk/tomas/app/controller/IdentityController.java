@@ -10,6 +10,7 @@ import sk.tomas.app.model.output.Count;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.model.output.PaginationWithCount;
 import sk.tomas.app.service.IdentityService;
+import sk.tomas.app.validator.IdentityValidator;
 
 import java.util.List;
 import java.util.UUID;
@@ -28,18 +29,26 @@ public class IdentityController {
 
     @RequestMapping(method = RequestMethod.GET)
     List<IdentityOutput> identities() throws OutputValidationException {
-        return identityService.getList();
+        List<IdentityOutput> list = identityService.getList();
+        IdentityValidator.validateOutput(list);
+        return list;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
     IdentityOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException, InputValidationException {
-        return identityService.findIdentityOutputByUuid(uuid);
+        IdentityValidator.validateInput(uuid);
+        IdentityOutput identityOutputByUuid = identityService.findIdentityOutputByUuid(uuid);
+        IdentityValidator.validateOutput(identityOutputByUuid);
+        return identityOutputByUuid;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/withParam")
     PaginationWithCount listIdentityWithParam(@RequestParam(defaultValue = "0", value = "firstResult") int firstResult, @RequestParam(defaultValue = "10", value = "maxResult") int maxResult,
                                               @RequestParam(required = false, defaultValue = "uuid", value = "orderBy") String orderBy, @RequestParam(required = false, defaultValue = "false", value = "desc") boolean desc) throws OutputValidationException, InputValidationException {
-        return identityService.listIdentityOutput(firstResult, maxResult, orderBy, desc);
+        IdentityValidator.validateInput(firstResult, maxResult, orderBy);
+        PaginationWithCount paginationWithCount = identityService.listIdentityOutput(firstResult, maxResult, orderBy, desc);
+        IdentityValidator.validateOutput(paginationWithCount.getIdentityOutputs());
+        return paginationWithCount;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/count}")
@@ -50,12 +59,14 @@ public class IdentityController {
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/create")
     UUID create(@RequestBody IdentityInput identity) throws InputValidationException {
+        IdentityValidator.validateInput(identity);
         return identityService.create(identity);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/update/{uuid}")
     void update(@PathVariable("uuid") UUID uuid, @RequestBody IdentityInput identityInput) throws InputValidationException {
+        IdentityValidator.validateInput(identityInput, uuid);
         identityService.update(identityInput, uuid);
     }
 
