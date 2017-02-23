@@ -5,6 +5,7 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.test.context.support.WithMockUser;
 import sk.tomas.app.controller.IdentityController;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
@@ -14,12 +15,15 @@ import sk.tomas.app.model.Role;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.service.RoleService;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.List;
 import java.util.UUID;
 
 import static sk.tomas.app.util.Utils.createRandomIdentity;
 import static sk.tomas.app.util.Utils.createRandomRole;
+import static sk.tomas.app.util.Utils.randomIdentity;
 
 /**
  * Created by Tomas Pachnik on 04-Jan-17.
@@ -39,13 +43,14 @@ public class IdentityTest extends BaseTest {
     private IdentityController identityController;
 
     @Test
+    @WithMockUser(authorities = {"admin"})
     public void createIdentityTest() throws OutputValidationException, InputValidationException {
         //vytvorim identitu
-        Identity identity = createRandomIdentity();
-        UUID uuid = identityService.create(identity);
-        Identity byUuid = identityService.findByUuid(uuid);
-        identityService.listIdentityOutput(0, 0, "name", false);
-        Assert.assertTrue("Identita nevytvorena", identity.equals(byUuid));
+        IdentityInput identityInput = randomIdentity();
+        UUID uuid = identityController.create(identityInput);
+        IdentityOutput single = identityController.getSingle(uuid);
+        identityController.listIdentityWithParam(0, 0, "name", false);
+        Assert.assertTrue("Identita nevytvorena", identityInput.getLogin().equals(single.getLogin()));
     }
 
     @Test

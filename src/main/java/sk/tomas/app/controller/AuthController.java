@@ -16,7 +16,7 @@ import static sk.tomas.app.util.Constrants.AUTHORIZE_ENDPOINT;
 public class AuthController {
 
     @RequestMapping(method = RequestMethod.GET, value = AUTHORIZE_ENDPOINT)
-    Token authenticate() {
+    public Token authenticate() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         String token = (String) authentication.getDetails();
         return new Token(token);

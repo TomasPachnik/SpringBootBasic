@@ -26,7 +26,11 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-context', version: '4.3.3.RELEASE'
     compile group: 'org.springframework', name: 'spring-context-support', version: '4.3.3.RELEASE'
 
+    // https://mvnrepository.com/artifact/org.springframework.security/spring-security-test
+    testCompile group: 'org.springframework.security', name: 'spring-security-test', version: '4.2.1.RELEASE'
     testCompile 'junit:junit:4.12'
+
+    compile group: 'uk.co.jemos.podam', name: 'podam', version: '7.0.5.RELEASE'
     compile group: 'org.springframework', name: 'spring-test', version: '4.3.3.RELEASE'
     compile group: 'com.h2database', name: 'h2', version: '1.4.193'
     compile group: 'hsqldb', name: 'hsqldb', version: '1.8.0.7'
