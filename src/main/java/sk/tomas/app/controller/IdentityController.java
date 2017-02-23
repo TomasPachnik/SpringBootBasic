@@ -28,14 +28,14 @@ public class IdentityController {
     private IdentityService identityService;
 
     @RequestMapping(method = RequestMethod.GET)
-    List<IdentityOutput> identities() throws OutputValidationException {
+    public List<IdentityOutput> identities() throws OutputValidationException {
         List<IdentityOutput> list = identityService.getList();
         IdentityValidator.validateOutput(list);
         return list;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
-    IdentityOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException, InputValidationException {
+    public IdentityOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException, InputValidationException {
         IdentityValidator.validateInput(uuid);
         IdentityOutput identityOutputByUuid = identityService.findIdentityOutputByUuid(uuid);
         IdentityValidator.validateOutput(identityOutputByUuid);
@@ -43,8 +43,8 @@ public class IdentityController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/withParam")
-    PaginationWithCount listIdentityWithParam(@RequestParam(defaultValue = "0", value = "firstResult") int firstResult, @RequestParam(defaultValue = "10", value = "maxResult") int maxResult,
-                                              @RequestParam(required = false, defaultValue = "uuid", value = "orderBy") String orderBy, @RequestParam(required = false, defaultValue = "false", value = "desc") boolean desc) throws OutputValidationException, InputValidationException {
+    public PaginationWithCount listIdentityWithParam(@RequestParam(defaultValue = "0", value = "firstResult") int firstResult, @RequestParam(defaultValue = "10", value = "maxResult") int maxResult,
+                                                     @RequestParam(required = false, defaultValue = "uuid", value = "orderBy") String orderBy, @RequestParam(required = false, defaultValue = "false", value = "desc") boolean desc) throws OutputValidationException, InputValidationException {
         IdentityValidator.validateInput(firstResult, maxResult, orderBy);
         PaginationWithCount paginationWithCount = identityService.listIdentityOutput(firstResult, maxResult, orderBy, desc);
         IdentityValidator.validateOutput(paginationWithCount.getIdentityOutputs());
@@ -52,27 +52,27 @@ public class IdentityController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/count}")
-    Count getSingle() throws OutputValidationException {
+    public Count getSingle() throws OutputValidationException {
         return new Count(identityService.count());
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/create")
-    UUID create(@RequestBody IdentityInput identity) throws InputValidationException {
+    public UUID create(@RequestBody IdentityInput identity) throws InputValidationException {
         IdentityValidator.validateInput(identity);
         return identityService.create(identity);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/update/{uuid}")
-    void update(@PathVariable("uuid") UUID uuid, @RequestBody IdentityInput identityInput) throws InputValidationException {
+    public void update(@PathVariable("uuid") UUID uuid, @RequestBody IdentityInput identityInput) throws InputValidationException {
         IdentityValidator.validateInput(identityInput, uuid);
         identityService.update(identityInput, uuid);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.GET, value = "/delete/{uuid}")
-    void delete(@PathVariable("uuid") UUID uuid) throws InputValidationException {
+    public void delete(@PathVariable("uuid") UUID uuid) throws InputValidationException {
         identityService.delete(uuid);
     }
 

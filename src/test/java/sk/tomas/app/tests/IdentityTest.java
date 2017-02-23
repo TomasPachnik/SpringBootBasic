@@ -5,11 +5,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
+import sk.tomas.app.controller.IdentityController;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Role;
+import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.service.RoleService;
 
@@ -28,10 +30,13 @@ public class IdentityTest extends BaseTest {
     public ExpectedException thrown = ExpectedException.none();
 
     @Autowired
-    IdentityService identityService;
+    private IdentityService identityService;
 
     @Autowired
-    RoleService roleService;
+    private RoleService roleService;
+
+    @Autowired
+    private IdentityController identityController;
 
     @Test
     public void createIdentityTest() throws OutputValidationException, InputValidationException {
