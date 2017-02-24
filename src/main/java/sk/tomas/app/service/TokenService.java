@@ -2,6 +2,7 @@ package sk.tomas.app.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import sk.tomas.app.model.Token;
+import sk.tomas.app.model.output.TokenOutput;
 
 /**
  * Created by tomas on 07.01.2017.
@@ -9,6 +10,8 @@ import sk.tomas.app.model.Token;
 public interface TokenService {
 
     String loginUser(UserDetails userDetails);
+
+    TokenOutput getTokenEntityByToken(String token);
 
     Token getUserByToken(String token);
 

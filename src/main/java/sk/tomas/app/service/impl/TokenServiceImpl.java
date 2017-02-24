@@ -1,5 +1,6 @@
 package sk.tomas.app.service.impl;
 
+import ma.glasnost.orika.MapperFacade;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -10,6 +11,7 @@ import sk.tomas.app.annotation.Logger;
 import sk.tomas.app.dao.TokenDao;
 import sk.tomas.app.model.Token;
 import sk.tomas.app.model.TokenEntity;
+import sk.tomas.app.model.output.TokenOutput;
 import sk.tomas.app.service.TokenService;
 import sk.tomas.app.util.Util;
 
@@ -29,6 +31,8 @@ public class TokenServiceImpl implements TokenService {
     @Autowired
     TokenDao tokenDao;
     @Autowired
+    private MapperFacade mapper;
+    @Autowired
     private UserDetailsService userDetailsService;
 
     @Override
@@ -38,6 +42,13 @@ public class TokenServiceImpl implements TokenService {
         TokenEntity tokenObject = new TokenEntity(token, System.currentTimeMillis() + VALIDITY, userDetails.getUsername());
         tokenDao.create(tokenObject);
         return token;
+    }
+
+    @Override
+    @SuppressWarnings("unchecked")
+    public TokenOutput getTokenEntityByToken(String token) {
+        TokenEntity tokenEntity = tokenDao.findByValue("token", token);
+        return mapper.map(tokenEntity, TokenOutput.class);
     }
 
     @Override
