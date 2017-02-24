@@ -16,6 +16,6 @@ public interface TokenService {
 
     boolean isLogged(String token);
 
-    String getTokenByLogin(String token);
+    String getTokenByLogin(String login);
 
 }
