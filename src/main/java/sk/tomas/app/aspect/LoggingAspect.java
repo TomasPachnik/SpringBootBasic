@@ -24,8 +24,7 @@ public class LoggingAspect {
         if (logger != null) {
             if (logger.isDebugEnabled()) {
                 logger.debug(startLogMessage(joinPoint) + " args: " + Arrays.toString(joinPoint.getArgs()));
-            }
-            if (logger.isInfoEnabled() && !logger.isDebugEnabled()) {
+            } else if (logger.isInfoEnabled()) {
                 logger.info(startLogMessage(joinPoint));
             }
         }
@@ -35,8 +34,7 @@ public class LoggingAspect {
         if (logger != null) {
             if (logger.isDebugEnabled()) {
                 logger.debug(stopLogMessage(joinPoint) + " result: " + result);
-            }
-            if (logger.isInfoEnabled() && !logger.isDebugEnabled()) {
+            } else if (logger.isInfoEnabled()) {
                 logger.info(stopLogMessage(joinPoint));
             }
         }
