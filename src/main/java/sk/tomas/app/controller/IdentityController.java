@@ -52,6 +52,11 @@ public class IdentityController {
         identityService.addRole(identityUuid, roleUuid);
     }
 
+    @RequestMapping(method = RequestMethod.GET, value = "/{identityUuid}/removeRole/{roleUuid}")
+    public void removeRole(@PathVariable("identityUuid") UUID identityUuid, @PathVariable("roleUuid") UUID roleUuid) {
+        identityService.removeRole(identityUuid, roleUuid);
+    }
+
     @RequestMapping(method = RequestMethod.GET, value = "/withParam")
     public PaginationWithCount listIdentityWithParam(@RequestParam(defaultValue = "0", value = "firstResult") int firstResult, @RequestParam(defaultValue = "10", value = "maxResult") int maxResult,
                                                      @RequestParam(required = false, defaultValue = "uuid", value = "orderBy") String orderBy, @RequestParam(required = false, defaultValue = "false", value = "desc") boolean desc) throws OutputValidationException, InputValidationException {

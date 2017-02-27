@@ -50,6 +50,11 @@ public class Identity extends Entity {
         role.setIdentity(this);
     }
 
+    public void removeRole(Role role){
+        roles.remove(role);
+        role.setIdentity(null);
+    }
+
     public String getLogin() {
         return login;
     }

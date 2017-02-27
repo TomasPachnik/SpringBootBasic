@@ -117,6 +117,14 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     }
 
     @Override
+    public void removeRole(UUID identityUuid, UUID roleUuid) {
+        Identity identity = findByUuid(identityUuid);
+        Role role = roleService.findByUuid(roleUuid);
+        identity.removeRole(role);
+        update(identity);
+    }
+
+    @Override
     @CacheEvict(value = "findIdentityOutputByUuid", key = "#uuid")
     public void delete(UUID uuid) throws InputValidationException {
         getDao().delete(uuid);

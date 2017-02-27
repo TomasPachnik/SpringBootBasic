@@ -160,4 +160,17 @@ public class IdentityTest extends BaseTest {
         Assert.assertTrue(identityController.hasRole(identityUuid, roleUuid).isHasRole());
     }
 
+    @Test
+    @WithMockUser(authorities = {"admin"})
+    public void removeRoleTest() throws InputValidationException {
+        IdentityInput identityInput = randomIdentity();
+        RoleInput roleInput = randomRole();
+        UUID identityUuid = identityController.create(identityInput);
+        UUID roleUuid = roleController.create(roleInput);
+        identityController.addRole(identityUuid, roleUuid);
+        Assert.assertTrue(identityController.hasRole(identityUuid, roleUuid).isHasRole());
+        identityController.removeRole(identityUuid, roleUuid);
+        Assert.assertFalse(identityController.hasRole(identityUuid, roleUuid).isHasRole());
+    }
+
 }
