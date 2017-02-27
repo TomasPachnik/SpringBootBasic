@@ -26,7 +26,7 @@ public class RoleController {
     private RoleService roleService;
 
     @RequestMapping(method = RequestMethod.GET)
-    List<RoleOutput> identities() throws OutputValidationException {
+    List<RoleOutput> roles() throws OutputValidationException {
         return roleService.getList();
     }
 
