@@ -35,8 +35,7 @@ public class IdentityController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
-    public IdentityOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException, InputValidationException {
-        IdentityValidator.validateInput(uuid);
+    public IdentityOutput getCount(@PathVariable("uuid") UUID uuid) throws OutputValidationException, InputValidationException {
         IdentityOutput identityOutputByUuid = identityService.findIdentityOutputByUuid(uuid);
         IdentityValidator.validateOutput(identityOutputByUuid);
         return identityOutputByUuid;

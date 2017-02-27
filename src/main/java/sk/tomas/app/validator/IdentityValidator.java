@@ -66,15 +66,8 @@ public class IdentityValidator {
         }
     }
 
-    public static void validateInput(UUID uuid) throws InputValidationException {
-        if (uuid == null) {
-            throw new InputValidationException("UUID is null.");
-        }
-    }
-
     public static void validateInput(IdentityInput identityInput, UUID uuid) throws InputValidationException {
         validateInput(identityInput);
-        validateInput(uuid);
     }
 
     public static void validateInput(int firstResult, int maxResult, String orderBy) throws InputValidationException {
