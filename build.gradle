@@ -1,5 +1,10 @@
+plugins {
+    id 'org.springframework.boot' version '1.5.1.RELEASE'
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
+
 
 repositories {
     mavenCentral()
@@ -37,4 +42,8 @@ dependencies {
     compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
 
     compile files('libs/DependencyBasic.jar')
+}
+
+springBoot {
+    mainClass = "sk.tomas.app.configuration.Application"
 }
