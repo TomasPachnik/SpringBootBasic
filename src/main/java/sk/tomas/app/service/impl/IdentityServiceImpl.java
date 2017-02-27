@@ -9,12 +9,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.dao.IdentityDao;
-import sk.tomas.app.dao.KeyDao;
 import sk.tomas.app.exception.InputValidationException;
-import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
-import sk.tomas.app.model.Key;
 import sk.tomas.app.model.Password;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.model.output.PaginationWithCount;
@@ -34,16 +31,9 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     @Autowired
     private MapperFacade mapper;
     @Autowired
-    private KeyDao keyDao;
-    @Autowired
     private IdentityDao identityDao;
     @Autowired
     private PasswordEncoder passwordEncoder;
-
-    @Override
-    public List<Key> getKeys() {
-        return keyDao.getAll();
-    }
 
     @Override
     public BaseDao getDao() {
