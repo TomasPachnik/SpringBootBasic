@@ -14,6 +14,13 @@ import java.util.UUID;
  * Created by tomas on 05.01.2017.
  */
 public class Utils {
+
+    private static PodamFactory factory;
+
+    static{
+        factory = new PodamFactoryImpl();
+    }
+
     public static Identity createRandomIdentity() {
         Identity identity = new Identity(UUID.randomUUID().toString(), UUID.randomUUID().toString(), new Random().nextInt(100));
         identity.setEmail("sadas@sadsa.sk");
@@ -27,7 +34,6 @@ public class Utils {
     }
 
     public static IdentityInput randomIdentity() {
-        PodamFactory factory = new PodamFactoryImpl();
         IdentityInput identityInput = factory.manufacturePojo(IdentityInput.class);
         identityInput.setEmail("asdsa@asd.sk");
         return identityInput;
