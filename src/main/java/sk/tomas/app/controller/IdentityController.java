@@ -7,6 +7,7 @@ import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.output.Count;
+import sk.tomas.app.model.output.HasRole;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.model.output.PaginationWithCount;
 import sk.tomas.app.service.IdentityService;
@@ -35,10 +36,15 @@ public class IdentityController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
-    public IdentityOutput getCount(@PathVariable("uuid") UUID uuid) throws OutputValidationException, InputValidationException {
+    public IdentityOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException, InputValidationException {
         IdentityOutput identityOutputByUuid = identityService.findIdentityOutputByUuid(uuid);
         IdentityValidator.validateOutput(identityOutputByUuid);
         return identityOutputByUuid;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/{identityUuid}/hasRole/{roleUuid}")
+    public HasRole hasRole(@PathVariable("identityUuid") UUID identityUuid, @PathVariable("roleUuid") UUID roleUuid) {
+        return identityService.hasRole(identityUuid, roleUuid);
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/withParam")

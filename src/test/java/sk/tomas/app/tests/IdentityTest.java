@@ -7,23 +7,22 @@ import org.junit.rules.ExpectedException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.test.context.support.WithMockUser;
 import sk.tomas.app.controller.IdentityController;
+import sk.tomas.app.controller.RoleController;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
+import sk.tomas.app.model.Input.RoleInput;
 import sk.tomas.app.model.Role;
+import sk.tomas.app.model.output.HasRole;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.service.RoleService;
-import uk.co.jemos.podam.api.PodamFactory;
-import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.List;
 import java.util.UUID;
 
-import static sk.tomas.app.util.Utils.createRandomIdentity;
-import static sk.tomas.app.util.Utils.createRandomRole;
-import static sk.tomas.app.util.Utils.randomIdentity;
+import static sk.tomas.app.util.Utils.*;
 
 /**
  * Created by Tomas Pachnik on 04-Jan-17.
@@ -41,6 +40,9 @@ public class IdentityTest extends BaseTest {
 
     @Autowired
     private IdentityController identityController;
+
+    @Autowired
+    private RoleController roleController;
 
     @Test
     @WithMockUser(authorities = {"admin"})
@@ -134,5 +136,20 @@ public class IdentityTest extends BaseTest {
         List<Identity> list2 = identityService.list(1, 10, "login", false);
         Assert.assertTrue("Identity nenajdene", (list2.size() == 1));
     }
+
+    @Test
+    @WithMockUser(authorities = {"admin"})
+    public void hasRoleTest() throws InputValidationException {
+        IdentityInput identityInput = randomIdentity();
+        RoleInput roleInput = randomRole();
+        UUID identityUuid = identityController.create(identityInput);
+        UUID roleUuid = roleController.create(roleInput);
+        Identity identity = identityService.findByUuid(identityUuid);
+        Role role = roleService.findByUuid(roleUuid);
+        identity.addRole(role);
+        identityService.update(identity);
+        Assert.assertTrue(identityController.hasRole(identityUuid, roleUuid).isHasRole());
+    }
+
 
 }

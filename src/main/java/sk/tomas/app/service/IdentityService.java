@@ -2,6 +2,7 @@ package sk.tomas.app.service;
 
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
+import sk.tomas.app.model.output.HasRole;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.model.output.PaginationWithCount;
 import java.util.List;
@@ -26,4 +27,5 @@ public interface IdentityService extends BaseService<Identity> {
 
     void update(IdentityInput identityInput, UUID uuid);
 
+    HasRole hasRole(UUID identityUuid, UUID roleUuid);
 }

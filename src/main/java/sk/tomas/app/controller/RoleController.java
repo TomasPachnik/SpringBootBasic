@@ -26,30 +26,30 @@ public class RoleController {
     private RoleService roleService;
 
     @RequestMapping(method = RequestMethod.GET)
-    List<RoleOutput> roles() throws OutputValidationException {
+    public List<RoleOutput> roles() throws OutputValidationException {
         return roleService.getList();
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
-    RoleOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException {
+    public RoleOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException {
         return roleService.findRoleOutputByUuid(uuid);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/create")
-    UUID create(@RequestBody RoleInput roleInput) throws InputValidationException {
+    public UUID create(@RequestBody RoleInput roleInput) throws InputValidationException {
         return roleService.create(roleInput);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/update/{uuid}")
-    void update(@PathVariable("uuid") UUID uuid, @RequestBody RoleInput roleInput) throws InputValidationException {
+    public void update(@PathVariable("uuid") UUID uuid, @RequestBody RoleInput roleInput) throws InputValidationException {
         roleService.update(roleInput, uuid);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.GET, value = "/delete/{uuid}")
-    void delete(@PathVariable("uuid") UUID uuid) throws InputValidationException {
+    public void delete(@PathVariable("uuid") UUID uuid) throws InputValidationException {
         roleService.delete(uuid);
     }
 

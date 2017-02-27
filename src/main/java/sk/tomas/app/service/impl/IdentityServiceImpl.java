@@ -13,12 +13,15 @@ import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
 import sk.tomas.app.model.Password;
+import sk.tomas.app.model.Role;
+import sk.tomas.app.model.output.HasRole;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.model.output.PaginationWithCount;
 import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.validator.IdentityValidator;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 /**
@@ -83,6 +86,23 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setUuid(uuid);
         update(identity);
+    }
+
+    @Override
+    public HasRole hasRole(UUID identityUuid, UUID roleUuid) {
+        HasRole hasRole = new HasRole();
+        hasRole.setHasRole(false);
+        Identity identity = findByUuid(identityUuid);
+        if (identity != null) {
+            Set<Role> roles = identity.getRoles();
+            for (Role role : roles) {
+                if (role.getUuid().equals(roleUuid)) {
+                    hasRole.setHasRole(true);
+                    return hasRole;
+                }
+            }
+        }
+        return hasRole;
     }
 
     @Override

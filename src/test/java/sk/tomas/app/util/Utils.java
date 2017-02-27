@@ -2,6 +2,7 @@ package sk.tomas.app.util;
 
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Input.IdentityInput;
+import sk.tomas.app.model.Input.RoleInput;
 import sk.tomas.app.model.Password;
 import sk.tomas.app.model.Role;
 import uk.co.jemos.podam.api.PodamFactory;
@@ -17,7 +18,7 @@ public class Utils {
 
     private static PodamFactory factory;
 
-    static{
+    static {
         factory = new PodamFactoryImpl();
     }
 
@@ -37,6 +38,10 @@ public class Utils {
         IdentityInput identityInput = factory.manufacturePojo(IdentityInput.class);
         identityInput.setEmail("asdsa@asd.sk");
         return identityInput;
+    }
+
+    public static RoleInput randomRole() {
+        return factory.manufacturePojo(RoleInput.class);
     }
 
 }
