@@ -6,13 +6,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.dao.RoleDao;
-import sk.tomas.app.exception.InputValidationException;
-import sk.tomas.app.exception.OutputValidationException;
-import sk.tomas.app.model.Input.RoleInput;
+import sk.tomas.app.iam.model.input.RoleInput;
+import sk.tomas.app.iam.model.output.RoleOutput;
 import sk.tomas.app.model.Role;
-import sk.tomas.app.model.output.RoleOutput;
 import sk.tomas.app.service.RoleService;
-import sk.tomas.app.validator.RoleValidator;
 
 import java.util.List;
 import java.util.UUID;

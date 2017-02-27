@@ -5,8 +5,8 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
-import sk.tomas.app.model.Input.RoleInput;
-import sk.tomas.app.model.output.RoleOutput;
+import sk.tomas.app.iam.model.input.RoleInput;
+import sk.tomas.app.iam.model.output.RoleOutput;
 import sk.tomas.app.service.RoleService;
 import sk.tomas.app.validator.RoleValidator;
 

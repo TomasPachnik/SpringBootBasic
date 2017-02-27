@@ -5,11 +5,11 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
-import sk.tomas.app.model.Input.IdentityInput;
-import sk.tomas.app.model.output.Count;
-import sk.tomas.app.model.output.HasRole;
-import sk.tomas.app.model.output.IdentityOutput;
-import sk.tomas.app.model.output.PaginationWithCount;
+import sk.tomas.app.iam.model.input.IdentityInput;
+import sk.tomas.app.iam.model.output.Count;
+import sk.tomas.app.iam.model.output.HasRole;
+import sk.tomas.app.iam.model.output.IdentityOutput;
+import sk.tomas.app.iam.model.output.PaginationWithCount;
 import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.validator.IdentityValidator;
 

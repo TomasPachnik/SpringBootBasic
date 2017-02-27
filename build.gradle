@@ -36,5 +36,5 @@ dependencies {
     compile group: 'hsqldb', name: 'hsqldb', version: '1.8.0.7'
     compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
 
-
+    compile files('libs/DependencyBasic.jar')
 }

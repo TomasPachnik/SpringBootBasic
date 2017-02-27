@@ -9,14 +9,12 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Service;
 import sk.tomas.app.annotation.Logger;
 import sk.tomas.app.dao.TokenDao;
+import sk.tomas.app.iam.model.output.TokenOutput;
 import sk.tomas.app.model.Token;
 import sk.tomas.app.model.TokenEntity;
-import sk.tomas.app.model.output.TokenOutput;
 import sk.tomas.app.service.TokenService;
 import sk.tomas.app.util.Util;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.UUID;
 
 import static sk.tomas.app.util.Constrants.VALIDITY;

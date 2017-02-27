@@ -1,10 +1,8 @@
 package sk.tomas.app.service;
 
-import sk.tomas.app.exception.InputValidationException;
-import sk.tomas.app.exception.OutputValidationException;
-import sk.tomas.app.model.Input.RoleInput;
+import sk.tomas.app.iam.model.input.RoleInput;
+import sk.tomas.app.iam.model.output.RoleOutput;
 import sk.tomas.app.model.Role;
-import sk.tomas.app.model.output.RoleOutput;
 
 import java.util.List;
 import java.util.UUID;

@@ -3,8 +3,8 @@ package sk.tomas.app.validator;
 import org.apache.commons.validator.routines.EmailValidator;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
-import sk.tomas.app.model.Input.IdentityInput;
-import sk.tomas.app.model.output.IdentityOutput;
+import sk.tomas.app.iam.model.input.IdentityInput;
+import sk.tomas.app.iam.model.output.IdentityOutput;
 
 import java.util.List;
 import java.util.Objects;

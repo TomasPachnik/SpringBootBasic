@@ -6,9 +6,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
-import sk.tomas.app.model.TokenEntity;
-import sk.tomas.app.model.output.Token;
-import sk.tomas.app.model.output.TokenOutput;
+import sk.tomas.app.iam.model.output.Token;
+import sk.tomas.app.iam.model.output.TokenOutput;
 import sk.tomas.app.service.TokenService;
 
 import static sk.tomas.app.util.Constrants.AUTHORIZE_ENDPOINT;

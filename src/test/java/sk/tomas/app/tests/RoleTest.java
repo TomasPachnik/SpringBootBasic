@@ -4,9 +4,8 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import sk.tomas.app.exception.InputValidationException;
+import sk.tomas.app.iam.model.input.RoleInput;
 import sk.tomas.app.model.Identity;
-import sk.tomas.app.model.Input.IdentityInput;
-import sk.tomas.app.model.Input.RoleInput;
 import sk.tomas.app.model.Role;
 import sk.tomas.app.service.RoleService;
 

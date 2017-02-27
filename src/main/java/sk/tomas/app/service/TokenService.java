@@ -1,8 +1,8 @@
 package sk.tomas.app.service;
 
 import org.springframework.security.core.userdetails.UserDetails;
+import sk.tomas.app.iam.model.output.TokenOutput;
 import sk.tomas.app.model.Token;
-import sk.tomas.app.model.output.TokenOutput;
 
 /**
  * Created by tomas on 07.01.2017.

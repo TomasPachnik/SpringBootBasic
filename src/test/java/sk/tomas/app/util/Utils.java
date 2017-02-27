@@ -1,8 +1,8 @@
 package sk.tomas.app.util;
 
+import sk.tomas.app.iam.model.input.IdentityInput;
+import sk.tomas.app.iam.model.input.RoleInput;
 import sk.tomas.app.model.Identity;
-import sk.tomas.app.model.Input.IdentityInput;
-import sk.tomas.app.model.Input.RoleInput;
 import sk.tomas.app.model.Password;
 import sk.tomas.app.model.Role;
 import uk.co.jemos.podam.api.PodamFactory;

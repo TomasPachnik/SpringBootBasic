@@ -2,10 +2,11 @@ package sk.tomas.app.validator;
 
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
-import sk.tomas.app.model.Input.RoleInput;
-import sk.tomas.app.model.output.RoleOutput;
+import sk.tomas.app.iam.model.input.RoleInput;
+import sk.tomas.app.iam.model.output.RoleOutput;
 
 import java.util.List;
+
 
 /**
  * Created by Tomas Pachnik on 12-Jan-17.
