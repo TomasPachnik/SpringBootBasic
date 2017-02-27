@@ -40,33 +40,25 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     }
 
     @Override
-    public List<RoleOutput> getList() throws OutputValidationException {
+    public List<RoleOutput> getList() {
         List<Role> list = list();
-        List<RoleOutput> roleOutputs = mapper.mapAsList(list, RoleOutput.class);
-        for (RoleOutput output : roleOutputs) {
-            RoleValidator.validateOutput(output);
-        }
-        return roleOutputs;
+        return mapper.mapAsList(list, RoleOutput.class);
     }
 
     @Override
-    public RoleOutput findRoleOutputByUuid(UUID uuid) throws OutputValidationException {
+    public RoleOutput findRoleOutputByUuid(UUID uuid) {
         Role byUuid = findByUuid(uuid);
-        RoleOutput roleOutput = mapper.map(byUuid, RoleOutput.class);
-        RoleValidator.validateOutput(roleOutput);
-        return roleOutput;
+        return mapper.map(byUuid, RoleOutput.class);
     }
 
     @Override
-    public UUID create(RoleInput roleInput) throws InputValidationException {
-        RoleValidator.validateInput(roleInput);
+    public UUID create(RoleInput roleInput)  {
         Role role = mapper.map(roleInput, Role.class);
         return create(role);
     }
 
     @Override
-    public void update(RoleInput roleInput, UUID uuid) throws InputValidationException {
-        RoleValidator.validateInput(roleInput);
+    public void update(RoleInput roleInput, UUID uuid) {
         Role role = mapper.map(roleInput, Role.class);
         role.setUuid(uuid);
         update(role);

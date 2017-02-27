@@ -5,6 +5,8 @@ import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Input.RoleInput;
 import sk.tomas.app.model.output.RoleOutput;
 
+import java.util.List;
+
 /**
  * Created by Tomas Pachnik on 12-Jan-17.
  */
@@ -30,4 +32,12 @@ public class RoleValidator {
             throw new OutputValidationException("Role name is empty.");
         }
     }
+
+    public static void validateOutput(List<RoleOutput> list) throws OutputValidationException {
+        for (RoleOutput item : list) {
+            validateOutput(item);
+        }
+    }
+
+
 }

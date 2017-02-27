@@ -16,11 +16,11 @@ public interface RoleService extends BaseService<Role> {
 
     Role findByName(String name);
 
-    List<RoleOutput> getList() throws OutputValidationException;
+    List<RoleOutput> getList();
 
-    RoleOutput findRoleOutputByUuid(UUID uuid) throws OutputValidationException;
+    RoleOutput findRoleOutputByUuid(UUID uuid) ;
 
-    UUID create(RoleInput roleInput) throws InputValidationException;
+    UUID create(RoleInput roleInput);
 
-    void update(RoleInput roleInput, UUID uuid) throws InputValidationException;
+    void update(RoleInput roleInput, UUID uuid);
 }

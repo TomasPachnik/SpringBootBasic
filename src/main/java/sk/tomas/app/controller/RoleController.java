@@ -8,11 +8,13 @@ import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.model.Input.RoleInput;
 import sk.tomas.app.model.output.RoleOutput;
 import sk.tomas.app.service.RoleService;
+import sk.tomas.app.validator.RoleValidator;
 
 import java.util.List;
 import java.util.UUID;
 
 import static sk.tomas.app.util.Constrants.BASE_PATH;
+import static sk.tomas.app.validator.RoleValidator.*;
 
 /**
  * Created by Tomas Pachnik on 12-Jan-17.
@@ -27,23 +29,29 @@ public class RoleController {
 
     @RequestMapping(method = RequestMethod.GET)
     public List<RoleOutput> roles() throws OutputValidationException {
-        return roleService.getList();
+        List<RoleOutput> list = roleService.getList();
+        RoleValidator.validateOutput(list);
+        return list;
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
     public RoleOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException {
-        return roleService.findRoleOutputByUuid(uuid);
+        RoleOutput roleOutput = roleService.findRoleOutputByUuid(uuid);
+        RoleValidator.validateOutput(roleOutput);
+        return roleOutput;
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/create")
     public UUID create(@RequestBody RoleInput roleInput) throws InputValidationException {
+        validateInput(roleInput);
         return roleService.create(roleInput);
     }
 
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/update/{uuid}")
     public void update(@PathVariable("uuid") UUID uuid, @RequestBody RoleInput roleInput) throws InputValidationException {
+        validateInput(roleInput);
         roleService.update(roleInput, uuid);
     }
 
