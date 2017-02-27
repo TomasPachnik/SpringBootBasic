@@ -137,6 +137,18 @@ public class IdentityTest extends BaseTest {
         Assert.assertTrue("Identity nenajdene", (list2.size() == 1));
     }
 
+
+    @Test
+    @WithMockUser(authorities = {"admin"})
+    public void addRoleTest() throws InputValidationException {
+        IdentityInput identityInput = randomIdentity();
+        RoleInput roleInput = randomRole();
+        UUID identityUuid = identityController.create(identityInput);
+        UUID roleUuid = roleController.create(roleInput);
+        identityController.addRole(identityUuid, roleUuid);
+        Assert.assertTrue(identityController.hasRole(identityUuid, roleUuid).isHasRole());
+    }
+
     @Test
     @WithMockUser(authorities = {"admin"})
     public void hasRoleTest() throws InputValidationException {
@@ -144,12 +156,8 @@ public class IdentityTest extends BaseTest {
         RoleInput roleInput = randomRole();
         UUID identityUuid = identityController.create(identityInput);
         UUID roleUuid = roleController.create(roleInput);
-        Identity identity = identityService.findByUuid(identityUuid);
-        Role role = roleService.findByUuid(roleUuid);
-        identity.addRole(role);
-        identityService.update(identity);
+        identityController.addRole(identityUuid, roleUuid);
         Assert.assertTrue(identityController.hasRole(identityUuid, roleUuid).isHasRole());
     }
-
 
 }

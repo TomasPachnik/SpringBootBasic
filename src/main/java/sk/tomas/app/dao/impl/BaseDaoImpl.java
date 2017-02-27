@@ -55,6 +55,7 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
     }
 
     public UUID update(T t) {
+        getCurrentSession().clear();
         if (t.getUuid() == null) {
             throw new IllegalArgumentException(MISSING_UUID.getMessage());
         }

@@ -28,4 +28,6 @@ public interface IdentityService extends BaseService<Identity> {
     void update(IdentityInput identityInput, UUID uuid);
 
     HasRole hasRole(UUID identityUuid, UUID roleUuid);
+
+    void addRole(UUID identityUuid, UUID roleUuid);
 }

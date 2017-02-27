@@ -18,6 +18,7 @@ import sk.tomas.app.model.output.HasRole;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.model.output.PaginationWithCount;
 import sk.tomas.app.service.IdentityService;
+import sk.tomas.app.service.RoleService;
 import sk.tomas.app.validator.IdentityValidator;
 
 import java.util.List;
@@ -37,6 +38,8 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     private IdentityDao identityDao;
     @Autowired
     private PasswordEncoder passwordEncoder;
+    @Autowired
+    private RoleService roleService;
 
     @Override
     public BaseDao getDao() {
@@ -103,6 +106,14 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
             }
         }
         return hasRole;
+    }
+
+    @Override
+    public void addRole(UUID identityUuid, UUID roleUuid) {
+        Identity identity = findByUuid(identityUuid);
+        Role role = roleService.findByUuid(roleUuid);
+        identity.addRole(role);
+        update(identity);
     }
 
     @Override
