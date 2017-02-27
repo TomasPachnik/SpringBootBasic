@@ -15,6 +15,8 @@ import sk.tomas.app.model.Role;
 import sk.tomas.app.model.output.IdentityOutput;
 import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.service.RoleService;
+import uk.co.jemos.podam.api.PodamFactory;
+import uk.co.jemos.podam.api.PodamFactoryImpl;
 
 import java.util.List;
 import java.util.UUID;
@@ -46,7 +48,7 @@ public class IdentityTest extends BaseTest {
         //vytvorim identitu
         IdentityInput identityInput = randomIdentity();
         UUID uuid = identityController.create(identityInput);
-        IdentityOutput single = identityController.getCount(uuid);
+        IdentityOutput single = identityController.getSingle(uuid);
         identityController.listIdentityWithParam(0, 0, "name", false);
         Assert.assertTrue("Identita nevytvorena", identityInput.getLogin().equals(single.getLogin()));
     }
