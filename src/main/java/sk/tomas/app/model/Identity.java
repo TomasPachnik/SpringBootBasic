@@ -47,12 +47,12 @@ public class Identity extends Entity {
 
     public void addRole(Role role) {
         roles.add(role);
-        role.setIdentity(this);
+        role.getIdentities().add(this);
     }
 
-    public void removeRole(Role role){
+    public void removeRole(Role role) {
         roles.remove(role);
-        role.setIdentity(null);
+        role.getIdentities().remove(this);
     }
 
     public String getLogin() {

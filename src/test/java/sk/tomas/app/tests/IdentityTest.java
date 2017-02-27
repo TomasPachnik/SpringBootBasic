@@ -106,7 +106,6 @@ public class IdentityTest extends BaseTest {
         UUID uuid = roleService.create(role);
         Role byUuid = roleService.findByUuid(uuid);
         identity.addRole(byUuid);
-
         identityService.create(identity);
         Identity bySurname = identityService.findBySurname(identity.getSurname());
         Assert.assertTrue("Priradena rola nenajdena!", bySurname.getRoles().contains(byUuid));

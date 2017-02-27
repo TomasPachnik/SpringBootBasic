@@ -2,6 +2,9 @@ package sk.tomas.app.model;
 
 import sk.tomas.app.model.base.Entity;
 
+import java.util.HashSet;
+import java.util.Set;
+
 /**
  * Created by Tomas Pachnik on 05-Jan-17.
  */
@@ -10,7 +13,7 @@ public class Role extends Entity {
     private String name;
     private String description;
     private int level;
-    private Identity identity;
+    private Set<Identity> identities = new HashSet<>();
 
     public Role() {
     }
@@ -19,13 +22,6 @@ public class Role extends Entity {
         this.name = name;
         this.description = description;
         this.level = level;
-    }
-
-    public Role(String name, String description, int level, Identity identity) {
-        this.name = name;
-        this.description = description;
-        this.level = level;
-        this.identity = identity;
     }
 
     public String getName() {
@@ -52,6 +48,10 @@ public class Role extends Entity {
         this.level = level;
     }
 
+    public Set<Identity> getIdentities() {
+        return identities;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -73,21 +73,4 @@ public class Role extends Entity {
         return result;
     }
 
-    @Override
-    public String toString() {
-        return "Role{" +
-                "name='" + name + '\'' +
-                ", description='" + description + '\'' +
-                ", level=" + level +
-                ", identity=" + identity +
-                '}';
-    }
-
-    public Identity getIdentity() {
-        return identity;
-    }
-
-    public void setIdentity(Identity identity) {
-        this.identity = identity;
-    }
 }
