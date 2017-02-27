@@ -52,7 +52,7 @@ public class IdentityController {
     }
 
     @RequestMapping(method = RequestMethod.GET, value = "/count}")
-    public Count getSingle() throws OutputValidationException {
+    public Count getCount() throws OutputValidationException {
         return new Count(identityService.count());
     }
 
