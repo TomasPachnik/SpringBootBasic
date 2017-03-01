@@ -1,6 +1,8 @@
 package sk.tomas.app.service.impl;
 
 import ma.glasnost.orika.MapperFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -19,7 +21,6 @@ import sk.tomas.app.model.Password;
 import sk.tomas.app.model.Role;
 import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.service.RoleService;
-import sk.tomas.app.validator.IdentityValidator;
 
 import java.util.List;
 import java.util.Set;
@@ -31,6 +32,8 @@ import java.util.UUID;
 @Service
 @Transactional
 public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements IdentityService {
+
+    private static Logger loger = LoggerFactory.getLogger(IdentityServiceImpl.class);
 
     @Autowired
     private MapperFacade mapper;
@@ -60,7 +63,9 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     public UUID create(IdentityInput identityInput) {
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setPassword(new Password(""));
-        return create(identity);
+        UUID uuid = create(identity);
+        loger.info("Vytvoreny pouzivatel '{}'", identity);
+        return uuid;
     }
 
     @Override
@@ -86,9 +91,11 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     @Override
     @CacheEvict(value = "findIdentityOutputByUuid", key = "#uuid")
     public void update(IdentityInput identityInput, UUID uuid) {
+        Identity old = findByUuid(uuid);
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setUuid(uuid);
         update(identity);
+        loger.info("Pouzivatel '{}' aktualizovany na '{}'", old, identity);
     }
 
     @Override
@@ -114,6 +121,7 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
         Role role = roleService.findByUuid(roleUuid);
         identity.addRole(role);
         update(identity);
+        loger.info("Pouzivatelovi '{}' pridana rola '{}'", identity.getLogin(), role.getName());
     }
 
     @Override
@@ -122,6 +130,7 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
         Role role = roleService.findByUuid(roleUuid);
         identity.removeRole(role);
         update(identity);
+        loger.info("Pouzivatelovi '{}' odobrana rola '{}'", identity.getLogin(), role.getName());
     }
 
     @Override
