@@ -77,6 +77,7 @@ public class IdentityTest extends BaseTest {
         IdentityOutput updated = identityController.getSingle(uuid);
         Assert.assertTrue("Najdena stara identita", !random2.getLogin().equals(created.getLogin()));
         Assert.assertTrue("Identita sa nezhoduje", random2.getLogin().equals(updated.getLogin()));
+        Assert.assertTrue("Identita sa zhoduje", !created.equals(updated));
     }
 
     @Test
