@@ -36,6 +36,6 @@ public class Password {
 
     @Override
     public String toString() {
-        return "password is hidden";
+        return "HIDDEN";
     }
 }
