@@ -52,7 +52,7 @@ public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
         String path = new UrlPathHelper().getPathWithinApplication(request);
 
         String authToken = request.getHeader("authorization");
-        
+
         //ako prve ide bearer, bude castejsi
         if (!AUTHORIZE_ENDPOINT.equals(path)) {
             String bearer = "Bearer ";
@@ -95,7 +95,7 @@ public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
      */
     private UsernamePasswordAuthenticationToken basicCheck(String authToken) throws BadCredentialsException {
         String basic = "Basic ";
-        String encodedAuth = authToken.substring(authToken.lastIndexOf(basic) + basic.length())
+        String encodedAuth = authToken.substring(authToken.lastIndexOf(basic) + basic.length());
         String decodedAuth = Util.base64decode(encodedAuth);
         String[] parts = decodedAuth.split(":");
         if (parts.length != 2) {
