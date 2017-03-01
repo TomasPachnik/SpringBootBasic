@@ -74,6 +74,7 @@ public class ExceptionHandlingController implements ErrorController {
             if (status == HttpServletResponse.SC_UNAUTHORIZED) {
                 throw new BadCredentialsException("Unauthorized");
             } else {
+                logger.error("nepriradeny http status: " + status);
                 throw new Exception("nepriradeny http status: " + status);
             }
         }
