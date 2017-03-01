@@ -1,6 +1,8 @@
 package sk.tomas.app.service.impl;
 
 import ma.glasnost.orika.MapperFacade;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +22,8 @@ import java.util.UUID;
 @Service
 @Transactional
 public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleService {
+
+    private static Logger loger = LoggerFactory.getLogger(RoleServiceImpl.class);
 
     @Autowired
     private RoleDao roleDao;
@@ -49,15 +53,20 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     }
 
     @Override
-    public UUID create(RoleInput roleInput)  {
+    public UUID create(RoleInput roleInput) {
         Role role = mapper.map(roleInput, Role.class);
-        return create(role);
+        UUID uuid = create(role);
+        loger.info("Vytvorena rola '{}'", role);
+        return uuid;
     }
 
     @Override
     public void update(RoleInput roleInput, UUID uuid) {
+        Role old = findByUuid(uuid);
         Role role = mapper.map(roleInput, Role.class);
         role.setUuid(uuid);
+        role.setIdentities(old.getIdentities());
         update(role);
+        loger.info("Rola '{}' aktualizovana na '{}'", old, roleInput);
     }
 }

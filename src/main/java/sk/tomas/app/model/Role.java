@@ -48,9 +48,7 @@ public class Role extends Entity {
         this.level = level;
     }
 
-    public Set<Identity> getIdentities() {
-        return identities;
-    }
+
 
     @Override
     public boolean equals(Object o) {
@@ -73,4 +71,11 @@ public class Role extends Entity {
         return result;
     }
 
+    public Set<Identity> getIdentities() {
+        return identities;
+    }
+
+    public void setIdentities(Set<Identity> identities) {
+        this.identities = identities;
+    }
 }
