@@ -94,6 +94,8 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
         Identity old = findByUuid(uuid);
         Identity identity = mapper.map(identityInput, Identity.class);
         identity.setUuid(uuid);
+        identity.setPassword(old.getPassword());
+        identity.setRoles(old.getRoles());
         update(identity);
         loger.info("Pouzivatel '{}' aktualizovany na '{}'", old, identityInput);
     }
