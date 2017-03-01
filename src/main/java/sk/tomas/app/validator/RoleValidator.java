@@ -43,7 +43,7 @@ public class RoleValidator {
             try {
                 validateOutput(item);
             } catch (OutputValidationException e) {
-                loger.info(e.getMessage() + " - {}", item);
+                loger.warn(e.getMessage() + " - {}", item);
                 throw e;
             }
         }
