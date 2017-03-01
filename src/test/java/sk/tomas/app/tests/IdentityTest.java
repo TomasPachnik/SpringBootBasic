@@ -64,18 +64,19 @@ public class IdentityTest extends BaseTest {
     }
 
     @Test
-    public void updateIdentityTest() {
+    @WithMockUser(authorities = {"admin"})
+    public void updateIdentityTest() throws InputValidationException, OutputValidationException {
         //vytvorim identitu
-        Identity identity = createRandomIdentity();
-        identityService.create(identity);
-        Identity bySurname = identityService.findBySurname(identity.getSurname());
-        Assert.assertTrue("Identita nevytvorena", identity.equals(bySurname));
+        IdentityInput random1 = randomIdentity();
+        UUID uuid = identityController.create(random1);
+        IdentityOutput created = identityController.getSingle(uuid);
+        Assert.assertTrue("Identita nevytvorena", random1.getLogin().equals(created.getLogin()));
         //updatujem identitu
-        identity.setName(UUID.randomUUID().toString());
-        identityService.update(identity);
-        Identity bySurname2 = identityService.findBySurname(identity.getSurname());
-        Assert.assertTrue("Najdena stara identita", !identity.equals(bySurname));
-        Assert.assertTrue("Identita sa nezhoduje", identity.equals(bySurname2));
+        IdentityInput random2 = randomIdentity();
+        identityController.update(uuid, random2);
+        IdentityOutput updated = identityController.getSingle(uuid);
+        Assert.assertTrue("Najdena stara identita", !random2.getLogin().equals(created.getLogin()));
+        Assert.assertTrue("Identita sa nezhoduje", random2.getLogin().equals(updated.getLogin()));
     }
 
     @Test
