@@ -20,7 +20,7 @@ import javax.annotation.PostConstruct;
 @Component
 class StartConfiguration {
 
-    static Logger loger = LoggerFactory.getLogger(StartConfiguration.class);
+    private static Logger loger = LoggerFactory.getLogger(StartConfiguration.class);
 
     @Autowired
     private IdentityService identityService;
