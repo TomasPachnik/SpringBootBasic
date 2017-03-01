@@ -9,7 +9,7 @@ import sk.tomas.app.iam.model.input.IdentityInput;
 import sk.tomas.app.iam.model.output.Count;
 import sk.tomas.app.iam.model.output.HasRole;
 import sk.tomas.app.iam.model.output.IdentityOutput;
-import sk.tomas.app.iam.model.output.PaginationWithCount;
+import sk.tomas.app.iam.model.output.IdentityPaginationWithCount;
 import sk.tomas.app.service.IdentityService;
 import sk.tomas.app.validator.IdentityValidator;
 
@@ -23,18 +23,20 @@ import static sk.tomas.app.util.Constrants.BASE_PATH;
  */
 @RestController
 @RequestMapping(BASE_PATH + "/identities")
-public class IdentityController {
+public class IdentityController implements Controller<IdentityInput, IdentityOutput, IdentityPaginationWithCount> {
 
     @Autowired
     private IdentityService identityService;
 
+    @Override
     @RequestMapping(method = RequestMethod.GET)
-    public List<IdentityOutput> identities() throws OutputValidationException {
+    public List<IdentityOutput> list() throws OutputValidationException {
         List<IdentityOutput> list = identityService.getList();
         IdentityValidator.validateOutput(list);
         return list;
     }
 
+    @Override
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
     public IdentityOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException, InputValidationException {
         IdentityOutput identityOutputByUuid = identityService.findIdentityOutputByUuid(uuid);
@@ -57,20 +59,23 @@ public class IdentityController {
         identityService.removeRole(identityUuid, roleUuid);
     }
 
+    @Override
     @RequestMapping(method = RequestMethod.GET, value = "/withParam")
-    public PaginationWithCount listIdentityWithParam(@RequestParam(defaultValue = "0", value = "firstResult") int firstResult, @RequestParam(defaultValue = "10", value = "maxResult") int maxResult,
-                                                     @RequestParam(required = false, defaultValue = "uuid", value = "orderBy") String orderBy, @RequestParam(required = false, defaultValue = "false", value = "desc") boolean desc) throws OutputValidationException, InputValidationException {
+    public IdentityPaginationWithCount listWithParam(@RequestParam(defaultValue = "0", value = "firstResult") int firstResult, @RequestParam(defaultValue = "10", value = "maxResult") int maxResult,
+                                                     @RequestParam(required = false, defaultValue = "uuid", value = "orderBy") String orderBy, @RequestParam(required = false, defaultValue = "false", value = "desc") boolean desc) throws InputValidationException, OutputValidationException {
         IdentityValidator.validateInput(firstResult, maxResult, orderBy);
-        PaginationWithCount paginationWithCount = identityService.listIdentityOutput(firstResult, maxResult, orderBy, desc);
-        IdentityValidator.validateOutput(paginationWithCount.getIdentityOutputs());
-        return paginationWithCount;
+        IdentityPaginationWithCount identityPaginationWithCount = identityService.listIdentityOutput(firstResult, maxResult, orderBy, desc);
+        IdentityValidator.validateOutput(identityPaginationWithCount.getIdentityOutputs());
+        return identityPaginationWithCount;
     }
 
+    @Override
     @RequestMapping(method = RequestMethod.GET, value = "/count}")
     public Count getCount() throws OutputValidationException {
         return new Count(identityService.count());
     }
 
+    @Override
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/create")
     public UUID create(@RequestBody IdentityInput identity) throws InputValidationException {
@@ -78,6 +83,7 @@ public class IdentityController {
         return identityService.create(identity);
     }
 
+    @Override
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/update/{uuid}")
     public void update(@PathVariable("uuid") UUID uuid, @RequestBody IdentityInput identityInput) throws InputValidationException {
@@ -85,6 +91,7 @@ public class IdentityController {
         identityService.update(identityInput, uuid);
     }
 
+    @Override
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.GET, value = "/delete/{uuid}")
     public void delete(@PathVariable("uuid") UUID uuid) throws InputValidationException {

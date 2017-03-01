@@ -6,7 +6,10 @@ import org.springframework.web.bind.annotation.*;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.iam.model.input.RoleInput;
+import sk.tomas.app.iam.model.output.Count;
 import sk.tomas.app.iam.model.output.RoleOutput;
+import sk.tomas.app.iam.model.output.RolePaginationWithCount;
+import sk.tomas.app.model.Role;
 import sk.tomas.app.service.RoleService;
 import sk.tomas.app.validator.RoleValidator;
 
@@ -22,18 +25,12 @@ import static sk.tomas.app.validator.RoleValidator.*;
 
 @RestController
 @RequestMapping(BASE_PATH + "/roles")
-public class RoleController {
+public class RoleController implements Controller<RoleInput, RoleOutput, RolePaginationWithCount> {
 
     @Autowired
     private RoleService roleService;
 
-    @RequestMapping(method = RequestMethod.GET)
-    public List<RoleOutput> roles() throws OutputValidationException {
-        List<RoleOutput> list = roleService.getList();
-        RoleValidator.validateOutput(list);
-        return list;
-    }
-
+    @Override
     @RequestMapping(method = RequestMethod.GET, value = "/{uuid}")
     public RoleOutput getSingle(@PathVariable("uuid") UUID uuid) throws OutputValidationException {
         RoleOutput roleOutput = roleService.findRoleOutputByUuid(uuid);
@@ -41,6 +38,25 @@ public class RoleController {
         return roleOutput;
     }
 
+    @Override
+    @RequestMapping(method = RequestMethod.GET)
+    public List<RoleOutput> list() throws OutputValidationException {
+        List<RoleOutput> list = roleService.getList();
+        RoleValidator.validateOutput(list);
+        return list;
+    }
+
+    @Override
+    public RolePaginationWithCount listWithParam(int firstResult, int maxResult, String orderBy, boolean desc) throws InputValidationException, OutputValidationException {
+        return null;
+    }
+
+    @Override
+    public Count getCount() throws OutputValidationException {
+        return null;
+    }
+
+    @Override
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/create")
     public UUID create(@RequestBody RoleInput roleInput) throws InputValidationException {
@@ -48,6 +64,7 @@ public class RoleController {
         return roleService.create(roleInput);
     }
 
+    @Override
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.POST, value = "/update/{uuid}")
     public void update(@PathVariable("uuid") UUID uuid, @RequestBody RoleInput roleInput) throws InputValidationException {
@@ -55,6 +72,7 @@ public class RoleController {
         roleService.update(roleInput, uuid);
     }
 
+    @Override
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.GET, value = "/delete/{uuid}")
     public void delete(@PathVariable("uuid") UUID uuid) throws InputValidationException {

@@ -3,7 +3,7 @@ package sk.tomas.app.service;
 import sk.tomas.app.iam.model.input.IdentityInput;
 import sk.tomas.app.iam.model.output.HasRole;
 import sk.tomas.app.iam.model.output.IdentityOutput;
-import sk.tomas.app.iam.model.output.PaginationWithCount;
+import sk.tomas.app.iam.model.output.IdentityPaginationWithCount;
 import sk.tomas.app.model.Identity;
 
 import java.util.List;
@@ -24,7 +24,7 @@ public interface IdentityService extends BaseService<Identity> {
 
     IdentityOutput findIdentityOutputByUuid(UUID uuid);
 
-    PaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc);
+    IdentityPaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc);
 
     void update(IdentityInput identityInput, UUID uuid);
 

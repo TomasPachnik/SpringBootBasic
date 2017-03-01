@@ -15,7 +15,7 @@ import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.iam.model.input.IdentityInput;
 import sk.tomas.app.iam.model.output.HasRole;
 import sk.tomas.app.iam.model.output.IdentityOutput;
-import sk.tomas.app.iam.model.output.PaginationWithCount;
+import sk.tomas.app.iam.model.output.IdentityPaginationWithCount;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Password;
 import sk.tomas.app.model.Role;
@@ -82,10 +82,10 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     }
 
     @Override
-    public PaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) {
+    public IdentityPaginationWithCount listIdentityOutput(int firstResult, int maxResult, String orderBy, boolean desc) {
         List<Identity> list = list(firstResult, maxResult, orderBy, desc);
         List<IdentityOutput> identityOutputs = mapper.mapAsList(list, IdentityOutput.class);
-        return new PaginationWithCount(count(), identityOutputs);
+        return new IdentityPaginationWithCount(count(), identityOutputs);
     }
 
     @Override
