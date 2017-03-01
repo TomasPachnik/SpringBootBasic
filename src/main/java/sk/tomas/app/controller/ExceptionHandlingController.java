@@ -1,4 +1,4 @@
-package sk.tomas.app.exception;
+package sk.tomas.app.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -9,6 +9,8 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import sk.tomas.app.exception.BusinessException;
+import sk.tomas.app.exception.ServerMessage;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.http.HttpServletRequest;
