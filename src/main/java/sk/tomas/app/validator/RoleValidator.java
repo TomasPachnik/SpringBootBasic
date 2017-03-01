@@ -1,5 +1,7 @@
 package sk.tomas.app.validator;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.iam.model.input.RoleInput;
@@ -12,6 +14,8 @@ import java.util.List;
  * Created by Tomas Pachnik on 12-Jan-17.
  */
 public class RoleValidator {
+
+    private static Logger loger = LoggerFactory.getLogger(RoleValidator.class);
 
     public static void validateInput(RoleInput roleInput) throws InputValidationException {
         if (roleInput == null) {
@@ -36,7 +40,12 @@ public class RoleValidator {
 
     public static void validateOutput(List<RoleOutput> list) throws OutputValidationException {
         for (RoleOutput item : list) {
-            validateOutput(item);
+            try {
+                validateOutput(item);
+            } catch (OutputValidationException e) {
+                loger.info(e.getMessage() + " - {}", item);
+                throw e;
+            }
         }
     }
 

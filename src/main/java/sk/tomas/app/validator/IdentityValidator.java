@@ -1,10 +1,13 @@
 package sk.tomas.app.validator;
 
 import org.apache.commons.validator.routines.EmailValidator;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.iam.model.input.IdentityInput;
 import sk.tomas.app.iam.model.output.IdentityOutput;
+import sk.tomas.app.service.impl.IdentityServiceImpl;
 
 import java.util.List;
 import java.util.Objects;
@@ -14,6 +17,8 @@ import java.util.UUID;
  * Created by Tomas Pachnik on 12-Jan-17.
  */
 public class IdentityValidator {
+
+    private static Logger loger = LoggerFactory.getLogger(IdentityValidator.class);
 
     public static void validateInput(IdentityInput identityInput) throws InputValidationException {
         if (identityInput == null) {
@@ -62,7 +67,12 @@ public class IdentityValidator {
 
     public static void validateOutput(List<IdentityOutput> list) throws OutputValidationException {
         for (IdentityOutput item : list) {
-            validateOutput(item);
+            try {
+                validateOutput(item);
+            } catch (OutputValidationException e) {
+                loger.info(e.getMessage() + " - {}", item);
+                throw e;
+            }
         }
     }
 
