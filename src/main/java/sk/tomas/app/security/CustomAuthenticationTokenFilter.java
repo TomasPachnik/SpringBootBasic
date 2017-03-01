@@ -52,6 +52,7 @@ public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
         String path = new UrlPathHelper().getPathWithinApplication(request);
 
         String authToken = request.getHeader("authorization");
+        
         //ako prve ide bearer, bude castejsi
         if (!AUTHORIZE_ENDPOINT.equals(path)) {
             String bearer = "Bearer ";
@@ -65,9 +66,11 @@ public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
                     SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
                     filterChain.doFilter(request, response);
                 } else {
+                    logger.warn("Zadany token '{}' sa v systeme nenachadza.", token);
                     throw new BadCredentialsException("Bad Credentials");
                 }
             } else {
+                logger.warn("Bearer token '{}' je v nespravnom tvare, alebo neexistuje.", authToken);
                 response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
             }
         } else {
@@ -92,7 +95,7 @@ public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
      */
     private UsernamePasswordAuthenticationToken basicCheck(String authToken) throws BadCredentialsException {
         String basic = "Basic ";
-        String encodedAuth = authToken.substring(authToken.lastIndexOf(basic) + basic.length());
+        String encodedAuth = authToken.substring(authToken.lastIndexOf(basic) + basic.length())
         String decodedAuth = Util.base64decode(encodedAuth);
         String[] parts = decodedAuth.split(":");
         if (parts.length != 2) {
@@ -102,11 +105,16 @@ public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
         String password = parts[1];
 
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        if (userDetails == null || !passwordEncoder.matches(password, userDetails.getPassword())) {
+        if (userDetails == null) {
+            logger.warn("Pouzivatel '{}' nenajdeny.", username);
+            throw new BadCredentialsException("Bad Credentials");
+        }
+        if (!passwordEncoder.matches(password, userDetails.getPassword())) {
+            logger.warn("Pouzivatel '{}' zadal nespravne heslo.", username);
             throw new BadCredentialsException("Bad Credentials");
         }
         String tokenByLogin = tokenService.getTokenByLogin(username);
-        if (tokenByLogin != null) {//ak uz je prihlaseny zmazem stary token
+        if (tokenByLogin != null) {//ak uz token existuje, tak ho zmazem
             tokenService.removeUser(tokenByLogin);
         }
         String token = tokenService.loginUser(userDetails);
