@@ -48,6 +48,7 @@ public class ExceptionHandlingController implements ErrorController {
     @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(BusinessException.class)
     public ServerMessage accessDenied(BusinessException e) {
+        logger.warn(e.getMessage());
         return new ServerMessage("BusinessException", e.getMessage());
     }
 
