@@ -22,7 +22,6 @@ import static sk.tomas.app.util.Constrants.VALIDITY;
 /**
  * Created by tomas on 07.01.2017.
  */
-@Logger
 @Service
 public class TokenServiceImpl implements TokenService {
 

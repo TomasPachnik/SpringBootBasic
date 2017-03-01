@@ -1,5 +1,7 @@
 package sk.tomas.app.security;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -29,6 +31,8 @@ import static sk.tomas.app.util.Constrants.AUTHORIZE_ENDPOINT;
 
 @Component
 public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
+
+    private static final Logger logger = LoggerFactory.getLogger(CustomAuthenticationTokenFilter.class);
 
     @Autowired
     AuthenticationManager authenticationManager;
@@ -108,6 +112,7 @@ public class CustomAuthenticationTokenFilter extends OncePerRequestFilter {
         String token = tokenService.loginUser(userDetails);
         UsernamePasswordAuthenticationToken authRequest = new UsernamePasswordAuthenticationToken(username, null, userDetails.getAuthorities());
         authRequest.setDetails(token);
+        logger.info("Prihlasenie pouzivatela '{}', vydany token: '{}'", userDetails.getUsername(), token);
         return authRequest;
     }
 
