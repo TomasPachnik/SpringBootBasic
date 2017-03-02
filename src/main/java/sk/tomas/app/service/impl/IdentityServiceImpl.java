@@ -103,17 +103,7 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     @Override
     public HasRole hasRole(UUID identityUuid, UUID roleUuid) {
         HasRole hasRole = new HasRole();
-        hasRole.setHasRole(false);
-        Identity identity = findByUuid(identityUuid);
-        if (identity != null) {
-            Set<Role> roles = identity.getRoles();
-            for (Role role : roles) {
-                if (role.getUuid().equals(roleUuid)) {
-                    hasRole.setHasRole(true);
-                    return hasRole;
-                }
-            }
-        }
+        hasRole.setHasRole(identityDao.hasRole(identityUuid, roleUuid));
         return hasRole;
     }
 
