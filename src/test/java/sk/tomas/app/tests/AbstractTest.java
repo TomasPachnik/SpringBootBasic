@@ -13,9 +13,9 @@ import java.util.UUID;
 /**
  * Created by Tomas Pachnik on 01-Mar-17.
  */
-public class AbstractTest<T extends Controller, I, O> extends BaseTest {
-    private PodamFactory factory;
+public abstract class AbstractTest<T extends Controller, I, O> extends BaseTest {
 
+    private PodamFactory factory;
     private T t;
     private I i;
 
