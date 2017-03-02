@@ -64,12 +64,6 @@ public class IdentityTest extends AbstractTest {
     }
 
     @Test
-    public void listIdentityTest() throws OutputValidationException {
-        List<IdentityOutput> list = identityController.list();
-        Assert.assertTrue("Identita nenajdena", (list.size() == 2));
-    }
-
-    @Test
     @WithMockUser(authorities = {"admin"})
     public void identityListWithParamsTest() throws OutputValidationException, InputValidationException {
         IdentityPaginationWithCount withCount = (IdentityPaginationWithCount) super.listWithParamsTest();
