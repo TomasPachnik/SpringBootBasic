@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.tomas.app.dao.BaseDao;
@@ -50,6 +51,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     }
 
     @Override
+    @Cacheable(value = "findRoleOutputByUuid", key = "#uuid")
     public RoleOutput findRoleOutputByUuid(UUID uuid) {
         Role byUuid = findByUuid(uuid);
         return mapper.map(byUuid, RoleOutput.class);
@@ -64,6 +66,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     }
 
     @Override
+    @CacheEvict(value = "findRoleOutputByUuid", key = "#uuid")
     public void update(RoleInput roleInput, UUID uuid) {
         Role old = findByUuid(uuid);
         Role role = mapper.map(roleInput, Role.class);
@@ -74,6 +77,7 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
     }
 
     @Override
+    @CacheEvict(value = "findRoleOutputByUuid", key = "#uuid")
     public void delete(UUID uuid) throws InputValidationException {
         Role role = findByUuid(uuid);
         getDao().delete(uuid);
