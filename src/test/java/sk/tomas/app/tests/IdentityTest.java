@@ -11,6 +11,7 @@ import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.iam.model.input.IdentityInput;
 import sk.tomas.app.iam.model.input.RoleInput;
 import sk.tomas.app.iam.model.output.IdentityOutput;
+import sk.tomas.app.iam.model.output.IdentityPaginationWithCount;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Role;
 import sk.tomas.app.service.IdentityService;
@@ -66,6 +67,14 @@ public class IdentityTest extends AbstractTest {
     public void listIdentityTest() throws OutputValidationException {
         List<IdentityOutput> list = identityController.list();
         Assert.assertTrue("Identita nenajdena", (list.size() == 2));
+    }
+
+    @Test
+    @WithMockUser(authorities = {"admin"})
+    public void identityListWithParamsTest() throws OutputValidationException, InputValidationException {
+        IdentityPaginationWithCount withCount = (IdentityPaginationWithCount) super.listWithParamsTest();
+        Assert.assertTrue(withCount.getCount() == 3);
+        Assert.assertTrue(withCount.getIdentityOutputs().size() == 3);
     }
 
     //*******STARE TESTY*********

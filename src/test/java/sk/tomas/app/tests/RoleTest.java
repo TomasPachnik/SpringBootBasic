@@ -8,7 +8,9 @@ import sk.tomas.app.controller.RoleController;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.iam.model.input.RoleInput;
+import sk.tomas.app.iam.model.output.IdentityPaginationWithCount;
 import sk.tomas.app.iam.model.output.RoleOutput;
+import sk.tomas.app.iam.model.output.RolePaginationWithCount;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
@@ -44,6 +46,16 @@ public class RoleTest extends AbstractTest {
     public void deleteTest() throws OutputValidationException, InputValidationException {
         super.deleteTest();
     }
+
+    @Test
+    @WithMockUser(authorities = {"admin"})
+    public void roleListWithParamsTest() throws OutputValidationException, InputValidationException {
+        RolePaginationWithCount withCount = (RolePaginationWithCount) super.listWithParamsTest();
+        Assert.assertTrue(withCount.getCount() == 2);
+        Assert.assertTrue(withCount.getRoleOutputs().size() == 2);
+    }
+
+    //*********** STARE TESTY **********
 
     @Test
     public void listRoleTest() throws OutputValidationException {

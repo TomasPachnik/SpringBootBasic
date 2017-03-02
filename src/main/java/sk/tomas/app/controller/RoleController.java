@@ -7,10 +7,12 @@ import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.exception.OutputValidationException;
 import sk.tomas.app.iam.model.input.RoleInput;
 import sk.tomas.app.iam.model.output.Count;
+import sk.tomas.app.iam.model.output.IdentityPaginationWithCount;
 import sk.tomas.app.iam.model.output.RoleOutput;
 import sk.tomas.app.iam.model.output.RolePaginationWithCount;
 import sk.tomas.app.model.Role;
 import sk.tomas.app.service.RoleService;
+import sk.tomas.app.validator.IdentityValidator;
 import sk.tomas.app.validator.RoleValidator;
 
 import java.util.List;
@@ -47,11 +49,17 @@ public class RoleController implements Controller<RoleInput, RoleOutput, RolePag
     }
 
     @Override
-    public RolePaginationWithCount listWithParam(int firstResult, int maxResult, String orderBy, boolean desc) throws InputValidationException, OutputValidationException {
-        return null;
+    @RequestMapping(method = RequestMethod.GET, value = "/withParam")
+    public RolePaginationWithCount listWithParam(@RequestParam(defaultValue = "0", value = "firstResult") int firstResult, @RequestParam(defaultValue = "10", value = "maxResult") int maxResult,
+                                                 @RequestParam(required = false, defaultValue = "uuid", value = "orderBy") String orderBy, @RequestParam(required = false, defaultValue = "false", value = "desc") boolean desc) throws InputValidationException, OutputValidationException {
+        RoleValidator.validateInput(firstResult, maxResult, orderBy);
+        RolePaginationWithCount rolePaginationWithCount = roleService.listwithCount(firstResult, maxResult, orderBy, desc);
+        RoleValidator.validateOutput(rolePaginationWithCount.getRoleOutputs());
+        return rolePaginationWithCount;
     }
 
     @Override
+    @RequestMapping(method = RequestMethod.GET, value = "/count}")
     public Count getCount() throws OutputValidationException {
         return new Count(roleService.count());
     }

@@ -61,6 +61,13 @@ public abstract class AbstractTest<T extends Controller, I, O> extends BaseTest 
         O secondOutput = (O) getController().getSingle(uuid);
     }
 
+    @SuppressWarnings("unchecked")
+    public Object listWithParamsTest() throws InputValidationException, OutputValidationException {
+        I input = (I) factory.manufacturePojo(i.getClass());
+        getController().create(input);
+        return getController().listWithParam(0, 10, "uuid", false);
+    }
+
     private Controller getController() {
         return t.getController();
     }

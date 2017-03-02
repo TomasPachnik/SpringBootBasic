@@ -2,6 +2,7 @@ package sk.tomas.app.service;
 
 import sk.tomas.app.iam.model.input.RoleInput;
 import sk.tomas.app.iam.model.output.RoleOutput;
+import sk.tomas.app.iam.model.output.RolePaginationWithCount;
 import sk.tomas.app.model.Role;
 
 import java.util.List;
@@ -21,4 +22,6 @@ public interface RoleService extends BaseService<Role> {
     UUID create(RoleInput roleInput);
 
     void update(RoleInput roleInput, UUID uuid);
+
+    RolePaginationWithCount listwithCount(int firstResult, int maxResult, String orderBy, boolean desc);
 }

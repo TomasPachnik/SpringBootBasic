@@ -12,7 +12,10 @@ import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.dao.RoleDao;
 import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.iam.model.input.RoleInput;
+import sk.tomas.app.iam.model.output.IdentityOutput;
+import sk.tomas.app.iam.model.output.IdentityPaginationWithCount;
 import sk.tomas.app.iam.model.output.RoleOutput;
+import sk.tomas.app.iam.model.output.RolePaginationWithCount;
 import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Role;
 import sk.tomas.app.service.RoleService;
@@ -74,6 +77,13 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         role.setIdentities(old.getIdentities());
         update(role);
         loger.info("Rola '{}' aktualizovana na '{}'", old, roleInput);
+    }
+
+    @Override
+    public RolePaginationWithCount listwithCount(int firstResult, int maxResult, String orderBy, boolean desc) {
+        List<Role> list = list(firstResult, maxResult, orderBy, desc);
+        List<RoleOutput> roleOutputs = mapper.mapAsList(list, RoleOutput.class);
+        return new RolePaginationWithCount(count(), roleOutputs);
     }
 
     @Override

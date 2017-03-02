@@ -8,6 +8,7 @@ import sk.tomas.app.iam.model.input.RoleInput;
 import sk.tomas.app.iam.model.output.RoleOutput;
 
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -49,5 +50,16 @@ public class RoleValidator {
         }
     }
 
+    public static void validateInput(int firstResult, int maxResult, String orderBy) throws InputValidationException {
+        if (firstResult < 0) {
+            throw new InputValidationException("firstResult must not be negative.");
+        }
+        if (maxResult < 0) {
+            throw new InputValidationException("maxResult must not be negative.");
+        }
+        if (orderBy != null && !orderBy.isEmpty() && !Objects.equals(orderBy, "uuid") && !Objects.equals(orderBy, "name") && !Objects.equals(orderBy, "surname") && !Objects.equals(orderBy, "login") && !Objects.equals(orderBy, "email") && !Objects.equals(orderBy, "age")) {
+            throw new InputValidationException("orderBy must be one of following: 'null', '', 'uuid', 'name', 'description', 'level'.");
+        }
+    }
 
 }
