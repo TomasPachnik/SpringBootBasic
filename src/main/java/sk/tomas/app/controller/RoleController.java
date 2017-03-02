@@ -73,6 +73,11 @@ public class RoleController implements Controller<RoleInput, RoleOutput, RolePag
     }
 
     @Override
+    public Controller getController() {
+        return this;
+    }
+
+    @Override
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.GET, value = "/delete/{uuid}")
     public void delete(@PathVariable("uuid") UUID uuid) throws InputValidationException {

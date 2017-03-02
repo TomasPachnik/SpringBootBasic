@@ -92,6 +92,11 @@ public class IdentityController implements Controller<IdentityInput, IdentityOut
     }
 
     @Override
+    public Controller getController() {
+        return this;
+    }
+
+    @Override
     @PreAuthorize("hasAuthority('admin')")
     @RequestMapping(method = RequestMethod.GET, value = "/delete/{uuid}")
     public void delete(@PathVariable("uuid") UUID uuid) throws InputValidationException {

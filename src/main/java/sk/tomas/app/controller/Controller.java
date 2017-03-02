@@ -26,4 +26,6 @@ public interface Controller<T, N, R> {
 
     void update(UUID uuid, T t) throws InputValidationException;
 
+    Controller getController();
+
 }
