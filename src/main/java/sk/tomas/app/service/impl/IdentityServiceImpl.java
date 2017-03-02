@@ -138,7 +138,9 @@ public class IdentityServiceImpl extends BaseServiceImpl<Identity> implements Id
     @Override
     @CacheEvict(value = "findIdentityOutputByUuid", key = "#uuid")
     public void delete(UUID uuid) throws InputValidationException {
+        Identity identity = findByUuid(uuid);
         getDao().delete(uuid);
+        loger.info("Zmazany pouzivatel '{}'.", identity);
     }
 
 }

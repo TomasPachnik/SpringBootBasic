@@ -4,12 +4,15 @@ import ma.glasnost.orika.MapperFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import sk.tomas.app.dao.BaseDao;
 import sk.tomas.app.dao.RoleDao;
+import sk.tomas.app.exception.InputValidationException;
 import sk.tomas.app.iam.model.input.RoleInput;
 import sk.tomas.app.iam.model.output.RoleOutput;
+import sk.tomas.app.model.Identity;
 import sk.tomas.app.model.Role;
 import sk.tomas.app.service.RoleService;
 
@@ -68,5 +71,12 @@ public class RoleServiceImpl extends BaseServiceImpl<Role> implements RoleServic
         role.setIdentities(old.getIdentities());
         update(role);
         loger.info("Rola '{}' aktualizovana na '{}'", old, roleInput);
+    }
+
+    @Override
+    public void delete(UUID uuid) throws InputValidationException {
+        Role role = findByUuid(uuid);
+        getDao().delete(uuid);
+        loger.info("Zmazana rola '{}'.", role);
     }
 }

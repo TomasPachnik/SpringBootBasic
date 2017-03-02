@@ -65,6 +65,7 @@ public abstract class BaseDaoImpl<T extends Entity, N extends EntityNode> implem
     }
 
     public void delete(UUID uuid) {
+        getCurrentSession().clear();
         if (uuid == null) {
             throw new IllegalArgumentException(MISSING_UUID.getMessage());
         }

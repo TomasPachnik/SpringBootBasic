@@ -49,7 +49,6 @@ public class Role extends Entity {
     }
 
 
-
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -77,5 +76,15 @@ public class Role extends Entity {
 
     public void setIdentities(Set<Identity> identities) {
         this.identities = identities;
+    }
+
+    @Override
+    public String toString() {
+        return "Role{" +
+                "uuid='" + getUuid() + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", level=" + level +
+                '}';
     }
 }

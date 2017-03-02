@@ -149,7 +149,8 @@ public class Identity extends Entity {
     @Override
     public String toString() {
         return "Identity{" +
-                "name='" + name + '\'' +
+                "uuid='" + getUuid() + '\'' +
+                ", name='" + name + '\'' +
                 ", surname='" + surname + '\'' +
                 ", login='" + login + '\'' +
                 ", email='" + email + '\'' +
