@@ -53,7 +53,7 @@ public class RoleController implements Controller<RoleInput, RoleOutput, RolePag
 
     @Override
     public Count getCount() throws OutputValidationException {
-        return null;
+        return new Count(roleService.count());
     }
 
     @Override
