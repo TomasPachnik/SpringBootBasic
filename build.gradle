@@ -9,6 +9,7 @@ apply plugin: 'idea'
 
 repositories {
     mavenCentral()
+    maven { url "https://jitpack.io" }
 }
 
 dependencies {
@@ -42,7 +43,7 @@ dependencies {
     compile group: 'hsqldb', name: 'hsqldb', version: '1.8.0.7'
     compile group: 'org.apache.commons', name: 'commons-dbcp2', version: '2.1.1'
 
-    compile files('libs/DependencyBasic.jar')
+    compile 'com.github.TomasPachnik:DependencyBasic:0.21'
 }
 
 springBoot {
